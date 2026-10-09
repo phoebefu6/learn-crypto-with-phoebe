@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Practitioner session 5 of 10. People type round numbers and bots often do not, or do too much. The round share and the top-five cluster share of a venue's own trade sizes, a band calibrated on 40 honest venues, and why the band must have two sides. Harrowgate's constructed tape reads 29.0 percent round and 11.5 percent clustered.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Round sizes and clustered sizes - learn crypto with phoebe">
+<meta property="og:description" content="Practitioner session 5 of 10. A naive bot is too round, a careful one is not round enough, and the published study found the second. Two tests, one band, two sides.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/p5-round-sizes-and-clustered-sizes.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Round sizes and clustered sizes - learn crypto with phoebe">
+<meta name="twitter:description" content="29.0 percent round, 11.5 percent in the top five sizes, and a band from 28.3 to 31.6 that a flat bot leaves through the floor.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Practitioner session 5 · Round sizes and clustered sizes - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Practitioner session 5 of 10</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Practitioner session 5 of 10</div>
+    <h1>Round sizes and <span class="accent">clustered sizes</span></h1>
+    <p class="sub">Ask a person how much they want to trade and they say ten, or two, or twenty. Ask a program and it says whatever its arithmetic produced. That difference leaves a mark in the one column a venue cannot avoid publishing, the trade size. Tonight is two tests that read the mark: the share of trades whose size is a round number, and the share that falls on the five most common sizes. Both are calibrated on honest venues, both run in the page, and both carry a twist the published evidence forced on them: the anomaly can go either way. A naive bot is too round. A careful one is not round enough, and that second direction is the one researchers actually found on unregulated venues.</p>
+    <div class="chip-row">
+      <span class="chip level">🔧 Practitioner track</span>
+      <span class="chip audience">Data engineers who maintain a venue volume table</span>
+      <span class="chip audience">Analysts who screen numbers they cannot audit</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-17 · Roundness</span>
+      <span class="a3" style="flex:3">17-30 · Clustering and the two-sided band</span>
+      <span class="a4" style="flex:4">30-45 · Build-along and Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate learns that people type round numbers</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm, and session 4 left it with an uncomfortable result: the first-digit test was the last of three to notice a naive wash bot. The two tests that noticed first read the sizes differently. They do not ask which digit a size starts with; they ask whether the size looks typed by a person. People pick round amounts, and they pick the same few round amounts again and again. A crowd of traders therefore leaves piles on 1, 2, 10 and 20 units with a spread of untidy sizes between them. A bot leaves either far bigger piles or almost none. The tape on this page comes from the same seeded engine as every bench before it: 3,000 honest trades a day, sizes stored as integer micro-units, and a wash bot you can plant in three styles.</p>
+
+    <div class="legend">
+      <span class="pill">Live = worked through in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> A round flag computed with integer arithmetic, and the round share it gives on Harrowgate's constructed Tape A: 29.0 percent. The five most common sizes, 10, 2, 20, 3 and 1 units, holding 11.5 percent of trades. What the published study found about roundness on unregulated venues, read at source, and why it points the opposite way from a naive bot. A band measured on 40 honest venues, 28.3 to 31.6 percent round and 10.8 to 13.5 percent clustered, with two sides. And the honest limit: a bot that copies the crowd's sizes stays inside both bands at 70 percent wash.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>A habit a crowd cannot hide<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A size typed by a person carries the person's habits. Nobody types 7.384 units unless a screen suggested it; people type 7, or 5, or 10. Some trade in tenths, some in whole units, some in round tens, and the crowd as a whole leaves a recognisable mixture of round and untidy sizes. A program has no such habit unless somebody wrote one in. If its author wrote in a list of round lots, it produces round sizes far more often than people do. If its author drew sizes from a random number generator, it produces round sizes far less often than people do.</p>
+        <p>Either way the venue publishes the evidence itself, in the size column. As in session 4, these tests need nothing from the venue except what it already sends, and as in session 4 they are a screen, not a verdict: they can say the sizes look typed by a crowd or not, and nothing about who traded.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Harrowgate's analyst took session 4's homework literally and printed the five most common sizes on two venues side by side. The trusted venue's list was 10, 2, 20, 3 and 1 units. The other venue's list was a set of long, untidy numbers nobody would type, each one appearing only a handful of times. Nobody had a test for "too untidy" yet. Harrowgate is constructed; the observation is the one the published study turned into a method.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Round size.</strong> On this bench, a size with one significant digit once trailing zeros are stripped: 10, 2, 0.3 and 500 units are round; 2.5, 12 and 7.384 are not.</li>
+          <li><strong>Round share.</strong> The share of trades whose size is round. Tape A: 29.0 percent.</li>
+          <li><strong>Cluster share.</strong> The share of trades whose size is one of the five most frequent sizes on that tape. Tape A: 11.5 percent.</li>
+          <li><strong>Distinct sizes.</strong> How many different sizes appear at all. Tape A has 989 distinct sizes in 3,000 trades.</li>
+          <li><strong>Two-sided band.</strong> A range around the honest mean with a floor and a ceiling; a reading outside either side fires.</li>
+          <li><strong>Round-lot bot, flat bot, copy bot.</strong> Three planted wash styles. Round lots cycle seven sizes, 1, 2, 5, 10, 20, 50 and 100 units. Flat draws unrounded four-digit sizes from one band, 2 to 20 units. Copy samples the honest size distribution. Session 6 builds all three.</li>
+          <li><strong>Calibration.</strong> Measuring the honest spread of a reading on venues you trust before judging a venue you do not, as session 4 did for the MAD.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers roundness</span>
+      <h2>Roundness: what people type, and what bots do instead</h2>
+      <span class="tag concept">14 min live</span>
+    </div>
+    <p class="lede">The first test is one line of arithmetic per trade: is this size round? Count the trades where the answer is yes and divide by all trades. On Harrowgate's honest Tape A, 29.0 percent of the 3,000 sizes are round. That number only means something next to two others: what honest venues read, and what the published study found on real ones.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three hand-drawn rows of trade sizes on one log ruler from 0.1 to 1,000 units. Top row, the honest Tape A: scattered single dots of untidy sizes with marigold piles on the round marks 10, 2, 20, 3 and 1 units, holding 85, 73, 71, 64 and 52 trades; round share 29.0 percent, top five 11.5 percent. Middle row, a flat bot: dots smeared evenly between 2 and 20 units with no piles, because its four-digit sizes almost never land on a mark, so both shares fall below honest. Bottom row, a round-lot bot: tall stacks on seven marks only, 1, 2, 5, 10, 20, 50 and 100 units, with nothing between them, so both shares rise above honest.">
+        <defs>
+          <filter id="crp5aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="51" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp5aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp5aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp5aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp5aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp5aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp5aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp5aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp5aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp5aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp5aH" x="30" y="26">WHERE TRADE SIZES LAND ON ONE LOG RULER, 0.1 TO 1,000 UNITS</text>
+        <text class="crp5aL" x="30" y="50">Honest Tape A: people type round numbers, so sizes pile up on the marks</text>
+
+        <g filter="url(#crp5aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- the doodle anchor: one key with a typed round number on it -->
+          <rect x="806" y="32" width="40" height="30" rx="5" transform="rotate(-4 826 47)" fill="#FFFFFF"/>
+
+          <!-- row 1 baseline and decade ticks; x = 80 + 190 * (log10(size) + 1) -->
+          <path d="M80 150 L840 150"/>
+          <path d="M80 150 L80 142 M270 150 L270 142 M460 150 L460 142 M650 150 L650 142 M840 150 L840 142" stroke="#9C7FBF"/>
+          <!-- untidy honest sizes: single dots between the marks -->
+          <g fill="#FFFFFF" stroke="#5B2A86" stroke-width="1.6">
+            <circle cx="100" cy="144" r="3"/><circle cx="120" cy="144" r="3"/><circle cx="155" cy="144" r="3"/>
+            <circle cx="190" cy="144" r="3"/><circle cx="230" cy="144" r="3"/><circle cx="248" cy="144" r="3"/>
+            <circle cx="292" cy="144" r="3"/><circle cx="308" cy="144" r="3"/><circle cx="343" cy="144" r="3"/>
+            <circle cx="382" cy="144" r="3"/><circle cx="420" cy="144" r="3"/><circle cx="437" cy="144" r="3"/>
+            <circle cx="482" cy="144" r="3"/><circle cx="498" cy="144" r="3"/><circle cx="534" cy="144" r="3"/>
+            <circle cx="570" cy="144" r="3"/><circle cx="612" cy="144" r="3"/><circle cx="630" cy="144" r="3"/>
+            <circle cx="680" cy="144" r="3"/><circle cx="730" cy="144" r="3"/><circle cx="772" cy="144" r="3"/>
+          </g>
+          <!-- smaller honest piles on other round marks: 0.2, 0.3, 0.5, 5, 30, 50, 100 -->
+          <g fill="#D3C3E6" stroke="#5B2A86" stroke-width="1.6">
+            <circle cx="137" cy="144" r="3"/><circle cx="137" cy="136" r="3"/>
+            <circle cx="171" cy="144" r="3"/><circle cx="171" cy="136" r="3"/>
+            <circle cx="213" cy="144" r="3"/><circle cx="213" cy="136" r="3"/><circle cx="213" cy="128" r="3"/>
+            <circle cx="403" cy="144" r="3"/><circle cx="403" cy="136" r="3"/><circle cx="403" cy="128" r="3"/><circle cx="403" cy="120" r="3"/>
+            <circle cx="551" cy="144" r="3"/><circle cx="551" cy="136" r="3"/><circle cx="551" cy="128" r="3"/>
+            <circle cx="593" cy="144" r="3"/><circle cx="593" cy="136" r="3"/>
+            <circle cx="650" cy="144" r="3"/><circle cx="650" cy="136" r="3"/>
+          </g>
+          <!-- the five most common sizes: the thing the figure is about -->
+          <g fill="#FBF3E2" stroke="#B7791F" stroke-width="1.8">
+            <circle cx="270" cy="144" r="3"/><circle cx="270" cy="136" r="3"/><circle cx="270" cy="128" r="3"/><circle cx="270" cy="120" r="3"/><circle cx="270" cy="112" r="3"/><circle cx="270" cy="104" r="3"/>
+            <circle cx="327" cy="144" r="3"/><circle cx="327" cy="136" r="3"/><circle cx="327" cy="128" r="3"/><circle cx="327" cy="120" r="3"/><circle cx="327" cy="112" r="3"/><circle cx="327" cy="104" r="3"/><circle cx="327" cy="96" r="3"/><circle cx="327" cy="88" r="3"/>
+            <circle cx="361" cy="144" r="3"/><circle cx="361" cy="136" r="3"/><circle cx="361" cy="128" r="3"/><circle cx="361" cy="120" r="3"/><circle cx="361" cy="112" r="3"/><circle cx="361" cy="104" r="3"/><circle cx="361" cy="96" r="3"/>
+            <circle cx="460" cy="144" r="3"/><circle cx="460" cy="136" r="3"/><circle cx="460" cy="128" r="3"/><circle cx="460" cy="120" r="3"/><circle cx="460" cy="112" r="3"/><circle cx="460" cy="104" r="3"/><circle cx="460" cy="96" r="3"/><circle cx="460" cy="88" r="3"/><circle cx="460" cy="80" r="3"/>
+            <circle cx="517" cy="144" r="3"/><circle cx="517" cy="136" r="3"/><circle cx="517" cy="128" r="3"/><circle cx="517" cy="120" r="3"/><circle cx="517" cy="112" r="3"/><circle cx="517" cy="104" r="3"/><circle cx="517" cy="96" r="3"/><circle cx="517" cy="88" r="3"/>
+          </g>
+
+          <!-- row 2: the flat bot, smeared evenly from 2 to 20 units -->
+          <path d="M80 270 L840 270"/>
+          <path d="M80 270 L80 262 M270 270 L270 262 M460 270 L460 262 M650 270 L650 262 M840 270 L840 262" stroke="#9C7FBF"/>
+          <g fill="#F4EFF9" stroke="#5B2A86" stroke-width="1.4">
+            <circle cx="330" cy="264" r="3"/><circle cx="338" cy="264" r="3"/><circle cx="346" cy="264" r="3"/><circle cx="354" cy="264" r="3"/>
+            <circle cx="362" cy="264" r="3"/><circle cx="370" cy="264" r="3"/><circle cx="378" cy="264" r="3"/><circle cx="386" cy="264" r="3"/>
+            <circle cx="394" cy="264" r="3"/><circle cx="402" cy="264" r="3"/><circle cx="410" cy="264" r="3"/><circle cx="418" cy="264" r="3"/>
+            <circle cx="426" cy="264" r="3"/><circle cx="434" cy="264" r="3"/><circle cx="442" cy="264" r="3"/><circle cx="450" cy="264" r="3"/>
+            <circle cx="458" cy="264" r="3"/><circle cx="466" cy="264" r="3"/><circle cx="474" cy="264" r="3"/><circle cx="482" cy="264" r="3"/>
+            <circle cx="490" cy="264" r="3"/><circle cx="498" cy="264" r="3"/><circle cx="506" cy="264" r="3"/><circle cx="514" cy="264" r="3"/>
+            <circle cx="334" cy="256" r="3"/><circle cx="342" cy="256" r="3"/><circle cx="350" cy="256" r="3"/><circle cx="358" cy="256" r="3"/>
+            <circle cx="366" cy="256" r="3"/><circle cx="374" cy="256" r="3"/><circle cx="382" cy="256" r="3"/><circle cx="390" cy="256" r="3"/>
+            <circle cx="398" cy="256" r="3"/><circle cx="406" cy="256" r="3"/><circle cx="414" cy="256" r="3"/><circle cx="422" cy="256" r="3"/>
+            <circle cx="430" cy="256" r="3"/><circle cx="438" cy="256" r="3"/><circle cx="446" cy="256" r="3"/><circle cx="454" cy="256" r="3"/>
+            <circle cx="462" cy="256" r="3"/><circle cx="470" cy="256" r="3"/><circle cx="478" cy="256" r="3"/><circle cx="486" cy="256" r="3"/>
+            <circle cx="494" cy="256" r="3"/><circle cx="502" cy="256" r="3"/><circle cx="510" cy="256" r="3"/>
+          </g>
+          <path d="M327 278 L517 278 M327 274 L327 282 M517 274 L517 282" stroke="#9C7FBF" stroke-width="1.6"/>
+
+          <!-- row 3: the round-lot bot, stacked on seven marks only -->
+          <path d="M80 430 L840 430"/>
+          <path d="M80 430 L80 422 M270 430 L270 422 M460 430 L460 422 M650 430 L650 422 M840 430 L840 422" stroke="#9C7FBF"/>
+          <path d="M327 430 L327 425 M403 430 L403 425 M517 430 L517 425 M593 430 L593 425" stroke="#9C7FBF"/>
+          <g fill="#5B2A86" stroke="#3A1A58" stroke-width="1.2">
+            <circle cx="270" cy="424" r="3"/><circle cx="270" cy="416" r="3"/><circle cx="270" cy="408" r="3"/><circle cx="270" cy="400" r="3"/><circle cx="270" cy="392" r="3"/>
+            <circle cx="327" cy="424" r="3"/><circle cx="327" cy="416" r="3"/><circle cx="327" cy="408" r="3"/><circle cx="327" cy="400" r="3"/><circle cx="327" cy="392" r="3"/><circle cx="327" cy="384" r="3"/><circle cx="327" cy="376" r="3"/>
+            <circle cx="403" cy="424" r="3"/><circle cx="403" cy="416" r="3"/><circle cx="403" cy="408" r="3"/><circle cx="403" cy="400" r="3"/><circle cx="403" cy="392" r="3"/><circle cx="403" cy="384" r="3"/><circle cx="403" cy="376" r="3"/><circle cx="403" cy="368" r="3"/>
+            <circle cx="460" cy="424" r="3"/><circle cx="460" cy="416" r="3"/><circle cx="460" cy="408" r="3"/><circle cx="460" cy="400" r="3"/><circle cx="460" cy="392" r="3"/><circle cx="460" cy="384" r="3"/><circle cx="460" cy="376" r="3"/><circle cx="460" cy="368" r="3"/><circle cx="460" cy="360" r="3"/>
+            <circle cx="517" cy="424" r="3"/><circle cx="517" cy="416" r="3"/><circle cx="517" cy="408" r="3"/><circle cx="517" cy="400" r="3"/><circle cx="517" cy="392" r="3"/><circle cx="517" cy="384" r="3"/>
+            <circle cx="593" cy="424" r="3"/><circle cx="593" cy="416" r="3"/><circle cx="593" cy="408" r="3"/><circle cx="593" cy="400" r="3"/>
+            <circle cx="650" cy="424" r="3"/><circle cx="650" cy="416" r="3"/>
+          </g>
+        </g>
+
+        <text class="crp5aL" x="826" y="52" text-anchor="middle">10</text>
+
+        <text class="crp5aB" x="270" y="92" text-anchor="middle">52</text>
+        <text class="crp5aB" x="327" y="76" text-anchor="middle">73</text>
+        <text class="crp5aB" x="361" y="84" text-anchor="middle">64</text>
+        <text class="crp5aB" x="460" y="68" text-anchor="middle">85</text>
+        <text class="crp5aB" x="517" y="76" text-anchor="middle">71</text>
+        <text class="crp5aB" x="690" y="84">round share 29.0 percent</text>
+        <text class="crp5aB" x="690" y="100">top five hold 11.5 percent</text>
+        <text class="crp5aS" x="30" y="168">marigold: the five most common sizes, 10, 2, 20, 3 and 1 units, with their trade counts</text>
+
+        <text class="crp5aL" x="30" y="196">Flat bot: unrounded four-digit sizes, smeared evenly between 2 and 20 units</text>
+        <text class="crp5aS" x="560" y="232">four-digit sizes almost never land on a mark,</text>
+        <text class="crp5aB" x="560" y="248">both shares fall below honest</text>
+        <text class="crp5aS" x="350" y="305">2 to 20 units, no piles</text>
+
+        <text class="crp5aL" x="30" y="330">Round-lot bot: every size is one of seven lots, 1, 2, 5, 10, 20, 50 or 100 units</text>
+        <text class="crp5aS" x="690" y="372">seven marks, nothing between</text>
+        <text class="crp5aB" x="690" y="388">both shares rise above honest</text>
+
+        <text class="crp5aS" x="80" y="452" text-anchor="middle">0.1</text>
+        <text class="crp5aS" x="270" y="452" text-anchor="middle">1</text>
+        <text class="crp5aS" x="327" y="452" text-anchor="middle">2</text>
+        <text class="crp5aS" x="403" y="452" text-anchor="middle">5</text>
+        <text class="crp5aS" x="460" y="452" text-anchor="middle">10</text>
+        <text class="crp5aS" x="517" y="452" text-anchor="middle">20</text>
+        <text class="crp5aS" x="593" y="452" text-anchor="middle">50</text>
+        <text class="crp5aS" x="650" y="452" text-anchor="middle">100</text>
+        <text class="crp5aS" x="838" y="452" text-anchor="middle">1,000</text>
+        <text class="crp5aA" x="80" y="472">trade size in units, log scale: every decade is the same width</text>
+
+        <text class="crp5aN" x="30" y="496">Round here means one significant digit: 10, 2 and 0.3 are round, 2.5 and 12 are not.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - a crowd piles up on a few round marks and scatters between them; a flat bot never piles, a round-lot bot never scatters</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>One significant digit, counted with integers<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Harrowgate stores sizes as integer micro-units, so 10 units is the integer 10,000,000 and 0.3 units is 300,000. The round flag strips trailing zeros and asks whether one digit is left. 10,000,000 strips to 1: round. 300,000 strips to 3: round. 2,500,000 strips to 25: not round. 7,384,000 strips to 7,384: not round. No division by a float, no tolerance, no "close enough to 10". In floating point, 0.1 + 0.2 comes out as 0.30000000000000004, which has far more than one significant digit, and a float-based test would quietly stop working.</p>
+        <p>Run it over Tape A and 29.0 percent of the 3,000 sizes come back round. The engine that made Tape A rounds a quarter of its simulated traders to one significant digit and the rest to two or three, and some of those also land on a round value by accident, so the measured share sits a few points above the share of round-typers. That is the general shape of the evidence: a round share is a property of the crowd's habits, not of any single trader.</p>
+        <p>The definition is a choice and the page says so. The published study counted trades in windows around multiples of 100 and 500 base units of each pair, a rule tied to how each market quotes its sizes. The engine uses the simpler one-significant-digit rule, because its sizes are abstract units with no base unit to anchor a window. A team adopting either rule should write down which one it chose, beside the job, and never compare a round share computed one way with a band calibrated the other way.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>What the published study found, and in which direction<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The intuitive story is that a wash bot trades in round lots, so a venue with too many round trades is suspect. The published evidence says the opposite happened on its sample. Regulated venues showed the round-size clustering that human traders produce. Many unregulated venues showed too little of it: their sizes looked typed by a program that never picks a round number.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Cong, Li, Tang and Yang, "Crypto Wash Trading", NBER working paper w30783, read at source; the published version appeared in Management Science (reported). On 29 venues from 9 July to 3 November 2019, 3 regulated and 26 unregulated split by web traffic into 10 Tier-1 and 16 Tier-2, they report that round trades make up "around 30%" of trades on the regulated venues, while unregulated Tier-1 and Tier-2 venues "contain little clustering": 30 and 50 percent of those venues, respectively, showed no trade-size clustering in any pair they examined. On their 2019 sample, the anomaly was too little roundness, not too much.</p>
+        </div>
+        <p>Read the direction carefully, because it decides how the test has to be built. A screen that only fires when roundness is too high would have passed every venue in that finding. Part 2 builds the band with two sides for exactly this reason, and the engine's self test checks it on every page load.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>From a share to an estimate, and why the estimate is contested<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The study did not stop at a screen. It estimated, on the regulated venues, how much unrounded volume normally comes with a given amount of round volume, then treated any unrounded volume on an unregulated venue above that ratio as wash. The authors' estimate on their 2019 sample is an average of 77.5 percent of unregulated venues' volume, median 79.1 percent. They state the bounds themselves: their first-digit estimates are "significantly lower"; if genuine algorithmic trading inflates unrounded volume, the roundness estimates "should be viewed more as upper bounds"; and venues may have adapted since.</p>
+        <p>An asset manager's presentation to the US securities regulator in March 2019, reported rather than read at source, put the figure at about 95 percent of one aggregator's reported volume for one asset, across 81 venues over four days, using trade-size histograms, volume patterns and spread behaviour. The two numbers do not contradict each other and do not agree either. Different denominators: unregulated venues' own volume against one aggregator's total. Different samples: 26 venues against 81. Different windows: about four months against four days. Different methods: a regression benchmarked on regulated venues against an industry review. Neither is "the" wash rate, and a page that quotes one without the other has picked a side it did not argue for.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers clustering and the two-sided band</span>
+      <h2>Clustering: the five most common sizes, and a band with two sides</h2>
+      <span class="tag concept">13 min live</span>
+    </div>
+    <p class="lede">The second test asks a related question: how much of the tape sits on its five favourite sizes? Count every size, take the five most frequent, add their counts and divide by all trades. On Tape A the five are 10 units (85 trades), 2 (73), 20 (71), 3 (64) and 1 (52), together 11.5 percent of 3,000 trades, out of 989 distinct sizes. A crowd's favourites are round and modest. A bot's favourites are either a handful of lots it repeats endlessly, or nothing in particular.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 490" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn panels, round share on the left and cluster share on the right, each against the wash share of the partner venue's reported volume at 0, 10, 30, 50 and 70 percent. A thin marigold corridor marks the honest band at k equals 2: 28.3 to 31.6 percent round, 10.8 to 13.5 percent clustered. The round-lot bot leaves through the top: round share 44.9 at 10 percent rising to 90.1 at 70, cluster share 28.2 rising to 79.0. The flat bot leaves through the floor: round share 21.7 at 10 percent falling to 3.6 at 70, cluster share 8.8 falling to 1.4. The copy bot stays inside the corridor all the way, ending at 30.7 and 12.6. Honest Tape A sits inside at 29.0 and 11.5.">
+        <defs>
+          <filter id="crp5bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="53" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp5bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp5bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp5bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp5bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp5bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp5bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp5bV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp5bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp5bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp5bH" x="30" y="26">ONE BAND, TWO SIDES: WHERE THREE BOTS GO AS THEIR WASH SHARE GROWS (PARTNER VENUE, k = 2)</text>
+        <text class="crp5bA" x="90" y="52">ROUND SHARE, PERCENT OF TRADES</text>
+        <text class="crp5bA" x="510" y="52">CLUSTER SHARE, TOP FIVE SIZES, PERCENT</text>
+
+        <g filter="url(#crp5bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- axes; y = 370 - 3 * percent -->
+          <path d="M90 70 L90 370 L392 370"/>
+          <path d="M510 70 L510 370 L812 370"/>
+          <path d="M86 70 L90 70 M86 145 L90 145 M86 220 L90 220 M86 295 L90 295" stroke="#9C7FBF"/>
+          <path d="M506 70 L510 70 M506 145 L510 145 M506 220 L510 220 M506 295 L510 295" stroke="#9C7FBF"/>
+
+          <!-- the honest corridor: the thing the figure is about -->
+          <rect x="90" y="275" width="300" height="10" transform="rotate(-0.2 240 280)" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="510" y="329.5" width="300" height="8" transform="rotate(0.2 660 333)" fill="#FBF3E2" stroke="#B7791F"/>
+
+          <!-- round-lot bot: escapes through the ceiling -->
+          <path d="M90 281.8 L132.9 235.3 L218.6 169 L304.3 129.4 L390 99.7" stroke="#3A1A58" stroke-width="2.4" marker-end="url(#crp5bAr)"/>
+          <path d="M510 334 L552.9 285.4 L638.6 210.4 L724.3 166.9 L810 133" stroke="#3A1A58" stroke-width="2.4" marker-end="url(#crp5bAr)"/>
+          <!-- flat bot: escapes through the floor -->
+          <path d="M90 281.8 L132.9 304.9 L218.6 332.8 L304.3 348.7 L390 359.2" stroke="#5B2A86" stroke-dasharray="7 5" marker-end="url(#crp5bAr)"/>
+          <path d="M510 334 L552.9 343.6 L638.6 355 L724.3 361.3 L810 365.8" stroke="#5B2A86" stroke-dasharray="7 5" marker-end="url(#crp5bAr)"/>
+          <!-- copy bot: never leaves -->
+          <path d="M90 281.8 L132.9 282.4 L218.6 280.6 L304.3 280.3 L390 277.9" stroke="#5B2A86" stroke-width="2.6" stroke-dasharray="1.5 5"/>
+          <path d="M510 334 L552.9 334 L638.6 332.8 L724.3 332.8 L810 332.2" stroke="#5B2A86" stroke-width="2.6" stroke-dasharray="1.5 5"/>
+
+          <g fill="#FFFFFF" stroke="#3A1A58" stroke-width="1.6">
+            <circle cx="132.9" cy="235.3" r="3.5"/><circle cx="218.6" cy="169" r="3.5"/><circle cx="304.3" cy="129.4" r="3.5"/>
+            <circle cx="132.9" cy="304.9" r="3.5"/><circle cx="218.6" cy="332.8" r="3.5"/><circle cx="304.3" cy="348.7" r="3.5"/>
+            <circle cx="552.9" cy="285.4" r="3.5"/><circle cx="638.6" cy="210.4" r="3.5"/><circle cx="724.3" cy="166.9" r="3.5"/>
+            <circle cx="552.9" cy="343.6" r="3.5"/><circle cx="638.6" cy="355" r="3.5"/><circle cx="724.3" cy="361.3" r="3.5"/>
+          </g>
+          <!-- honest Tape A at 0 percent -->
+          <circle cx="90" cy="283" r="6" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <circle cx="510" cy="335.5" r="6" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+
+          <!-- legend swatches -->
+          <path d="M30 426 L58 426" stroke="#3A1A58" stroke-width="2.4"/>
+          <path d="M300 426 L328 426" stroke="#5B2A86" stroke-dasharray="7 5"/>
+          <path d="M560 426 L588 426" stroke="#5B2A86" stroke-width="2.6" stroke-dasharray="1.5 5"/>
+        </g>
+
+        <text class="crp5bS" x="82" y="74" text-anchor="end">100</text>
+        <text class="crp5bS" x="82" y="149" text-anchor="end">75</text>
+        <text class="crp5bS" x="82" y="224" text-anchor="end">50</text>
+        <text class="crp5bS" x="82" y="299" text-anchor="end">25</text>
+        <text class="crp5bS" x="82" y="374" text-anchor="end">0</text>
+        <text class="crp5bS" x="502" y="74" text-anchor="end">100</text>
+        <text class="crp5bS" x="502" y="149" text-anchor="end">75</text>
+        <text class="crp5bS" x="502" y="224" text-anchor="end">50</text>
+        <text class="crp5bS" x="502" y="299" text-anchor="end">25</text>
+        <text class="crp5bS" x="502" y="374" text-anchor="end">0</text>
+
+        <text class="crp5bB" x="142" y="248">44.9</text>
+        <text class="crp5bB" x="400" y="104">90.1</text>
+        <text class="crp5bB" x="112" y="328">21.7</text>
+        <text class="crp5bB" x="400" y="366">3.6</text>
+        <text class="crp5bB" x="400" y="283">30.7</text>
+        <text class="crp5bL" x="232" y="262">copy bot stays inside</text>
+        <text class="crp5bB" x="232" y="304">honest band, k = 2: 28.3 to 31.6</text>
+
+        <text class="crp5bB" x="564" y="298">28.2</text>
+        <text class="crp5bB" x="820" y="137">79.0</text>
+        <text class="crp5bB" x="526" y="362">8.8</text>
+        <text class="crp5bB" x="820" y="372">1.4</text>
+        <text class="crp5bB" x="820" y="336">12.6</text>
+        <text class="crp5bB" x="604" y="318">honest band, k = 2: 10.8 to 13.5</text>
+
+        <text class="crp5bS" x="90" y="388" text-anchor="middle">0</text>
+        <text class="crp5bS" x="132.9" y="388" text-anchor="middle">10</text>
+        <text class="crp5bS" x="218.6" y="388" text-anchor="middle">30</text>
+        <text class="crp5bS" x="304.3" y="388" text-anchor="middle">50</text>
+        <text class="crp5bS" x="390" y="388" text-anchor="middle">70</text>
+        <text class="crp5bS" x="510" y="388" text-anchor="middle">0</text>
+        <text class="crp5bS" x="552.9" y="388" text-anchor="middle">10</text>
+        <text class="crp5bS" x="638.6" y="388" text-anchor="middle">30</text>
+        <text class="crp5bS" x="724.3" y="388" text-anchor="middle">50</text>
+        <text class="crp5bS" x="810" y="388" text-anchor="middle">70</text>
+        <text class="crp5bA" x="90" y="406">wash share of the partner venue's volume, percent</text>
+        <text class="crp5bA" x="510" y="406">wash share of the partner venue's volume, percent</text>
+
+        <text class="crp5bS" x="66" y="430">round-lot bot: escapes above</text>
+        <text class="crp5bS" x="336" y="430">flat bot: escapes below</text>
+        <text class="crp5bS" x="596" y="430">copy bot: stays inside</text>
+
+        <text class="crp5bS" x="30" y="454">Marigold dot: honest Tape A, 29.0 and 11.5. The lines start at its partner venue, 29.4 and 12.0.</text>
+        <text class="crp5bN" x="30" y="476">A one-sided test watches only the ceiling of the corridor; the flat bot leaves through the floor.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the band is a corridor with a ceiling and a floor; the round-lot bot leaves through one, the flat bot through the other, and the copy bot never leaves</figcaption>
+    </figure>
+
+    <div class="wk" id="crp5-sizes">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">Two constructed venues, running in this page: an honest tape and its partner venue, where you can plant a wash bot. Pick a tape, a bot style and how much of the partner's reported volume the bot supplies. Nothing here is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="crp5-seed">Which constructed tape</label>
+        <select class="sql-code" id="crp5-seed">
+          <option value="11">Tape A</option>
+          <option value="101">Tape B</option>
+          <option value="2024">Tape C</option>
+          <option value="7">Tape D</option>
+          <option value="55555">Tape E</option>
+        </select>
+        <label class="sql-label" for="crp5-style">What the wash bot does with sizes</label>
+        <select class="sql-code" id="crp5-style">
+          <option value="round">Round lots: 1, 2, 5, 10, 20, 50 or 100 units</option>
+          <option value="flat">Flat: unrounded sizes from one band, 2 to 20 units</option>
+          <option value="copy">Copy: samples the honest size distribution</option>
+        </select>
+        <label class="sql-label" for="crp5-share">Wash share of the partner venue's reported volume</label>
+        <select class="sql-code" id="crp5-share">
+          <option value="0">0 percent, honest</option>
+          <option value="10">10 percent</option>
+          <option value="30">30 percent</option>
+          <option value="50">50 percent</option>
+          <option value="70">70 percent</option>
+        </select>
+        <div id="crp5-out"></div>
+        <p class="sql-note" id="crp5-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="crp5-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Calibrate both readings on venues you trust<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A round share of 29.0 percent is neither high nor low until honest venues say what normal is. Forty honest constructed venues, never used for anything else, read a mean round share of 29.96 percent with a standard deviation of 0.84 points, and a mean cluster share of 12.17 percent with a standard deviation of 0.67. At k = 2, two honest standard deviations either side of the mean, the band is 28.3 to 31.6 percent round and 10.8 to 13.5 percent clustered. The widget measures this once when the page loads and judges every tape against it.</p>
+        <p>Widen k and the band widens on both sides: 27.9 to 32.0 round and 10.5 to 13.8 clustered at k = 2.5, 27.5 to 32.5 and 10.2 to 14.2 at k = 3, 26.6 to 33.3 and 9.5 to 14.8 at k = 4. A wider band fires on fewer honest venues and catches a bot later. Session 7 measures both costs on 200 fresh honest venues; tonight the default is k = 2.</p>
+        <p>Tape A reads 29.0 and 11.5, its partner venue 29.4 and 12.0, all four inside. Nothing in either honest tape was tuned to land there; the band was measured on other venues.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Why the band has two sides<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Plant the round-lot bot on the partner venue at 10 percent of its reported volume. Its round share jumps to 44.9 percent and its cluster share to 28.2, both far above the band, because every wash size is one of seven lots and the lots pile up on the marks the crowd already favours. At 70 percent the readings are 90.1 and 79.0. This is the direction everyone expects.</p>
+        <p>Now switch to the flat bot at 10 percent. Round share falls to 21.7 percent and cluster share to 8.8, both below the band. The flat bot's four-digit sizes almost never land on a round mark, so it dilutes the crowd's round trades, and it spreads its trades over so many distinct sizes that no new favourites form. At 70 percent the readings are 3.6 and 1.4. This is the direction the published study found on unregulated venues.</p>
+        <p>A test written as "fire when the share is too high" passes the flat bot at every share. That is not a hypothetical bug; it is the first version most people write, and it is precisely the fault the engine's fifth self-test property exists to catch: a bot with too few round sizes must still fire the roundness test. The fix is small: fire when the reading is outside the band on either side, by absolute distance from the honest mean.</p>
+        <p>The roundness and clustering tests are two of the three the bench combines; the first-digit test from session 4 is the third, and it is one-sided, because more deviation from the law is the only anomaly it reads. A venue is flagged when at least two of the three fire. Session 7 measures what that rule costs on honest venues.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>The copy bot is the honest limit, not a failure<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Switch to the copy bot. At 70 percent of the partner venue's reported volume it reads 30.7 percent round and 12.6 percent clustered, inside both bands. The copy bot samples the honest size distribution, so it types like the crowd: as round as the crowd, as clustered as the crowd. A test that reads only the size column has nothing to read.</p>
+        <p>That is a statement about the size column, not about the tests. Size-based detectors catch bots that leave a size habit, and a careful bot can choose not to leave one. What the copy bot cannot hide is the pair structure every wash trade on the bench has: a buy and a sell of the same size, seconds apart, on opposite sides. None of tonight's tests reads that. Session 6 plants the pairs and session 7 measures this limit, so that "inside the band" is never written as "honest".</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>One camp reads too little roundness as a strong signal of wash. Their case is the published finding: the regulated venues in the sample showed the crowd's round-size clustering, many unregulated venues did not, and a venue whose sizes look typed by nobody is a venue whose volume deserves questions.</p>
+        <p>The other camp points to the authors' own caveat. Genuine algorithmic traders also produce unrounded sizes, splitting orders and sizing positions by formula, so a venue full of legitimate algorithms would read low on roundness for honest reasons. On that view a low round share is a prompt to ask who the venue's traders are, not a measurement of wash, and any estimate built on it is closer to an upper bound, which is how the authors describe it.</p>
+        <p>Both camps keep the test two-sided. The disagreement is about how much a reading below the floor proves on its own, and it is one reason the bench never flags a venue on one test alone. The general family of detectors for unusual values, z-scores, isolation forests and control charts, lives in <a href="https://phoebefu6.github.io/learn-anomaly-detection-with-phoebe/">learn-anomaly-detection-with-phoebe</a>; tonight's two tests are forensic ones specific to a self-reported tape.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>Build the round flag and the cluster share, then judge on both sides</h2>
+      <span class="tag build">15 min hands on</span>
+    </div>
+    <p class="lede">Six steps with pandas and numpy on any tape you have as a CSV with sizes stored as integer micro-units, as Harrowgate stores them since session 1. The comments quote what the constructed Tape A and the bench give; your numbers will differ on any other tape, which is the point. Run the code in a scratch folder, never where the outputs could land in a repository.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Load the size column as integers</h4>
+        <p>The round flag is exact only on integers. If your feed sends floats, convert once at a stated precision, as in session 1, before any test runs.</p>
+        <div class="prompt-box good"><span class="label">python · integer sizes</span>import numpy as np, pandas as pd
+tape = pd.read_csv("tape.csv")                 # columns: t, side, size_u, px
+sizes = tape["size_u"]                          # integer micro-units: 10 units is 10000000
+assert sizes.dtype.kind == "i" and (sizes &gt; 0).all()
+print(len(sizes), "trades,", sizes.nunique(), "distinct sizes")   # Tape A: 3000 trades, 989 distinct</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>The round flag: strip trailing zeros, one digit left</h4>
+        <p>Integer arithmetic only. No float division, no tolerance.</p>
+        <div class="prompt-box good"><span class="label">python · round flag, exact</span>def is_round(m: int) -&gt; bool:
+    while m &gt; 0 and m % 10 == 0:
+        m //= 10                                # 10000000 -&gt; 1, 2500000 -&gt; 25
+    return m &lt; 10                               # one significant digit left
+
+round_flag = sizes.map(is_round)
+print(round(round_flag.mean() * 100, 1), "percent round")       # Tape A: 29.0</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>The five most common sizes and their share</h4>
+        <p>Break ties the same way every time, so two runs on the same tape never pick different favourites. The engine breaks a tie by the smaller size.</p>
+        <div class="prompt-box good"><span class="label">python · top five, cluster share</span>vc = sizes.value_counts()
+vc = vc.sort_index().sort_values(ascending=False, kind="stable")   # ties: smaller size first
+top5 = vc.head(5)
+print([(s / 1_000_000, int(n)) for s, n in top5.items()])
+# Tape A: [(10.0, 85), (2.0, 73), (20.0, 71), (3.0, 64), (1.0, 52)]
+print(round(top5.sum() / len(sizes) * 100, 1), "percent in the top five")   # Tape A: 11.5</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Calibrate both readings on honest tapes, before you look at the suspect</h4>
+        <p>Same function for the honest tapes and the suspect, same tape length, honest tapes chosen for a reason you write down. Population standard deviation, as the bench uses.</p>
+        <div class="prompt-box good"><span class="label">python · the honest band</span>def readings(sizes: pd.Series) -&gt; dict:
+    vc = sizes.value_counts().sort_index().sort_values(ascending=False, kind="stable")
+    return {"round": sizes.map(is_round).mean(), "cluster": vc.head(5).sum() / len(sizes)}
+
+honest = pd.DataFrame([readings(pd.read_csv(f)["size_u"]) for f in honest_files])
+mu, sd = honest.mean(), honest.std(ddof=0)
+print((mu * 100).round(2).to_dict(), (sd * 100).round(2).to_dict())
+# constructed bench, 40 honest venues: round 29.96 sd 0.84, cluster 12.17 sd 0.67
+k = 2
+print(((mu - k * sd) * 100).round(1).to_dict(), ((mu + k * sd) * 100).round(1).to_dict())
+# k = 2: round 28.3 to 31.6, cluster 10.8 to 13.5</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Two-sided z-scores, and say which side</h4>
+        <p>Fire on the absolute distance from the honest mean. Then report the side, because above and below mean different bots.</p>
+        <div class="prompt-box good"><span class="label">python · two sides</span>s = pd.Series(readings(pd.read_csv("suspect.csv")["size_u"]))
+z = (s - mu) / sd
+fires = z.abs() &gt; k                          # two-sided: never z &gt; k alone
+side = np.where(z &gt; k, "above", np.where(z &lt; -k, "below", "inside"))
+print(pd.DataFrame({"pct": (s * 100).round(1), "z": z.round(1), "fires": fires, "side": side}))
+# partner venue, flat bot at 10 percent: round 21.7 and cluster 8.8, both below</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Prove the one-sided version is wrong on your own data</h4>
+        <p>Run the naive test beside the correct one on a planted flat bot (session 6 shows how to plant one). If the two agree, your planted bot is not flat enough, not the test right.</p>
+        <div class="prompt-box good"><span class="label">python · the bug, on purpose</span>one_sided = z &gt; k                             # the first version most people write
+print("one-sided fires:", one_sided.to_dict())
+print("two-sided fires:", fires.to_dict())
+# a flat bot: one-sided all False, two-sided all True. The floor is half the test.</div>
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> Count round sizes with integers. Break ties in the top five the same way every time. Calibrate on honest venues before you look at the suspect one. Judge on both sides of the band and print which side. And never write "inside the band, therefore honest": a copy bot at 70 percent sits inside both.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">Why must the roundness and clustering tests fire on both sides of the honest band?</p>
+      <div class="qopt">A · Because a two-sided test fires on fewer honest venues than a one-sided test at the same k</div>
+      <div class="qopt">B · Because the anomaly can go either way: a round-lot bot pushes both readings above the band, a flat bot pushes both below, and below is the direction the published study found on unregulated venues</div>
+      <div class="qopt">C · Because honest venues read below the band on quiet days and above it on busy ones</div>
+      <q class="qwhy">On the partner venue at 10 percent wash, the round-lot bot reads 44.9 and 28.2, above; the flat bot reads 21.7 and 8.8, below. A test that only watches the ceiling passes the flat bot at every share. Two sides cost something too: at the same k a two-sided test has two edges to cross, so it fires on honest venues at least as often as a one-sided one.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">What did Cong, Li, Tang and Yang report about roundness on unregulated venues in their 2019 sample?</p>
+      <div class="qopt">A · Unregulated venues showed far more round trades than regulated ones, the pattern a round-lot bot produces</div>
+      <div class="qopt">B · Roundness was the same on every venue, so the study relied on the first-digit test alone</div>
+      <div class="qopt">C · Regulated venues showed clear clustering at round sizes, with round trades around 30 percent of trades, while many unregulated venues showed little or none: too little roundness</div>
+      <q class="qwhy">Read at source: unregulated Tier-1 and Tier-2 venues "contain little clustering", with 30 and 50 percent of them showing no trade-size clustering in any pair. The anomaly on their sample was too little roundness, which is why the test here has a floor as well as a ceiling.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">At 70 percent wash the copy bot reads 30.7 percent round and 12.6 percent clustered, inside both bands. Why does it pass?</p>
+      <div class="qopt">A · It samples the honest size distribution, so its sizes are as round and as clustered as the crowd's; the size column has nothing to read, and its matched buy-and-sell pairs need a different kind of test</div>
+      <div class="qopt">B · Its wash share is too small to move the readings</div>
+      <div class="qopt">C · The calibration venues included copy-bot venues, which widened the band</div>
+      <q class="qwhy">The copy bot is the honest limit of every size-based detector: it leaves no size habit by construction. 70 percent is not small, and the band was measured on honest venues only. What remains visible is the pair structure, same size, opposite side, seconds apart, which session 6 plants and these tests do not read.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 6</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">About forty minutes, on any size or amount column your team owns.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Round share and top five on a column you know</h4>
+        <p>Trade sizes, order quantities, payment amounts. Run steps 2 and 3, then write one sentence on why the top five are what they are: a price list, a default in a form, a habit of the people who type them. If the answer is "a default in a form", the column measures the form, not the people.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Write the side down before you compute it</h4>
+        <p>Pick a second source you trust less. Predict whether it will read above, inside or below the first one's band, and why, then run steps 4 and 5. Session 6 plants all three bot styles on purpose; bring your prediction and whether it held.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The round flag and the round share</span><span class="note">One significant digit after stripping trailing zeros, integer arithmetic; Tape A 29.0 percent.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The cluster share</span><span class="note">Share of trades on the five most frequent sizes; Tape A 11.5 percent, top five 10, 2, 20, 3 and 1 units, 989 distinct sizes.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The published direction</span><span class="note">Cong, Li, Tang and Yang, NBER w30783, read at source: round trades around 30 percent on regulated venues, too little clustering on many unregulated ones; windows around multiples of 100 and 500 base units against the engine's simpler rule.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The contested estimate</span><span class="note">77.5 percent (authors' estimate, 2019 sample, with their bounds) against about 95 percent (reported industry presentation), and why their denominators differ.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The calibrated two-sided band</span><span class="note">40 honest venues: round 29.96 sd 0.84, cluster 12.17 sd 0.67; k = 2 gives 28.3 to 31.6 and 10.8 to 13.5, with the bands at k 2.5, 3 and 4.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Three bots, three directions</span><span class="note">Round lots above (44.9 / 28.2 at 10 percent), flat below (21.7 / 8.8), copy inside (30.7 / 12.6 at 70 percent).</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Planting the bot</span><span class="note">Named tonight. Session 6 builds the matched pairs, the lots and the share of reported volume on purpose.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Measuring the detector</span><span class="note">Named tonight. Session 7 measures false positives on 200 honest venues, the detection floor and the copy-bot limit.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">General detectors</span><span class="note">Z-scores, isolation forests and control charts live in <a href="https://phoebefu6.github.io/learn-anomaly-detection-with-phoebe/">learn-anomaly-detection-with-phoebe</a>.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">The tail-exponent test</span><span class="note">The third test in the published study, on the tail of the size distribution, is not taught.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Anything to do with buying, selling or holding</span><span class="note">Out of scope. No real price, asset or venue appears and nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>Round sizes and clustered sizes <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>Round flag.</strong> Strip trailing zeros from the integer size; round if one digit is left. Never with floats.</div>
+      <div class="cheat-item"><strong>Round share.</strong> Share of trades with a round size. Tape A: 29.0 percent. Honest mean 29.96, sd 0.84.</div>
+      <div class="cheat-item"><strong>Cluster share.</strong> Share of trades on the five most frequent sizes, ties broken the same way every time. Tape A: 11.5 percent.</div>
+      <div class="cheat-item"><strong>The band.</strong> k = 2 on 40 honest venues: 28.3 to 31.6 round, 10.8 to 13.5 clustered. Calibrate before you look at the suspect.</div>
+      <div class="cheat-item"><strong>Two sides.</strong> Round lots go above, a flat bot goes below. Fire on absolute distance and print which side.</div>
+      <div class="cheat-item"><strong>The published direction.</strong> Too little roundness on many unregulated venues in a 2019 sample. Cite it with the authors' bounds.</div>
+      <div class="cheat-item"><strong>The definition.</strong> One significant digit here; windows around multiples of 100 and 500 base units in the study. Say which, never mix.</div>
+      <div class="cheat-item"><strong>The honest limit.</strong> A copy bot reads 30.7 and 12.6 at 70 percent wash, inside. Inside the band is not "honest".</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Practitioner session 6, planting a wash trader. The structure every bench so far has used, declared and built on purpose: matched buy and sell pairs of the same size, 1 to 4 seconds apart, added until the wash reaches its share of reported volume. At 10 percent round-lot wash the partner venue's tape grows from 3,000 trades to 3,848, of which 424 pairs are wash.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Practitioner session 5 of 10 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="p4-benfords-law-on-reported-volume.html">← Prev: Practitioner session 4 · Benford's law on reported volume</a>
+        <a href="p6-planting-a-wash-trader.html">Next: Practitioner session 6 · Planting a wash trader →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var seedSel = document.getElementById("crp5-seed");
+  var styleSel = document.getElementById("crp5-style");
+  var shareSel = document.getElementById("crp5-share");
+  var out = document.getElementById("crp5-out");
+  var verdict = document.getElementById("crp5-verdict");
+  var self = document.getElementById("crp5-self");
+
+  function comma(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+  function pct(x) { return (x * 100).toFixed(1); }
+
+  /* the honest band, measured once on 40 honest venues before any washed tape is read */
+  var K = 2;
+  var cal = CM.calibrate();
+  var band = {
+    round: [cal.mean.round - K * cal.sd.round, cal.mean.round + K * cal.sd.round],
+    cluster: [cal.mean.cluster - K * cal.sd.cluster, cal.mean.cluster + K * cal.sd.cluster]
+  };
+  function side(x, b) { return x > b[1] ? "above" : (x < b[0] ? "below" : "inside"); }
+  function cell(x, b) {
+    var s = side(x, b);
+    return "<b" + (s !== "inside" ? ' class="crp5-esc"' : "") + ">" + pct(x) + "</b> " + s;
+  }
+  function both(r) {
+    var a = side(r.round, band.round), c = side(r.cluster, band.cluster);
+    if (a === c) return "both " + a + " the band";
+    return "round share " + a + ", cluster share " + c;
+  }
+  function topText(t) { return CM.fmtUnits(t.size) + " (" + t.count + ")"; }
+
+  function render() {
+    var s = Number(seedSel.value);
+    var w = Number(shareSel.value) / 100;
+    var style = styleSel.value;
+    var name = seedSel.options[seedSel.selectedIndex].text;
+    var A = CM.makeTape({ seed: s });
+    var B = CM.makeTape({ seed: s + 1, washShare: w, washStyle: style });
+    var rA = CM.readings(CM.sizesOf(A));
+    var rB = CM.readings(CM.sizesOf(B));
+    var bLabel = w === 0 ? "Partner venue, honest" : "Partner venue, " + style + " bot at " + (w * 100) + " percent";
+
+    var html = '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>Reading</th><th>' + name + ', honest</th><th>' + bLabel + '</th><th>Honest band, k = 2</th></tr></thead><tbody>';
+    html += "<tr><td>Trades on the tape</td><td>" + comma(A.trades.length) + "</td><td>" + comma(B.trades.length) + (B.pairs ? " (" + comma(B.pairs) + " wash pairs)" : "") + "</td><td>not banded</td></tr>";
+    html += "<tr><td>Distinct sizes</td><td>" + comma(rA.distinct) + "</td><td>" + comma(rB.distinct) + "</td><td>not banded</td></tr>";
+    html += "<tr><td>Round share, percent</td><td>" + cell(rA.round, band.round) + "</td><td>" + cell(rB.round, band.round) + "</td><td>" + pct(band.round[0]) + " to " + pct(band.round[1]) + "</td></tr>";
+    html += "<tr><td>Cluster share, percent</td><td>" + cell(rA.cluster, band.cluster) + "</td><td>" + cell(rB.cluster, band.cluster) + "</td><td>" + pct(band.cluster[0]) + " to " + pct(band.cluster[1]) + "</td></tr>";
+    html += "</tbody></table></div>";
+
+    html += '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>Rank</th><th>' + name + ': size in units (trades)</th><th>Partner venue: size in units (trades)</th></tr></thead><tbody>';
+    for (var i = 0; i < 5; i++) {
+      html += "<tr><td>" + (i + 1) + "</td><td>" + (rA.top[i] ? topText(rA.top[i]) : "") + "</td><td>" + (rB.top[i] ? topText(rB.top[i]) : "") + "</td></tr>";
+    }
+    html += "</tbody></table></div>";
+    out.innerHTML = html;
+
+    var head = "The partner venue reads " + pct(rB.round) + " percent round and " + pct(rB.cluster) + " percent in its top five sizes, " + both(rB) + ". ";
+    var msg;
+    if (w === 0) {
+      msg = name + " and its partner venue are honest by construction. " + name + " reads " + pct(rA.round) + " percent round and "
+        + pct(rA.cluster) + " percent in its top five sizes, " + both(rA) + "; the partner venue reads " + pct(rB.round) + " and " + pct(rB.cluster)
+        + ", " + both(rB) + ". The band was measured on 40 other honest venues when the page loaded. The bot choice does nothing until a wash share is set.";
+    } else if (style === "round") {
+      msg = head + "Every wash size is one of seven round lots, so the marks the crowd already favours pile far higher than any crowd makes them. This is the direction everyone expects.";
+    } else if (style === "flat") {
+      msg = head + "The flat bot's four-digit sizes almost never land on a round mark and spread over many distinct sizes, so both shares fall. A test that only watched the ceiling would call this venue clean.";
+    } else {
+      msg = head + "The copy bot samples the honest size distribution, so it types like the crowd and the size column has nothing to show. Its matched buy-and-sell pairs are on the tape, unread by these tests.";
+    }
+    verdict.textContent = msg;
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, including a bot with too few round sizes still firing the roundness test, so the readings above are the readings any correct run gives. The band was measured on 40 honest venues when the page loaded. The tapes are constructed; nothing here is a real market."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  seedSel.addEventListener("change", render);
+  styleSel.addEventListener("change", render);
+  shareSel.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #crp5-sizes .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 24rem; }
+  #crp5-sizes table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #crp5-sizes .crp5-esc { color: var(--amber-ink-text); }
+</style>
+</body>
+</html>

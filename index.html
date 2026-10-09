@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Sixteen sessions on the off-chain data of crypto markets: exchange tapes, candles, venues, indices, and the volume that reports itself. Real forensic detectors run in the page on a declared synthetic tape. No coins, no prices, not investment advice. Free.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Learn Crypto with Phoebe">
+<meta property="og:description" content="Crypto markets as a data problem: no close price, no consolidated tape, volume nobody audits, a unit of account that can move. A data course, not a money course.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Learn Crypto with Phoebe">
+<meta name="twitter:description" content="A washed venue flagged from 2 percent of its reported volume, 1.5 percent of honest venues flagged with it, and a daily return whose sign depends on when you decided the day ends.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Learn Crypto with Phoebe</title>
+<link rel="stylesheet" href="assets/style.css?v=1">
+<style>
+
+  .stats-row { display: flex; gap: 2.4rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .stat b { display: block; font-size: 2.1rem; font-weight: 800; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: .72rem; opacity: .85; text-transform: uppercase; letter-spacing: .09em; font-weight: 600; }
+
+  .course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .course-card {
+    border: 1px solid var(--hairline);
+    border-top: 4px solid var(--diff, var(--indigo));
+    border-radius: var(--radius);
+    padding: 1.2rem 1.3rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    text-decoration: none;
+    color: var(--ink);
+    background: #fff;
+    transition: box-shadow .15s ease, border-color .15s ease, transform .15s ease;
+    position: relative;
+  }
+  .course-card:hover { border-color: var(--indigo-soft); border-top-color: var(--diff, var(--indigo)); box-shadow: 0 8px 28px rgba(91,42,134,.16); transform: translateY(-3px); }
+  .course-card .cicon { font-size: 1.7rem; line-height: 1; }
+  .course-card .cnum { font-size: .72rem; font-weight: 700; color: var(--indigo); text-transform: uppercase; letter-spacing: .1em; }
+  .course-card h3 { font-size: 1.05rem; font-weight: 800; line-height: 1.3; }
+  .course-card p { font-size: .85rem; color: var(--muted); flex: 1; }
+  .course-card .meta { display: flex; gap: .4rem; flex-wrap: wrap; }
+
+  .diff-legend { display: flex; gap: 1rem; margin-top: 1.6rem; font-size: .74rem; color: var(--muted); font-weight: 600; flex-wrap: wrap; }
+  .diff-legend i { display: inline-block; width: .85rem; height: .35rem; border-radius: 999px; margin-right: .35rem; vertical-align: middle; }
+
+  .paths { margin-top: 2.6rem; }
+  .paths h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: .3rem; }
+  .paths .plede { color: var(--muted); font-size: .92rem; margin-bottom: .8rem; }
+  .path { display: flex; gap: .55rem; align-items: center; padding: .75rem 0; border-bottom: .5px solid var(--hairline); flex-wrap: wrap; }
+  .path:last-child { border-bottom: none; }
+  .path b { min-width: 15.5rem; font-size: .9rem; }
+  .path .pstep { background: var(--indigo-50); color: var(--indigo); border-radius: 999px; padding: .16rem .68rem; font-weight: 700; font-size: .8rem; text-decoration: none; transition: all .12s ease; }
+  .path .pstep:hover { background: var(--indigo); color: #fff; }
+  .path .parr { color: var(--faint-text); font-weight: 700; }
+
+  .tm-section { margin-top: 2.6rem; }
+  .tm-section h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: .3rem; }
+  .tm-section .plede { color: var(--muted); font-size: .92rem; margin-bottom: 1rem; }
+  .tm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+  .tm-col { background: #fff; border: 1px solid var(--hairline); border-radius: var(--radius); padding: 1.1rem 1.2rem 1rem; }
+  .tm-col h3 { font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 800; margin-bottom: .6rem; display: flex; align-items: center; gap: .45rem; }
+  .tm-col h3 i { display: inline-block; width: .7rem; height: .7rem; border-radius: 999px; }
+  .tm-col.keep h3 { color: var(--indigo); }
+  .tm-col.keep h3 i { background: var(--indigo); }
+  .tm-col.learn h3 { color: var(--indigo-deep); }
+  .tm-col.learn h3 i { background: var(--indigo-deep); }
+  .tm-col.drop h3 { color: var(--amber-ink-text); }
+  .tm-col.drop h3 i { background: var(--amber); }
+  .tm-col ul { list-style: none; display: grid; gap: .45rem; }
+  .tm-col li { font-size: .86rem; line-height: 1.55; padding-left: 1rem; position: relative; color: var(--ink); }
+  .tm-col li::before { content: ""; position: absolute; left: 0; top: .62rem; width: .4rem; height: .4rem; border-radius: 999px; background: var(--indigo-soft); }
+  .tm-col.drop li::before { background: var(--amber); }
+
+  .mm-section { margin-top: 1.6rem; }
+  .mm-section h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: .2rem; }
+  .mm-section .mm-lede { color: var(--muted); font-size: .92rem; margin-bottom: .4rem; }
+  .mm-wrap { border: 1px solid var(--hairline); border-radius: var(--radius); background: linear-gradient(180deg,#fff,#F4EFF9); padding: .6rem; overflow-x: auto; }
+  .mm-svg { width: 100%; height: auto; display: block; max-width: 60rem; margin: 0 auto; min-width: 34rem; }
+  .mm-link { cursor: pointer; text-decoration: none; }
+  .mm-node rect { transition: opacity .15s ease, filter .15s ease; }
+  .mm-node text { pointer-events: none; }
+  .mm-link:hover .mm-node rect { filter: brightness(1.06); }
+  .mm-edge { transition: opacity .15s ease; }
+
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn with Phoebe · Emerging Tech</div>
+    <h1>Learn <span class="accent">Crypto</span> with Phoebe</h1>
+    <p class="sub">Crypto markets as a data problem. Not a technology tour and not a money course: the subject is the off-chain data a desk actually consumes, the exchange tape, the order book, the candles built from it, the venues and the indices that try to reconcile them. Harrowgate is a constructed data team that has to publish a daily reference level and a venue volume table, and every instinct it brings from a conventional market feed meets something missing. There is no close price, because nothing ever closes. There is no consolidated tape. Every venue reports its own volume with no auditor and a reason to inflate it. The unit everything is quoted in is itself a traded thing that can move. Six leader sessions on what that does to a decision, ten practitioner sessions on reading, building and testing the data, and a bench that runs the forensic detectors in the page on a declared synthetic tape. No coins, no prices, no venues named, and nothing here is investment advice.</p>
+    <div class="stats-row">
+      <div class="stat"><b data-count="16">16</b><span>sessions, two tracks</span></div>
+      <div class="stat"><b data-count="2">2</b><span>percent wash, where the bench first flags a venue</span></div>
+      <div class="stat"><b data-count="1.5">1.5</b><span>percent of honest venues flagged with it</span></div>
+      <div class="stat"><b data-count="6">6</b><span>engine properties checked on every load</span></div>
+      <div class="stat"><b data-count="45">45</b><span>min per session</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="section">
+    <div class="paths" style="margin-top:0">
+      <h2>Leader track 🧭 <span style="font-size:.85rem;font-weight:600;color:var(--muted)">· six sessions, no code</span></h2>
+      <p class="plede">For anyone who signs off a number that came from a crypto market feed, or has to decide whether to build on one. Why a daily return can change sign depending on when you decided the day ends, why reported volume is a claim rather than a measurement, why one asset has four defensible prices at once, what a moving unit of account does to every chart, where the conventional market-data playbook breaks, and what a data team already knows that is worth more here.</p>
+    </div>
+    <div class="course-grid">
+      <a class="course-card" href="courses/a1-there-is-no-close-price.html" style="--diff:#FBBF24">
+        <span class="cicon">🕛</span>
+        <span class="cnum">Leader session 1 · start here</span>
+        <h3>There is no close price</h3>
+        <p>The tape never stops, so "the close" is a convention. Four conventions, four different signs on the same day's return.</p>
+        <span class="meta"><span class="pill amber">▶ Start here</span></span>
+      </a>
+      <a class="course-card" href="courses/a2-the-volume-that-reports-itself.html" style="--diff:#FBBF24">
+        <span class="cicon">📣</span>
+        <span class="cnum">Leader session 2</span>
+        <h3>The volume that reports itself</h3>
+        <p>Every venue publishes its own volume with no auditor and a rank to gain. Two published estimates of how much is fake, and why they disagree.</p>
+      </a>
+      <a class="course-card" href="courses/a3-one-asset-many-prices.html" style="--diff:#FB923C">
+        <span class="cicon">🧮</span>
+        <span class="cnum">Leader session 3</span>
+        <h3>One asset, many prices</h3>
+        <p>No consolidated tape. Four venues, four methods, four levels 75.5 ticks apart, and a stale venue that only one rule catches.</p>
+      </a>
+      <a class="course-card" href="courses/a4-the-unit-of-account-can-move.html" style="--diff:#FB923C">
+        <span class="cicon">⚖️</span>
+        <span class="cnum">Leader session 4</span>
+        <h3>The unit of account can move</h3>
+        <p>The quoting unit is itself traded. A depeg is a data event: the quoted tape moves 0.046 percent in an hour while the restated one moves 3.96.</p>
+      </a>
+      <a class="course-card" href="courses/a5-why-the-market-data-playbook-breaks-here.html" style="--diff:#F87171">
+        <span class="cicon">🧩</span>
+        <span class="cnum">Leader session 5</span>
+        <h3>Why the market-data playbook breaks here</h3>
+        <p>Source, identity, ground truth, feedback loop, cost of being wrong. Five mechanisms, each drawn against the conventional feed.</p>
+      </a>
+      <a class="course-card" href="courses/a6-from-warehouse-to-crypto-desk.html" style="--diff:#F87171">
+        <span class="cicon">🗺️</span>
+        <span class="cnum">Leader session 6</span>
+        <h3>From warehouse to crypto desk: the transfer map</h3>
+        <p>What carries over, what must be learned, what must be unlearned, and a 90-day ladder of free official sources.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="paths" style="margin-top:0">
+      <h2>Practitioner track 🛠️ <span style="font-size:.85rem;font-weight:600;color:var(--muted)">· ten sessions, hands on</span></h2>
+      <p class="plede">For whoever has to read the tape, build the candles, reconcile the venues and defend the number. Trades and book snapshots, candles as a choice, four index methods, Benford's first-digit law implemented from scratch, roundness and clustering, a planted wash trader whose structure is declared, the detector measured against honest venues, a depeg restated, a join to the chain where every label is reported rather than verified, and the bench that puts all of it under your hands.</p>
+    </div>
+    <div class="course-grid">
+      <a class="course-card" href="courses/p1-reading-an-exchange-tape.html" style="--diff:#FBBF24">
+        <span class="cicon">🧾</span>
+        <span class="cnum">Practitioner session 1 · start here</span>
+        <h3>Reading an exchange tape</h3>
+        <p>Trades, a book snapshot, the grain and the clock. A candle is a derived object, and the tape is the only thing that happened.</p>
+        <span class="meta"><span class="pill amber">▶ Start here</span></span>
+      </a>
+      <a class="course-card" href="courses/p2-candles-are-a-choice.html" style="--diff:#FB923C">
+        <span class="cicon">🕯️</span>
+        <span class="cnum">Practitioner session 2</span>
+        <h3>Candles are a choice</h3>
+        <p>Build OHLCV from trades. 169 of 1,440 minute bars are empty, and the count of up bars moves with the bar you chose.</p>
+      </a>
+      <a class="course-card" href="courses/p3-reconciling-venues-into-an-index.html" style="--diff:#FB923C">
+        <span class="cicon">🔗</span>
+        <span class="cnum">Practitioner session 3</span>
+        <h3>Reconciling venues into an index</h3>
+        <p>Mean, median, volume-weighted mean, volume-weighted median, staleness and outlier rules, partitions. What one public rulebook does.</p>
+      </a>
+      <a class="course-card" href="courses/p4-benfords-law-on-reported-volume.html" style="--diff:#FB923C">
+        <span class="cicon">🔢</span>
+        <span class="cnum">Practitioner session 4</span>
+        <h3>Benford's law on reported volume</h3>
+        <p>The first-digit law from scratch. The honest tape reads 0.0065 and conforms; why mixtures conform and a single bot does not.</p>
+      </a>
+      <a class="course-card" href="courses/p5-round-sizes-and-clustered-sizes.html" style="--diff:#F87171">
+        <span class="cicon">🎯</span>
+        <span class="cnum">Practitioner session 5</span>
+        <h3>Round sizes and clustered sizes</h3>
+        <p>People type round numbers, bots do not. The second and third forensic signals, two-sided, because the published anomaly was too little roundness.</p>
+      </a>
+      <a class="course-card" href="courses/p6-planting-a-wash-trader.html" style="--diff:#F87171">
+        <span class="cicon">🪤</span>
+        <span class="cnum">Practitioner session 6</span>
+        <h3>Planting a wash trader</h3>
+        <p>The declared synthetic structure: matched pairs seconds apart, three bot styles, a share of reported volume you set.</p>
+      </a>
+      <a class="course-card" href="courses/p7-measuring-the-detector.html" style="--diff:#F87171">
+        <span class="cicon">📏</span>
+        <span class="cnum">Practitioner session 7</span>
+        <h3>Measuring the detector</h3>
+        <p>Calibrate on honest venues, print the false-positive rate, find the floor, and meet the bot no size test can see.</p>
+      </a>
+      <a class="course-card" href="courses/p8-depeg-events-in-the-tape.html" style="--diff:#EF4444">
+        <span class="cicon">📉</span>
+        <span class="cnum">Practitioner session 8</span>
+        <h3>Depeg events in the tape</h3>
+        <p>Restate every print into a reference unit. The hourly move the quoted tape hides, and the join that makes it visible.</p>
+      </a>
+      <a class="course-card" href="courses/p9-joining-exchange-flows-to-chain-data.html" style="--diff:#EF4444">
+        <span class="cicon">⛓️</span>
+        <span class="cnum">Practitioner session 9</span>
+        <h3>Joining exchange flows to chain data</h3>
+        <p>Venue labels on chain addresses are reported, not verified. What a join can and cannot say, and where the chain side lives.</p>
+      </a>
+      <a class="course-card" href="courses/p10-the-tape-bench.html" style="--diff:#EF4444">
+        <span class="cicon">🎛️</span>
+        <span class="cnum">Practitioner session 10 · capstone</span>
+        <h3>The tape bench</h3>
+        <p>Every input exposed: wash share, bot style, sensitivity, the rank-by-volume trap, the shuffle that dissolves the structure.</p>
+      </a>
+    </div>
+    <div class="diff-legend">
+      <span><i style="background:#FBBF24"></i>Foundations</span>
+      <span><i style="background:#FB923C"></i>Working depth</span>
+      <span><i style="background:#F87171"></i>Advanced</span>
+      <span><i style="background:#EF4444"></i>Hardest</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="paths">
+      <h2>Three ways through</h2>
+      <p class="plede">Everyone starts at session 1 of their track. These are the shortest useful routes if you cannot take all sixteen.</p>
+      <div class="path"><b>I sign off a number from this feed</b>
+        <a class="pstep" href="courses/a1-there-is-no-close-price.html">No close</a><span class="parr">→</span>
+        <a class="pstep" href="courses/a2-the-volume-that-reports-itself.html">Reported volume</a><span class="parr">→</span>
+        <a class="pstep" href="courses/a5-why-the-market-data-playbook-breaks-here.html">Where it breaks</a>
+      </div>
+      <div class="path"><b>I have to build the index</b>
+        <a class="pstep" href="courses/p1-reading-an-exchange-tape.html">The tape</a><span class="parr">→</span>
+        <a class="pstep" href="courses/p2-candles-are-a-choice.html">Candles</a><span class="parr">→</span>
+        <a class="pstep" href="courses/p3-reconciling-venues-into-an-index.html">The index</a><span class="parr">→</span>
+        <a class="pstep" href="courses/p8-depeg-events-in-the-tape.html">Depeg</a>
+      </div>
+      <div class="path"><b>I have to defend the volume table</b>
+        <a class="pstep" href="courses/p4-benfords-law-on-reported-volume.html">Benford</a><span class="parr">→</span>
+        <a class="pstep" href="courses/p5-round-sizes-and-clustered-sizes.html">Roundness</a><span class="parr">→</span>
+        <a class="pstep" href="courses/p7-measuring-the-detector.html">The detector</a><span class="parr">→</span>
+        <a class="pstep" href="courses/p10-the-tape-bench.html">The bench</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tm-section">
+    <h2>If you come from a data team</h2>
+    <p class="plede">The transfer map in one glance. A conventional analyst, engineer or scientist is not starting from zero here; some habits are worth more, some are missing, and some are dangerous. Leader session 6 has the long form and the 90-day ladder.</p>
+    <div class="tm-grid">
+      <div class="tm-col keep">
+        <h3><i></i>Carries over</h3>
+        <ul>
+          <li>Grain discipline: one row is one print, a candle is an aggregate, and knowing which you are looking at.</li>
+          <li>Reconciliation habits: two sources that disagree are a finding, not a bug to suppress.</li>
+          <li>Calibration before judgement: a threshold means nothing until you know how often it fires on clean data.</li>
+          <li>Stream thinking: late prints, watermarks, idempotent loads, all the same mechanics as any event feed.</li>
+        </ul>
+      </div>
+      <div class="tm-col learn">
+        <h3><i></i>Must learn</h3>
+        <ul>
+          <li>Tape anatomy: trades, book snapshots, depth, spread, and why a close is a convention you choose.</li>
+          <li>Index rulebooks: partitions, volume-weighted medians, staleness and outlier exclusion, venue screening.</li>
+          <li>Forensic tests for self-reported numbers: the first-digit law, roundness, clustering, calibrated on honest venues.</li>
+          <li>Unit-of-account restatement: every quoted price is a ratio, and the denominator can move.</li>
+        </ul>
+      </div>
+      <div class="tm-col drop">
+        <h3><i></i>Must unlearn</h3>
+        <ul>
+          <li>Trusting the source's own volume number because it came from the source.</li>
+          <li>Treating "the price" as a fact rather than one venue's last print at one moment.</li>
+          <li>Ranking or weighting by reported volume before asking who reported it and why.</li>
+          <li>Reading a daily return without asking which boundary made it a day.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section mm-section">
+    <h2>The whole thing on one page</h2>
+    <p class="mm-lede">Every idea in the course and the session that owns it. Click any node to jump there.</p>
+    <div class="mm-wrap"><div id="mindmap"></div></div>
+  </section>
+
+  <section class="section">
+    <div class="paths">
+      <h2>What is real here</h2>
+      <p class="plede">Every number on these pages was computed before any page quoted it, by the same engine that runs in your browser, and reproduced by an independent Python reference to the last digit. The tape is generated on purpose so that the truth is knowable; the detectors run over it are the published forensic ones.</p>
+      <table class="pp-strip" style="width:100%;border-collapse:collapse">
+        <tr><td style="padding:.5rem 0;font-weight:700">The tape</td><td style="padding:.5rem 0;color:var(--muted)">3,000 honest prints a day with heavy-tailed sizes that conform to Benford's first-digit law (deviation 0.0065), plus a planted wash trader in matched pairs whose structure is declared on the widget</td></tr>
+        <tr><td style="padding:.5rem 0;font-weight:700">The detectors</td><td style="padding:.5rem 0;color:var(--muted)">Benford deviation, roundness share and size clustering, calibrated on 40 honest venues and tested on 200 more. At the default sensitivity, 3 of the 200 honest venues are flagged: 1.5 percent, printed on the page</td></tr>
+        <tr><td style="padding:.5rem 0;font-weight:700">The bench can report a worse number</td><td style="padding:.5rem 0;color:var(--muted)">Rank venues by reported volume and the washed venue's weight climbs to 78.8 percent. Shuffle sizes across venues and the structure dissolves. Let the bot copy honest sizes and no size test sees it, which the page says out loud</td></tr>
+        <tr><td style="padding:.5rem 0;font-weight:700">No coins</td><td style="padding:.5rem 0;color:var(--muted)">No cryptocurrency, no price, no ticker, no venue or vendor named, no incident. No figure here describes a real market, and nothing here is investment advice</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <footer class="pagefoot">
+    <span class="meta">part of <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a> · by Phoebe Fu · nothing here is investment advice · chain mechanics live in <a href="https://phoebefu6.github.io/learn-blockchain-with-phoebe/">learn blockchain ↗</a> and on-chain data in <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/">learn web3 ↗</a></span>
+  </footer>
+
+</main>
+
+<script>
+window.MINDMAP_DATA = {
+  "title": "Crypto markets\nas data",
+  "centerColor": "#3A1A58",
+  "sessions": [
+    {
+      "label": "No close price",
+      "href": "courses/a1-there-is-no-close-price.html",
+      "concepts": [
+        {
+          "label": "The tape as a table",
+          "href": "courses/p1-reading-an-exchange-tape.html"
+        },
+        {
+          "label": "Candles are a choice",
+          "href": "courses/p2-candles-are-a-choice.html"
+        },
+        {
+          "label": "The boundary",
+          "href": "courses/a1-there-is-no-close-price.html"
+        }
+      ]
+    },
+    {
+      "label": "Self-reported volume",
+      "href": "courses/a2-the-volume-that-reports-itself.html",
+      "concepts": [
+        {
+          "label": "Benford's first digit",
+          "href": "courses/p4-benfords-law-on-reported-volume.html"
+        },
+        {
+          "label": "Roundness, clustering",
+          "href": "courses/p5-round-sizes-and-clustered-sizes.html"
+        },
+        {
+          "label": "Two estimates disagree",
+          "href": "courses/a2-the-volume-that-reports-itself.html"
+        }
+      ]
+    },
+    {
+      "label": "Many venues, one asset",
+      "href": "courses/a3-one-asset-many-prices.html",
+      "concepts": [
+        {
+          "label": "Index methods",
+          "href": "courses/p3-reconciling-venues-into-an-index.html"
+        },
+        {
+          "label": "Stale and outlier rules",
+          "href": "courses/p3-reconciling-venues-into-an-index.html"
+        },
+        {
+          "label": "Screen the reporter",
+          "href": "courses/a3-one-asset-many-prices.html"
+        }
+      ]
+    },
+    {
+      "label": "A moving unit",
+      "href": "courses/a4-the-unit-of-account-can-move.html",
+      "concepts": [
+        {
+          "label": "Depeg as a data event",
+          "href": "courses/p8-depeg-events-in-the-tape.html"
+        },
+        {
+          "label": "Restating a tape",
+          "href": "courses/p8-depeg-events-in-the-tape.html"
+        },
+        {
+          "label": "Join to the chain",
+          "href": "courses/p9-joining-exchange-flows-to-chain-data.html"
+        }
+      ]
+    },
+    {
+      "label": "Where the playbook breaks",
+      "href": "courses/a5-why-the-market-data-playbook-breaks-here.html",
+      "concepts": [
+        {
+          "label": "The planted washer",
+          "href": "courses/p6-planting-a-wash-trader.html"
+        },
+        {
+          "label": "Calibrate, then judge",
+          "href": "courses/p7-measuring-the-detector.html"
+        },
+        {
+          "label": "The blind spot",
+          "href": "courses/p7-measuring-the-detector.html"
+        }
+      ]
+    },
+    {
+      "label": "The transfer map",
+      "href": "courses/a6-from-warehouse-to-crypto-desk.html",
+      "concepts": [
+        {
+          "label": "Carry, learn, unlearn",
+          "href": "courses/a6-from-warehouse-to-crypto-desk.html"
+        },
+        {
+          "label": "The anti-lever",
+          "href": "courses/p10-the-tape-bench.html"
+        },
+        {
+          "label": "The tape bench",
+          "href": "courses/p10-the-tape-bench.html"
+        }
+      ]
+    }
+  ]
+};
+</script>
+<script src="assets/mindmap.js?v=1"></script>
+<script src="assets/app.js?v=1"></script>
+</body>
+</html>

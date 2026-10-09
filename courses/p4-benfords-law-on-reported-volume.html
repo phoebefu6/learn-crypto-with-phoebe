@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Practitioner session 4 of 10. The first-digit law, why a tape of many traders conforms and one bot does not, and how to measure conformity with MAD and chi-square. Harrowgate's constructed tape reads MAD 0.0065, and a round-lot washer is the last thing the test sees.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Benford's law on reported volume - learn crypto with phoebe">
+<meta property="og:description" content="Practitioner session 4 of 10. A test you can run on a venue's own trade sizes without trusting the venue, and the honest list of what it cannot see.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/p4-benfords-law-on-reported-volume.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Benford's law on reported volume - learn crypto with phoebe">
+<meta name="twitter:description" content="Nine digits, one curve, one average gap. MAD 0.0065 on an honest constructed tape, and the calibrated line at 0.0105.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Practitioner session 4 · Benford's law on reported volume - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Practitioner session 4 of 10</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Practitioner session 4 of 10</div>
+    <h1>Benford's law on <span class="accent">reported volume</span></h1>
+    <p class="sub">A venue reports its own volume and nobody audits it. You cannot inspect its matching engine, but you can read the sizes it publishes, and the sizes carry a fingerprint. When many traders with many habits each pick a number, the first digits of those numbers settle into a known shape: about 30 percent start with a 1 and under 5 percent with a 9. One bot with one habit breaks the shape. Tonight is that law, the reason it holds, two ways to measure how far a tape sits from it, a line calibrated on honest venues rather than borrowed from a textbook, and the uncomfortable result that the most naive wash bot is the last thing this test sees.</p>
+    <div class="chip-row">
+      <span class="chip level">🔧 Practitioner track</span>
+      <span class="chip audience">Data engineers who maintain a venue volume table</span>
+      <span class="chip audience">Analysts who screen numbers they cannot audit</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-17 · The first-digit law</span>
+      <span class="a3" style="flex:3">17-30 · Measuring conformity</span>
+      <span class="a4" style="flex:4">30-45 · Build-along and Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate cannot audit a venue, but it can read the venue's own sizes</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm. Session 3 left it with an index that weights venues by volume, and a nagging question underneath: volume according to whom? Each venue publishes its own tape and its own total, there is no auditor, and a venue that inflates its volume climbs every table that ranks by it. Harrowgate cannot see inside any venue. What it can do is run a test on the trade sizes the venue itself published, a test that needs nothing from the venue except the column it already sends. The tape on this page comes from the same seeded engine as every bench in the course: 3,000 honest trades a day with sizes spread across several orders of magnitude, and a wash trader you can plant and switch off.</p>
+
+    <div class="legend">
+      <span class="pill">Live = worked through in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> The first-digit law, P(d) = log10(1 + 1/d), and the nine shares it predicts. The reason a tape of many traders conforms and a single bot does not, from Hill's derivation. Two measures of the gap, MAD and chi-square, computed in the page on Harrowgate's constructed Tape A: MAD 0.0065, chi-square 12.41. A firing line calibrated on 40 honest venues instead of borrowed, at 0.0105. And the honest limits: why a round-lot washer slips past this test longest, and what a MAD inside the band does not prove.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>A test that asks nothing of the venue<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Most data-quality checks compare a source against something else: a second feed, a ledger, a reconciliation. A self-reported volume figure has nothing else to compare against, because the venue is the only party that saw its own trades. A forensic test on the sizes is different in kind. It compares the tape against a mathematical expectation about how numbers chosen by many independent people are distributed, and the venue cannot opt out of it without changing the sizes it publishes.</p>
+        <p>That makes it a screen, not a verdict. It can say a tape's sizes look like the output of many habits or look like the output of one. It cannot say who traded, whether a trade was economic, or how much volume is real. Every result tonight is read with that boundary in view.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Harrowgate's venue table had one venue whose reported volume grew steadily while its quoted spread and its number of price levels did not change at all. Nobody on the team could say whether that was success or decoration. Before arguing about it, they ran the first-digit test on a day of that venue's prints next to a day from a venue they had reason to trust, and argued about the numbers instead. Harrowgate is constructed; the situation is common.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>First significant digit.</strong> The leftmost non-zero digit of a number. 0.223 units and 223,000 micro-units both have first digit 2.</li>
+          <li><strong>Benford's law, the first-digit law.</strong> The prediction that the first digit d appears with probability log10(1 + 1/d), so 1 leads 30.1 percent of the time and 9 leads 4.6 percent.</li>
+          <li><strong>Conform.</strong> A tape conforms when its observed first-digit shares sit close to the law's. "Close" is the whole argument of Part 2.</li>
+          <li><strong>MAD.</strong> Mean absolute deviation: the average, over the nine digits, of the gap between observed share and expected share, ignoring sign.</li>
+          <li><strong>Chi-square.</strong> A goodness-of-fit statistic on the nine counts, on 8 degrees of freedom. Unlike MAD it grows with the number of trades.</li>
+          <li><strong>Calibration.</strong> Measuring the honest spread of a reading on tapes you trust before judging a tape you do not.</li>
+          <li><strong>Wash share.</strong> The share of a venue's reported volume that is wash: matched buy and sell pairs of the same size, a few seconds apart, that move nothing. Session 6 plants them on purpose.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers the first-digit law</span>
+      <h2>Why one comes first thirty percent of the time</h2>
+      <span class="tag concept">14 min live</span>
+    </div>
+    <p class="lede">The law is short: the first digit d appears with probability log10(1 + 1/d). For d from 1 to 9 that is 30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1 and 4.6 percent. The surprise is not the formula; it is that real collections of numbers obey it, and the explanation for why they do is exactly the explanation for why a wash bot does not.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 436" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn log rulers of trade size from 0.1 to 1000 units, four decades. On the top ruler, honest trade sizes are dots spread smoothly across the decades, and the stretch from 1 to 2 in every decade is shaded marigold: it is 30.1 percent of each decade's width, while the stretch from 8 to 9 is 5.1 percent. On the bottom ruler, a round-lot wash bot's sizes are stacked as columns of dots on only seven marks, 1, 2, 5, 10, 20, 50 and 100 units, whose first digits are only 1, 2 and 5.">
+        <defs>
+          <filter id="crp4aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="41" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp4aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp4aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp4aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp4aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp4aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp4aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp4aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp4aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp4aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp4aH" x="30" y="26">ONE LOG RULER, FOUR ORDERS OF MAGNITUDE OF TRADE SIZE</text>
+        <text class="crp4aL" x="30" y="50">Many traders, many habits: honest sizes spread smoothly across the decades</text>
+
+        <g filter="url(#crp4aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- top ruler: the 1-to-2 stretch of every decade, the thing the figure is about -->
+          <rect x="60" y="102" width="57" height="28" transform="rotate(-0.6 88 116)" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="250" y="102" width="57" height="28" transform="rotate(0.5 278 116)" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="440" y="102" width="57" height="28" transform="rotate(-0.4 468 116)" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="630" y="102" width="57" height="28" transform="rotate(0.6 658 116)" fill="#FBF3E2" stroke="#B7791F"/>
+          <!-- the 8-to-9 stretch of the first decade, for comparison -->
+          <rect x="232" y="102" width="10" height="28" fill="#FFFFFF" stroke-width="1.6"/>
+          <!-- ruler line and ticks: decade marks tall, 2..9 short, at log10(d) of 190 px -->
+          <path d="M60 130 L820 130"/>
+          <path d="M60 118 L60 142 M250 118 L250 142 M440 118 L440 142 M630 118 L630 142 M820 118 L820 142"/>
+          <path d="M117 124 L117 136 M151 124 L151 136 M174 124 L174 136 M193 124 L193 136 M208 124 L208 136 M221 124 L221 136 M232 124 L232 136 M241 124 L241 136" stroke-width="1.4"/>
+          <path d="M307 124 L307 136 M341 124 L341 136 M364 124 L364 136 M383 124 L383 136 M398 124 L398 136 M411 124 L411 136 M422 124 L422 136 M431 124 L431 136" stroke-width="1.4"/>
+          <path d="M497 124 L497 136 M531 124 L531 136 M554 124 L554 136 M573 124 L573 136 M588 124 L588 136 M601 124 L601 136 M612 124 L612 136 M621 124 L621 136" stroke-width="1.4"/>
+          <path d="M687 124 L687 136 M721 124 L721 136 M744 124 L744 136 M763 124 L763 136 M778 124 L778 136 M791 124 L791 136 M802 124 L802 136 M811 124 L811 136" stroke-width="1.4"/>
+          <!-- honest sizes: the data, smooth across the decades -->
+          <g fill="#5B2A86" stroke="none">
+            <circle cx="98" cy="84" r="3.5"/><circle cx="142" cy="76" r="3.5"/><circle cx="171" cy="90" r="3.5"/>
+            <circle cx="196" cy="72" r="3.5"/><circle cx="214" cy="86" r="3.5"/><circle cx="231" cy="78" r="3.5"/>
+            <circle cx="246" cy="92" r="3.5"/><circle cx="259" cy="70" r="3.5"/><circle cx="272" cy="84" r="3.5"/>
+            <circle cx="284" cy="76" r="3.5"/><circle cx="296" cy="90" r="3.5"/><circle cx="307" cy="72" r="3.5"/>
+            <circle cx="318" cy="86" r="3.5"/><circle cx="329" cy="78" r="3.5"/><circle cx="339" cy="92" r="3.5"/>
+            <circle cx="350" cy="70" r="3.5"/><circle cx="360" cy="84" r="3.5"/><circle cx="371" cy="76" r="3.5"/>
+            <circle cx="382" cy="90" r="3.5"/><circle cx="393" cy="72" r="3.5"/><circle cx="404" cy="86" r="3.5"/>
+            <circle cx="414" cy="78" r="3.5"/><circle cx="425" cy="92" r="3.5"/><circle cx="436" cy="70" r="3.5"/>
+            <circle cx="448" cy="84" r="3.5"/><circle cx="459" cy="76" r="3.5"/><circle cx="471" cy="90" r="3.5"/>
+            <circle cx="484" cy="72" r="3.5"/><circle cx="497" cy="86" r="3.5"/><circle cx="511" cy="78" r="3.5"/>
+            <circle cx="527" cy="92" r="3.5"/><circle cx="545" cy="74" r="3.5"/><circle cx="566" cy="86" r="3.5"/>
+            <circle cx="592" cy="78" r="3.5"/><circle cx="624" cy="90" r="3.5"/><circle cx="668" cy="80" r="3.5"/>
+          </g>
+          <!-- leaders from the two stretches to their notes -->
+          <path d="M237 146 L237 178" stroke="#9C7FBF" stroke-width="1.6"/>
+          <path d="M278 146 L278 178" stroke="#B7791F" stroke-width="1.6"/>
+
+          <!-- bottom ruler: one bot, seven round lots -->
+          <path d="M60 360 L820 360"/>
+          <path d="M60 360 L60 368 M250 360 L250 368 M440 360 L440 368 M630 360 L630 368 M820 360 L820 368"/>
+          <g fill="#5B2A86" stroke="none">
+            <!-- lot 1 -->
+            <circle cx="250" cy="352" r="3.5"/><circle cx="250" cy="343" r="3.5"/><circle cx="250" cy="334" r="3.5"/><circle cx="250" cy="325" r="3.5"/>
+            <!-- lot 2 -->
+            <circle cx="307" cy="352" r="3.5"/><circle cx="307" cy="343" r="3.5"/><circle cx="307" cy="334" r="3.5"/><circle cx="307" cy="325" r="3.5"/><circle cx="307" cy="316" r="3.5"/><circle cx="307" cy="307" r="3.5"/>
+            <!-- lot 5 -->
+            <circle cx="383" cy="352" r="3.5"/><circle cx="383" cy="343" r="3.5"/><circle cx="383" cy="334" r="3.5"/><circle cx="383" cy="325" r="3.5"/><circle cx="383" cy="316" r="3.5"/><circle cx="383" cy="307" r="3.5"/><circle cx="383" cy="298" r="3.5"/>
+            <!-- lot 10 -->
+            <circle cx="440" cy="352" r="3.5"/><circle cx="440" cy="343" r="3.5"/><circle cx="440" cy="334" r="3.5"/><circle cx="440" cy="325" r="3.5"/><circle cx="440" cy="316" r="3.5"/><circle cx="440" cy="307" r="3.5"/><circle cx="440" cy="298" r="3.5"/><circle cx="440" cy="289" r="3.5"/>
+            <!-- lot 20 -->
+            <circle cx="497" cy="352" r="3.5"/><circle cx="497" cy="343" r="3.5"/><circle cx="497" cy="334" r="3.5"/><circle cx="497" cy="325" r="3.5"/><circle cx="497" cy="316" r="3.5"/>
+            <!-- lot 50 -->
+            <circle cx="573" cy="352" r="3.5"/><circle cx="573" cy="343" r="3.5"/><circle cx="573" cy="334" r="3.5"/>
+            <!-- lot 100 -->
+            <circle cx="630" cy="352" r="3.5"/><circle cx="630" cy="343" r="3.5"/>
+          </g>
+        </g>
+
+        <text class="crp4aS" x="60" y="158" text-anchor="middle">0.1</text>
+        <text class="crp4aS" x="250" y="158" text-anchor="middle">1</text>
+        <text class="crp4aS" x="440" y="158" text-anchor="middle">10</text>
+        <text class="crp4aS" x="630" y="158" text-anchor="middle">100</text>
+        <text class="crp4aS" x="820" y="158" text-anchor="middle">1000</text>
+        <text class="crp4aS" x="60" y="198">8 to 9: 5.1 percent of each decade</text>
+        <text class="crp4aB" x="270" y="198">1 to 2: 30.1 percent of each decade</text>
+        <text class="crp4aS" x="30" y="220">A spread smooth across the decades lands in each stretch in proportion to its width. That is the law.</text>
+
+        <text class="crp4aL" x="30" y="258">One bot, one habit: a round-lot washer cycling seven lots</text>
+        <text class="crp4aS" x="60" y="296">every wash size is</text>
+        <text class="crp4aS" x="60" y="312">one of seven lots</text>
+        <text class="crp4aB" x="668" y="292">first digits: 1, 2 and 5 only</text>
+        <text class="crp4aS" x="668" y="310">1 and 2 already carry the</text>
+        <text class="crp4aS" x="668" y="326">law's two biggest shares</text>
+
+        <text class="crp4aS" x="60" y="388" text-anchor="middle">0.1</text>
+        <text class="crp4aA" x="250" y="388" text-anchor="middle">1</text>
+        <text class="crp4aA" x="307" y="388" text-anchor="middle">2</text>
+        <text class="crp4aA" x="383" y="388" text-anchor="middle">5</text>
+        <text class="crp4aA" x="440" y="388" text-anchor="middle">10</text>
+        <text class="crp4aA" x="497" y="388" text-anchor="middle">20</text>
+        <text class="crp4aA" x="573" y="388" text-anchor="middle">50</text>
+        <text class="crp4aA" x="630" y="388" text-anchor="middle">100</text>
+        <text class="crp4aS" x="820" y="388" text-anchor="middle">1000</text>
+
+        <text class="crp4aN" x="30" y="418">A mixture fills the ruler. A habit stacks on a few marks, two of them where the law already peaks.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - on a log ruler the stretch from 1 to 2 is far wider than 8 to 9, so a spread across decades starts with 1 far more often than with 9; a bot that stacks on seven marks breaks that, but only slowly</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The law, and where it came from<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The rule was proposed twice. Simon Newcomb published a short note on it in 1881, and Frank Benford published it again, with his own collection of examples, in 1938, which is why it carries his name. Both bibliographic records are reported here, not read: Newcomb, "Note on the frequency of use of the different digits in natural numbers", American Journal of Mathematics 4, 1881; Benford, "The law of anomalous numbers", Proceedings of the American Philosophical Society 78(4), 1938, which sits behind a paywall. The formula itself, and the nine shares, are read at source in Hill's text below and computed by the engine on this page.</p>
+        <p>The figure above shows the mechanism without any of the history. Put sizes on a log ruler, where every decade has the same width. Inside a decade, the stretch from 1 to 2 takes log10(2), or 30.1 percent, of the width; the stretch from 8 to 9 takes log10(9/8), or 5.1 percent. If sizes are spread smoothly across several decades, each stretch catches trades in proportion to its width, and the first digits come out as 30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1 and 4.6 percent. The law is a statement about widths on a log scale; the digits are just labels on the stretches.</p>
+        <p>The constructed tape's honest sizes are drawn to do exactly that: log-normal with a wide spread, so they run across several orders of magnitude, then rounded the way a person types a number, some to one significant digit, most to two or three. Nothing in the generator mentions Benford. Whether the tape conforms is something the page measures, not something it was told.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Why a mixture conforms and a habit does not<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Plenty of single distributions do not obey the law, which raised the obvious question of why real tables of numbers so often do. Theodore Hill answered it in 1995 ("A statistical derivation of the significant-digit law", Statistical Science 10(4); journal record reported, read at source as his 1996 preprint). His result: if distributions are picked at random and samples are taken from each, "the significant digits of the combined sample will converge to the logarithmic (Benford) distribution."</p>
+        <p>Read that as a description of a tape. Each trader is a distribution: one sizes in tenths, one in round tens, one in whatever is left in the account. A venue's tape is the combined sample, many draws from many of those distributions. Hill's theorem says that mixture lands on the law even when no individual trader's habit does. That is why a tape of many traders conforms.</p>
+        <p>It is also why a single bot does not. A wash bot is one distribution, not a mixture of many, and when it supplies a large share of the prints, the combined sample stops being a mixture of many habits and becomes mostly one habit. The round-lot bot in the lower half of the figure draws every size from seven lots, so its first digits are only ever 1, 2 or 5. A flat bot draws unrounded sizes evenly from one band of 2 to 20 units, so the digits that should be rare get as many trades as the digits that should be common. Both are a single habit; they break the law in different directions, and Part 2 shows that the direction decides how soon the test sees them.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Data that should not conform, and why it matters on a tape<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A failed first-digit test only means something if the data was expected to pass. Durtschi, Hillison and Pacini (2004, reported) list the kinds of data that should not conform: numbers that are assigned rather than chosen, such as invoice or ticket numbers; numbers confined to a bounded range; and data that does not span at least an order of magnitude. Forensic accountants learn this list before they learn the test, because running Benford on the wrong data produces confident nonsense.</p>
+        <p>Each item has a tape equivalent. A venue with a minimum and maximum order size close together publishes sizes in a bounded range. A venue that trades in fixed contract lots publishes assigned-looking sizes. And the most common trap is self-inflicted: filter a tape to trades between 10 and 20 units for some unrelated reason and almost every first digit becomes 1, honestly, by construction of the filter. Run the test on the venue's full published size column, after checking that it spans several decades, or do not run it.</p>
+        <p>Benford is one forensic test specific to a self-reported tape. General detectors for unusual values, z-scores, isolation forests and control charts, are a different family and live in <a href="https://phoebefu6.github.io/learn-anomaly-detection-with-phoebe/">learn-anomaly-detection-with-phoebe</a>.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers measuring conformity</span>
+      <h2>How close is close: MAD, chi-square and a line you calibrate</h2>
+      <span class="tag concept">13 min live</span>
+    </div>
+    <p class="lede">No real tape matches the law exactly; 3,000 trades are a sample, and samples wobble. The question is how far off is too far, and there are two standard ways to put a number on the distance. Harrowgate's honest Tape A gives first-digit counts of 831, 566, 366, 308, 234, 206, 192, 163 and 134, which is 27.7, 18.9, 12.2, 10.3, 7.8, 6.9, 6.4, 5.4 and 4.5 percent against the law's 30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1 and 4.6.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 526" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A hand-drawn bar chart of the constructed Tape A's first-digit shares for digits 1 to 9: 27.7, 18.9, 12.2, 10.3, 7.8, 6.9, 6.4, 5.4 and 4.5 percent, with Benford's expected curve drawn through 30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1 and 4.6 percent. The gap at digit 1 is 2.4 points under, at digit 2 is 1.3 over. The mean of the nine absolute gaps is the MAD, 0.0065, with chi-square 12.41 on 8 degrees of freedom. Below, a strip of the reported Nigrini bands: close to 0.006, acceptable to 0.012, marginal to 0.015, nonconformity above. Tape A's 0.0065 sits in acceptable, left of the calibrated k equals 2 firing line at 0.0105.">
+        <defs>
+          <filter id="crp4bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="43" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp4bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp4bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp4bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp4bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp4bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp4bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp4bV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp4bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp4bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp4bH" x="30" y="26">TAPE A, 3,000 TRADES: NINE OBSERVED SHARES AGAINST THE LAW</text>
+        <text class="crp4bA" x="30" y="50">share of trades, percent</text>
+
+        <g filter="url(#crp4bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- grid: 7.5 px per percent, base at y 300 -->
+          <path d="M84 75 L560 75" stroke="#E6DFEE" stroke-width="1.4"/>
+          <path d="M84 150 L790 150 M84 225 L790 225" stroke="#E6DFEE" stroke-width="1.4"/>
+          <path d="M84 300 L790 300"/>
+          <!-- observed bars: the data -->
+          <rect x="90" y="92" width="44" height="208" transform="rotate(-0.4 112 196)" fill="url(#crp4bHc)"/>
+          <rect x="170" y="158" width="44" height="142" transform="rotate(0.4 192 229)" fill="url(#crp4bHc)"/>
+          <rect x="250" y="208" width="44" height="92" transform="rotate(-0.3 272 254)" fill="url(#crp4bHc)"/>
+          <rect x="330" y="223" width="44" height="77" transform="rotate(0.3 352 262)" fill="url(#crp4bHc)"/>
+          <rect x="410" y="241" width="44" height="59" transform="rotate(-0.4 432 271)" fill="url(#crp4bHc)"/>
+          <rect x="490" y="248" width="44" height="52" transform="rotate(0.4 512 274)" fill="url(#crp4bHc)"/>
+          <rect x="570" y="252" width="44" height="48" transform="rotate(-0.3 592 276)" fill="url(#crp4bHc)"/>
+          <rect x="650" y="259" width="44" height="41" transform="rotate(0.3 672 280)" fill="url(#crp4bHc)"/>
+          <rect x="730" y="266" width="44" height="34" transform="rotate(-0.4 752 283)" fill="url(#crp4bHc)"/>
+          <!-- the gaps: the thing the figure is about -->
+          <path d="M112 74 L112 92 M192 158 L192 168 M352 223 L352 227 M592 252 L592 256" stroke="#B7791F" stroke-width="3.2"/>
+          <!-- Benford's curve -->
+          <path d="M112 74 L192 168 L272 206 L352 227 L432 241 L512 250 L592 256 L672 262 L752 266" stroke="#3A1A58"/>
+          <g fill="#FFFFFF" stroke="#3A1A58">
+            <circle cx="112" cy="74" r="4"/><circle cx="192" cy="168" r="4"/><circle cx="272" cy="206" r="4"/>
+            <circle cx="352" cy="227" r="4"/><circle cx="432" cy="241" r="4"/><circle cx="512" cy="250" r="4"/>
+            <circle cx="592" cy="256" r="4"/><circle cx="672" cy="262" r="4"/><circle cx="752" cy="266" r="4"/>
+          </g>
+          <!-- legend swatches -->
+          <rect x="600" y="50" width="18" height="12" fill="url(#crp4bHc)" stroke-width="1.6"/>
+          <path d="M600 80 L618 80" stroke="#3A1A58"/>
+          <circle cx="609" cy="80" r="3.5" fill="#FFFFFF" stroke="#3A1A58"/>
+          <path d="M609 96 L609 108" stroke="#B7791F" stroke-width="3.2"/>
+
+          <!-- the reported Nigrini bands, 38 px per 0.001 from x 60 -->
+          <rect x="60" y="422" width="228" height="20" fill="#FFFFFF" stroke-width="1.6"/>
+          <rect x="288" y="422" width="228" height="20" fill="#F4EFF9" stroke-width="1.6"/>
+          <rect x="516" y="422" width="114" height="20" fill="#D3C3E6" stroke-width="1.6"/>
+          <rect x="630" y="422" width="190" height="20" fill="url(#crp4bHc)" stroke-width="1.6"/>
+          <path d="M307 416 L307 446" stroke="#B7791F" stroke-width="3.6"/>
+          <path d="M459 416 L459 446" stroke-dasharray="4 4"/>
+        </g>
+
+        <text class="crp4bS" x="76" y="79" text-anchor="end">30</text>
+        <text class="crp4bS" x="76" y="154" text-anchor="end">20</text>
+        <text class="crp4bS" x="76" y="229" text-anchor="end">10</text>
+        <text class="crp4bS" x="76" y="304" text-anchor="end">0</text>
+
+        <text class="crp4bB" x="142" y="100">2.4 under</text>
+        <text class="crp4bB" x="200" y="140">1.3 over</text>
+
+        <text class="crp4bS" x="626" y="61">observed, Tape A</text>
+        <text class="crp4bS" x="626" y="84">Benford, log10(1 + 1/d)</text>
+        <text class="crp4bS" x="626" y="106">the gap, digit by digit</text>
+
+        <text class="crp4bL" x="112" y="320" text-anchor="middle">1</text>
+        <text class="crp4bL" x="192" y="320" text-anchor="middle">2</text>
+        <text class="crp4bL" x="272" y="320" text-anchor="middle">3</text>
+        <text class="crp4bL" x="352" y="320" text-anchor="middle">4</text>
+        <text class="crp4bL" x="432" y="320" text-anchor="middle">5</text>
+        <text class="crp4bL" x="512" y="320" text-anchor="middle">6</text>
+        <text class="crp4bL" x="592" y="320" text-anchor="middle">7</text>
+        <text class="crp4bL" x="672" y="320" text-anchor="middle">8</text>
+        <text class="crp4bL" x="752" y="320" text-anchor="middle">9</text>
+        <text class="crp4bA" x="90" y="340">first significant digit of trade size</text>
+
+        <text class="crp4bS" x="30" y="364">Each marigold gap is observed minus expected for one digit. Average the nine, ignoring sign:</text>
+        <text class="crp4bL" x="30" y="384">MAD = mean of the nine absolute gaps = 0.0065, and chi-square = 12.41 on 8 degrees of freedom</text>
+
+        <text class="crp4bA" x="30" y="408">THE REPORTED NIGRINI BANDS FOR FIRST DIGITS (WORDING DIFFERS BETWEEN SOURCES)</text>
+        <text class="crp4bS" x="68" y="468">close, up to 0.006</text>
+        <text class="crp4bS" x="296" y="468">acceptable, to 0.012</text>
+        <text class="crp4bS" x="524" y="468">marginal, to 0.015</text>
+        <text class="crp4bS" x="638" y="468">nonconformity, above</text>
+        <text class="crp4bB" x="307" y="488" text-anchor="middle">Tape A, 0.0065</text>
+        <text class="crp4bS" x="459" y="488" text-anchor="middle">k = 2 fires above 0.0105</text>
+
+        <text class="crp4bN" x="30" y="512">Inside the band says the digits look like a mixture. It does not say who traded.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the honest tape is 2.4 points light on digit 1 and the other eight gaps are small; their average is the MAD, 0.0065, inside the reported acceptable band and left of the calibrated line</figcaption>
+    </figure>
+
+    <div class="wk" id="crp4-benford">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">The constructed tape and its first-digit test, running in this page. Pick a tape, then plant a wash bot and choose how much of the reported volume it supplies. Nothing here is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="crp4-seed">Which constructed tape</label>
+        <select class="sql-code" id="crp4-seed">
+          <option value="11">Tape A</option>
+          <option value="101">Tape B</option>
+          <option value="2024">Tape C</option>
+          <option value="7">Tape D</option>
+          <option value="55555">Tape E</option>
+        </select>
+        <label class="sql-label" for="crp4-style">What the wash bot does with sizes</label>
+        <select class="sql-code" id="crp4-style">
+          <option value="round">Round lots: 1, 2, 5, 10, 20, 50 or 100 units</option>
+          <option value="flat">Flat: unrounded sizes from one band, 2 to 20 units</option>
+          <option value="copy">Copy: samples the honest size distribution</option>
+        </select>
+        <label class="sql-label" for="crp4-share">Wash share of reported volume</label>
+        <select class="sql-code" id="crp4-share">
+          <option value="0">0 percent, honest</option>
+          <option value="10">10 percent</option>
+          <option value="30">30 percent</option>
+          <option value="50">50 percent</option>
+          <option value="70">70 percent</option>
+        </select>
+        <div id="crp4-out"></div>
+        <p class="sql-note" id="crp4-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="crp4-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Two measures of the same gap<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p><strong>MAD</strong> is the plain one. For each digit, take observed share minus expected share, drop the sign, and average the nine. On Tape A the biggest gap is digit 1, 2.4 points under the law; digit 2 is 1.3 over; the other seven are smaller. The average is 0.0065. Because it is built from shares, MAD does not care whether the tape has 3,000 trades or 3 million; it answers "how far is the shape from the law".</p>
+        <p><strong>Chi-square</strong> sums, over the nine digits, the squared gap between observed and expected count divided by the expected count. On Tape A it is 12.41 on 8 degrees of freedom. It answers a different question, "could a sample this size have wobbled this far by chance", and that question depends on the size: the formula is the number of trades times a weighted sum of squared share gaps, so the same shape on a tape twice as long gives twice the chi-square. On a large tape, a shape that is close enough for any practical purpose will still produce a tiny p-value. Report both, and judge with the one that answers your question.</p>
+        <p>For MAD, the reported Nigrini bands for first digits are 0.006, 0.012 and 0.015: close conformity below 0.006, acceptable to 0.012, marginal to 0.015, nonconformity above. They come from Nigrini's forensic accounting text (Wiley, 2012), reported through secondary sources whose boundary wording differs, so quote them as "the reported Nigrini bands" and never as a standard. Tape A's 0.0065 is acceptable, just over the close line.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Calibrate the line on venues you trust<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Published bands were set on accounting data. A tape is not a ledger, and the honest wobble of a 3,000-trade day is a property of your data, not of anyone's textbook. So the bench measures it. Forty honest constructed venues give a mean MAD of 0.00797 with a standard deviation of 0.00125. A detector that fires at two standard deviations above the honest mean, k = 2, fires above 0.0105. The widget computes that line on load and prints it beside the reading.</p>
+        <p>Notice that the honest mean, 0.00797, already sits inside the reported "acceptable" band, not "close". A fixed threshold at the close line would complain about most honest tapes on this bench; the calibrated line does not. Session 7 measures what the calibrated line costs in false alarms on 200 fresh honest venues, which is the number that tells you what a flag is worth.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Cong, Li, Tang and Yang, "Crypto Wash Trading" (working paper read at source; published version in Management Science, reported), ran a first-significant-digit test against Benford's law as one of three tests on 29 venues' tapes from July to November 2019, beside round-size clustering and the tail of the size distribution. The authors report that their Benford-based estimates "are significantly lower" than their main ones and treat them as "somewhat lower bounds". On real tapes, as on this bench, the first-digit test is the cautious one of the three.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>The naive bot is the last thing Benford sees<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Plant the round-lot washer and watch the counts in the widget: only the columns for digits 1, 2 and 5 grow. The other six are the honest tape, untouched, because every wash size is 1, 2, 5, 10, 20, 50 or 100 units. And on Tape A, digit 1 starts 2.4 points under the law, so the first round lots added to it move that column toward the curve, not away.</p>
+        <p>The bench's detection floor, run on Tape A's partner venue in one-percent steps, shows the consequence. At 2 percent round-lot wash the roundness and clustering tests already fire (round share 32.9 percent, cluster share 14.9 percent) while the MAD reads 0.0064, silent. The MAD only crosses the 0.0105 line at 5 percent, reading 0.0107. On the same venue's ladder the MAD goes 0.0062, 0.0193, 0.0507, 0.0699 and 0.0842 at 0, 10, 30, 50 and 70 percent wash, so once the bot is large it is unmistakable. It is the order of firing that matters: of the three tests, first-digit deviation is the last to see a round-lot bot.</p>
+        <p>The flat bot moves every digit column, so its MAD climbs steadily: 0.0131 at 10 percent on the partner venue. Even so it is not the first test to catch that bot; at the default sensitivity the roundness test fires at 2 percent, clustering at 4 and the MAD only at 8 (session 7 has the floor). The first-digit test is the slowest of the three on both bots. The copy bot, which samples the honest size distribution, never moves the MAD outside the honest band at any share up to 70 percent. That is not a defect of the test; a bot that copies the mixture is a mixture, and the size column has nothing left to read. The matched buy-and-sell pairs are still on the tape, and session 7 measures exactly this limit.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>One camp uses fixed, published thresholds. Their case: a threshold everyone uses makes results comparable across teams and audits, cannot be tuned after the fact to reach a convenient answer, and carries the authority of a long forensic literature. When a regulator or an auditor asks why a tape was flagged, "it exceeded the reported Nigrini nonconformity line" is an answer anyone can check.</p>
+        <p>The other camp calibrates on its own honest population, as the bench does. Their case: the bands were set on a different kind of data, the honest spread of a tape depends on its length and its traders, and a threshold that misfires on most honest venues teaches people to ignore it. The calibration has to be done before any suspect tape is examined, on venues chosen for a stated reason, or it becomes the tuning the first camp fears.</p>
+        <p>Both camps agree that a first-digit result is a screen. Neither would publish a wash estimate from a MAD alone, and the published study above uses it as one of three tests for exactly that reason.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>Run the first-digit test on a size column, honestly</h2>
+      <span class="tag build">15 min hands on</span>
+    </div>
+    <p class="lede">Six steps with pandas and scipy on any tape you have as a CSV with sizes stored as integer micro-units, as Harrowgate stores them since session 1. The comments quote what the constructed Tape A gives; your numbers will differ on any other tape, which is the point. Run the code in a scratch folder, never where the outputs could land in a repository.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Load the size column and check it can be tested</h4>
+        <p>Integer sizes, all positive, and a spread across several decades. Data that does not span at least an order of magnitude should not conform, so if the column is that narrow, stop here: the law has nothing to say about it.</p>
+        <div class="prompt-box good"><span class="label">python · is this column testable</span>import numpy as np, pandas as pd
+tape = pd.read_csv("tape.csv")                 # columns: t, side, size_u, px
+sizes = tape["size_u"]                          # integer micro-units: 0.223 units is 223000
+assert sizes.dtype.kind == "i" and (sizes &gt; 0).all()
+decades = np.log10(sizes.max() / sizes.min())
+print(len(sizes), "trades,", round(decades, 1), "decades")   # want several, never under 1</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Take the first significant digit with integer arithmetic</h4>
+        <p>No floating-point log for the digit itself: a float can turn 1000 into 999.9999 and report a 9. On an integer, the first character of its decimal string is the first significant digit, exactly.</p>
+        <div class="prompt-box good"><span class="label">python · first digit, exact</span>first = sizes.astype(str).str[0].astype(int)     # 223000 -&gt; 2, 1000000 -&gt; 1
+counts = first.value_counts().reindex(range(1, 10), fill_value=0)
+print(counts.tolist())    # Tape A: [831, 566, 366, 308, 234, 206, 192, 163, 134]</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Shares against the law, digit by digit</h4>
+        <p>The law is the only logarithm on the page. Print the gap column; it is the thing every later number summarises.</p>
+        <div class="prompt-box good"><span class="label">python · observed, expected, gap</span>digits = np.arange(1, 10)
+expected = np.log10(1 + 1 / digits)              # 0.301, 0.176, 0.125, ... 0.046
+observed = counts.to_numpy() / counts.sum()
+table = pd.DataFrame({"observed": observed, "benford": expected,
+                      "gap_points": (observed - expected) * 100}, index=digits)
+print(table.round(3))     # Tape A: digit 1 is 2.4 points under, digit 2 is 1.3 over</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>MAD, chi-square and the reported band, as one function</h4>
+        <p>Wrap it so the calibration and the suspect tape run through exactly the same code.</p>
+        <div class="prompt-box good"><span class="label">python · one reading</span>from scipy.stats import chisquare
+
+def benford_reading(sizes):
+    c = sizes.astype(str).str[0].astype(int).value_counts().reindex(range(1, 10), fill_value=0)
+    obs = c.to_numpy() / c.sum()
+    mad = np.abs(obs - expected).mean()
+    chi2, p = chisquare(c.to_numpy(), f_exp=expected * c.sum())
+    return {"counts": c.tolist(), "mad": mad, "chi2": chi2, "p": p}
+
+def reported_band(mad):   # the reported Nigrini first-digit bands; wording differs by source
+    return ("close" if mad &lt;= 0.006 else "acceptable" if mad &lt;= 0.012
+            else "marginal" if mad &lt;= 0.015 else "nonconformity")
+
+r = benford_reading(sizes)
+print(round(r["mad"], 4), round(r["chi2"], 2), reported_band(r["mad"]))  # Tape A: 0.0065 12.41 acceptable</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Calibrate the line on tapes you trust, before you look at the suspect</h4>
+        <p>Use as many honest tapes of the same length as you can justify, chosen for a reason you write down. The bench used 40. Population standard deviation, k = 2.</p>
+        <div class="prompt-box good"><span class="label">python · the honest line</span>honest = [benford_reading(pd.read_csv(f)["size_u"])["mad"] for f in honest_files]
+mu, sd = np.mean(honest), np.std(honest)         # population sd, as the bench uses
+fire_above = mu + 2 * sd
+print(round(mu, 5), round(sd, 5), round(fire_above, 4))
+# constructed bench, 40 honest venues: 0.00797 0.00125 0.0105</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Now the suspect, and read the counts before the verdict</h4>
+        <p>A single MAD is a summary. The counts say which digits moved, and that is what tells a round-lot bot from a flat one.</p>
+        <div class="prompt-box good"><span class="label">python · the suspect tape</span>s = benford_reading(pd.read_csv("suspect.csv")["size_u"])
+print(round(s["mad"], 4), "fires" if s["mad"] &gt; fire_above else "silent", reported_band(s["mad"]))
+moved = np.array(s["counts"]) / sum(s["counts"]) - np.array(r["counts"]) / sum(r["counts"])
+print(dict(zip(range(1, 10), (moved * 100).round(1))))   # a round-lot bot moves only 1, 2 and 5</div>
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> Check the column spans decades before you test it. Calibrate the line on honest tapes before you look at the suspect one. Read the nine counts, not just the MAD. And never write "conforms, therefore honest": a silent first-digit test means the sizes look like a mixture, and a round-lot bot at 2 percent and a copy bot at 70 percent both look like one.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">Why does a tape of many independent traders tend to conform to the first-digit law?</p>
+      <div class="qopt">A · Because every trader's sizes are individually log-normal and spread across many decades</div>
+      <div class="qopt">B · Because the tape is a combined sample drawn from many different distributions, and Hill showed the significant digits of such a mixture converge to the logarithmic law</div>
+      <div class="qopt">C · Because venues round published sizes to one significant digit before reporting them</div>
+      <q class="qwhy">Hill's result does not need any single trader to follow the law; it needs many distributions, picked without bias, sampled and combined. A tape of many habits is that combination. A single bot is one distribution, which is why a large wash share breaks the mixture.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">On the bench, roundness and clustering flag a round-lot washer at 2 percent of reported volume, but the MAD only crosses its line at 5 percent. Why is the first-digit test the last to fire?</p>
+      <div class="qopt">A · Because wash trades come in matched buy and sell pairs, and the pairs cancel out in the first-digit counts</div>
+      <div class="qopt">B · Because chi-square, not MAD, is the right measure for small wash shares</div>
+      <div class="qopt">C · Because the round lots start only with 1, 2 and 5, digits the law already gives large shares, so early wash adds to columns the law expects to be big, and on Tape A digit 1 even starts below the curve</div>
+      <q class="qwhy">Every round lot is 1, 2, 5, 10, 20, 50 or 100 units. Six of the nine digit columns never move, and the three that do are where the law already peaks, so the shape drifts slowly. Pairs do not cancel; both legs add to the same digit. A flat bot moves every column, so its MAD climbs faster, but even there the roundness test fires first.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">A venue's tape reads a MAD inside the reported acceptable band and under the calibrated line. What does that establish?</p>
+      <div class="qopt">A · That its size column looks like a mixture of many habits, and nothing more: a copy bot that samples the honest distribution stays inside the band even at 70 percent wash</div>
+      <div class="qopt">B · That at most 1.5 percent of its reported volume is wash</div>
+      <div class="qopt">C · That the venue's reported volume can be used to weight an index without screening</div>
+      <q class="qwhy">A silent first-digit test is a statement about the shape of the size column. It is not a wash estimate, it says nothing about a bot that copies honest sizes, and it does not replace the venue screening that index rulebooks apply before any weight is computed.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 5</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">About forty minutes, on any size or amount column your team owns.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Pick a column and decide whether it should conform</h4>
+        <p>Trade sizes, payment amounts, invoice totals. Count the decades it spans and check it against the list of data that should not conform. Write down your prediction before you compute anything.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Run steps 2 to 4 and read the nine counts</h4>
+        <p>Note the MAD, the chi-square and the reported band, then find the digit with the largest gap and explain it in one sentence. Session 5 adds roundness and clustering, the two tests that fired first on the round-lot bot; bring your top five most frequent values to compare.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The first-digit law</span><span class="note">P(d) = log10(1 + 1/d), the nine shares, drawn as widths on a log ruler; Newcomb 1881 and Benford 1938 reported.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Why mixtures conform</span><span class="note">Hill's derivation, read at source as the 1996 preprint: many traders conform, one bot does not.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Data that should not conform</span><span class="note">Assigned numbers, bounded ranges, under an order of magnitude; Durtschi, Hillison and Pacini 2004 reported.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">MAD and chi-square</span><span class="note">Tape A MAD 0.0065, chi-square 12.41 on 8 degrees of freedom; why only chi-square grows with the tape.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The reported Nigrini bands and a calibrated line</span><span class="note">0.006 / 0.012 / 0.015 reported; 40 honest venues, mean 0.00797, sd 0.00125, k = 2 fires above 0.0105.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The order of firing</span><span class="note">Last of the three on a round-lot bot (0.0064 silent at 2 percent, 0.0107 at 5) and on a flat bot (8 percent), never on a copy bot.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Roundness and clustering</span><span class="note">Named tonight. Session 5 builds both tests and the direction the published study found.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">General detectors</span><span class="note">Z-scores, isolation forests and control charts live in <a href="https://phoebefu6.github.io/learn-anomaly-detection-with-phoebe/">learn-anomaly-detection-with-phoebe</a>.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Second-digit and multi-digit tests</span><span class="note">Not taught; the first digit is the test the published study used.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Anything to do with buying, selling or holding</span><span class="note">Out of scope. No real price, asset or venue appears and nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>Benford's law on reported volume <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>The law.</strong> P(d) = log10(1 + 1/d): 30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6 percent for 1 to 9.</div>
+      <div class="cheat-item"><strong>Why it holds.</strong> On a log ruler 1 to 2 is 30.1 percent of every decade. A mixture of many habits spread across decades fills it in proportion (Hill).</div>
+      <div class="cheat-item"><strong>Check first.</strong> The column must span several decades and be chosen, not assigned or bounded. Never test a filtered slice.</div>
+      <div class="cheat-item"><strong>MAD.</strong> Mean of nine absolute share gaps. Independent of tape length. Tape A: 0.0065.</div>
+      <div class="cheat-item"><strong>Chi-square.</strong> On 8 degrees of freedom; grows with the number of trades. Tape A: 12.41. Report it, judge with care on long tapes.</div>
+      <div class="cheat-item"><strong>The bands.</strong> Reported Nigrini 0.006 / 0.012 / 0.015. Calibrated on 40 honest venues instead: k = 2 fires above 0.0105.</div>
+      <div class="cheat-item"><strong>Order of firing.</strong> Last of the three on both bots (round lots keep digits 1, 2, 5; the flat bot is caught by roundness first), never on a copy bot.</div>
+      <div class="cheat-item"><strong>What silence means.</strong> The sizes look like a mixture. Not that the volume is real, and never a wash estimate.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Practitioner session 5, round sizes and clustered sizes. The two tests that caught the round-lot bot before Benford did: Tape A's round share is 29.0 percent and its top five sizes hold 11.5 percent of trades, and the published study found the anomaly on unregulated venues in the opposite direction from the one a naive bot produces.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Practitioner session 4 of 10 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="p3-reconciling-venues-into-an-index.html">← Prev: Practitioner session 3 · Reconciling venues into an index</a>
+        <a href="p5-round-sizes-and-clustered-sizes.html">Next: Practitioner session 5 · Round sizes and clustered sizes →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var seedSel = document.getElementById("crp4-seed");
+  var styleSel = document.getElementById("crp4-style");
+  var shareSel = document.getElementById("crp4-share");
+  var out = document.getElementById("crp4-out");
+  var verdict = document.getElementById("crp4-verdict");
+  var self = document.getElementById("crp4-self");
+
+  function comma(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+  function pct(x) { return (x * 100).toFixed(1); }
+  function band(m) {
+    if (m <= 0.006) return "close";
+    if (m <= 0.012) return "acceptable";
+    if (m <= 0.015) return "marginal";
+    return "nonconformity";
+  }
+
+  /* the honest line, measured once on 40 honest venues before any washed tape is read */
+  var cal = CM.calibrate();
+  var fire = cal.mean.mad + 2 * cal.sd.mad;
+
+  function render() {
+    var s = Number(seedSel.value);
+    var w = Number(shareSel.value) / 100;
+    var style = styleSel.value;
+    var name = seedSel.options[seedSel.selectedIndex].text;
+    var tape = CM.makeTape({ seed: s, washShare: w, washStyle: style });
+    var r = CM.readings(CM.sizesOf(tape));
+    var b = r.benford;
+
+    var top = 0, i;
+    for (i = 0; i < 9; i++) top = Math.max(top, b.obs[i], b.expected[i]);
+    var scale = Math.ceil(top * 1.1 * 20) / 20;
+
+    var html = '<div class="crp4-chart" role="img" aria-label="Nine observed first-digit shares as bars against Benford\'s expected share as a marigold line">';
+    for (i = 0; i < 9; i++) {
+      html += '<div class="crp4-cell"><div class="crp4-col">'
+        + '<div class="crp4-obs" style="height:' + (b.obs[i] / scale * 100).toFixed(2) + '%"></div>'
+        + '<div class="crp4-exp" style="bottom:' + (b.expected[i] / scale * 100).toFixed(2) + '%"></div>'
+        + '</div><div class="crp4-dig">' + (i + 1) + '</div><div class="crp4-pct">' + pct(b.obs[i]) + '</div></div>';
+    }
+    html += "</div>";
+    html += '<p class="crp4-key"><span><i class="crp4-sw crp4-sw-obs"></i>observed share</span><span><i class="crp4-sw crp4-sw-exp"></i>Benford\'s expected share</span><span>scale 0 to ' + Math.round(scale * 100) + ' percent</span></p>';
+
+    html += '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>First digit</th><th>Trades</th><th>Observed</th><th>Benford</th><th>Gap, points</th></tr></thead><tbody>';
+    for (i = 0; i < 9; i++) {
+      var gap = (b.obs[i] - b.expected[i]) * 100;
+      html += "<tr><td>" + (i + 1) + "</td><td>" + comma(b.counts[i]) + "</td><td>" + pct(b.obs[i]) + "%</td><td>" + pct(b.expected[i]) + "%</td><td>" + (gap >= 0 ? "+" : "") + gap.toFixed(2) + "</td></tr>";
+    }
+    html += "</tbody></table></div>";
+
+    var fires = b.mad > fire;
+    html += '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>Reading</th><th>Value</th><th>How to read it</th></tr></thead><tbody>';
+    html += "<tr><td>Trades on the tape</td><td>" + comma(tape.trades.length) + "</td><td>" + comma(tape.honest) + " honest, " + comma(tape.pairs) + " wash pairs</td></tr>";
+    html += "<tr><td>MAD</td><td><b" + (fires ? ' class="crp4-fire"' : "") + ">" + b.mad.toFixed(4) + "</b></td><td>mean of the nine absolute gaps</td></tr>";
+    html += "<tr><td>Chi-square, 8 degrees of freedom</td><td>" + b.chi2.toFixed(2) + "</td><td>grows with the number of trades</td></tr>";
+    html += "<tr><td>Reported Nigrini band</td><td>" + band(b.mad) + "</td><td>0.006 / 0.012 / 0.015, reported</td></tr>";
+    html += "<tr><td>Calibrated line, k = 2</td><td>" + fire.toFixed(4) + "</td><td>40 honest venues: mean " + cal.mean.mad.toFixed(5) + ", sd " + cal.sd.mad.toFixed(5) + "</td></tr>";
+    html += "<tr><td>First-digit test</td><td><b" + (fires ? ' class="crp4-fire"' : "") + ">" + (fires ? "fires" : "silent") + "</b></td><td>" + (fires ? "above the honest line" : "inside the honest line") + "</td></tr>";
+    html += "</tbody></table></div>";
+    out.innerHTML = html;
+
+    var msg;
+    if (w === 0) {
+      msg = name + " is honest by construction, many simulated habits mixed together. MAD " + b.mad.toFixed(4) + " is in the reported \"" + band(b.mad) + "\" band and "
+        + (fires ? "above" : "under") + " the calibrated line of " + fire.toFixed(4) + ", chi-square " + b.chi2.toFixed(2) + " on 8 degrees of freedom. The bot choice does nothing until a wash share is set.";
+    } else if (style === "round") {
+      msg = "At " + (w * 100) + " percent round-lot wash, MAD " + b.mad.toFixed(4) + (fires ? " is above" : " is under") + " the line of " + fire.toFixed(4)
+        + ". Look at the counts: only digits 1, 2 and 5 moved. The other six columns are the honest tape, unchanged, because every round lot starts with 1, 2 or 5.";
+    } else if (style === "flat") {
+      msg = "At " + (w * 100) + " percent flat-bot wash, MAD " + b.mad.toFixed(4) + (fires ? " is above" : " is under") + " the line of " + fire.toFixed(4)
+        + ". The flat bot spreads its sizes evenly over one band of 2 to 20 units, so digits 2 to 9 gain trades at the same rate whether the law expects them to be common or rare, and every column moves.";
+    } else {
+      msg = "At " + (w * 100) + " percent copy-bot wash, MAD " + b.mad.toFixed(4) + (fires ? " is above" : " is under") + " the line of " + fire.toFixed(4)
+        + ". A bot that samples the honest size distribution adds more of the same mixture, so the first digits have nothing to show. The matched pairs are on the tape, unread by this test.";
+    }
+    verdict.textContent = msg;
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, including an honest tape conforming with MAD under 0.012, so the counts above are the counts any correct run gives. The line was measured on 40 honest venues when the page loaded. The tapes are constructed; nothing here is a real market."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  seedSel.addEventListener("change", render);
+  styleSel.addEventListener("change", render);
+  shareSel.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #crp4-benford .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 24rem; }
+  #crp4-benford table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #crp4-benford .crp4-fire { color: var(--amber-ink-text); }
+  #crp4-benford .crp4-chart { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: .35rem; margin: .9rem 0 .3rem; padding: .7rem .5rem .3rem; background: var(--paper); border: 1px solid var(--hairline); border-radius: 10px; }
+  #crp4-benford .crp4-col { position: relative; height: 150px; border-bottom: 2px solid var(--ink); }
+  #crp4-benford .crp4-obs { position: absolute; left: 18%; right: 18%; bottom: 0; background: var(--indigo-soft); border: 1.5px solid var(--indigo); border-bottom: none; border-radius: 4px 4px 0 0; }
+  #crp4-benford .crp4-exp { position: absolute; left: 2%; right: 2%; height: 0; border-top: 3px solid var(--amber); }
+  #crp4-benford .crp4-dig { text-align: center; font-weight: 800; font-size: .85rem; color: var(--ink); line-height: 1.6; }
+  #crp4-benford .crp4-pct { text-align: center; font-size: .7rem; color: var(--muted); line-height: 1.3; }
+  #crp4-benford .crp4-key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; font-size: .75rem; color: var(--muted); margin: .2rem 0 .4rem; }
+  #crp4-benford .crp4-sw { display: inline-block; width: .9rem; height: .6rem; margin-right: .35rem; vertical-align: middle; }
+  #crp4-benford .crp4-sw-obs { background: var(--indigo-soft); border: 1.5px solid var(--indigo); }
+  #crp4-benford .crp4-sw-exp { height: 0; border-top: 3px solid var(--amber); }
+</style>
+</body>
+</html>

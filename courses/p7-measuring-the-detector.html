@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Practitioner session 7 of 10. A detector is a number plus its false-positive rate plus its floor. Calibrate three forensic detectors on 40 honest constructed venues, count how often they flag 200 fresh honest ones, find the smallest washer they can see, and meet the one they never see.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Measuring the detector - learn crypto with phoebe">
+<meta property="og:description" content="Practitioner session 7 of 10. 3 of 200 honest venues flagged at k=2, a floor of 2 percent for one bot and 4 for another, and a careful bot that no size test will ever see.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/p7-measuring-the-detector.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Measuring the detector - learn crypto with phoebe">
+<meta name="twitter:description" content="Calibrate on honest venues, print the false-positive rate, find the floor. 0 of 200 is a ceiling, not a promise.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Practitioner session 7 · Measuring the detector - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Practitioner session 7 of 10</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Practitioner session 7 of 10</div>
+    <h1>Measuring the <span class="accent">detector</span></h1>
+    <p class="sub">Three sessions built three forensic readings of a size column: the first-digit deviation, the round share and the cluster share. Session 6 planted a declared washer so there is finally something to mark them against. Tonight is the part most teams skip. Before a detector says anything about a suspect venue, it has to say three things about itself: the band it judges against, measured on honest venues only; how often that band flags an honest venue it has never seen; and the smallest washer it can actually catch. On Harrowgate's constructed bench the answers are a band from 40 honest venues, 3 of 200 fresh honest venues flagged at the default sensitivity, a floor of 2 percent of reported volume for one bot and 4 percent for another, and one careful bot that no size test will ever see.</p>
+    <div class="chip-row">
+      <span class="chip level">🔧 Practitioner track</span>
+      <span class="chip audience">Analysts who run the detectors</span>
+      <span class="chip audience">Data leads who sign off on a flag</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-17 · Calibrate on honest</span>
+      <span class="a3" style="flex:3">17-30 · False positives and the floor</span>
+      <span class="a4" style="flex:4">30-45 · Build-along and Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate has three detectors and no idea how often they cry wolf</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm, and it now owns three forensic detectors and a declared wash trader to test them on. The temptation is to point the detectors at the venue table and start flagging. The trouble is that nobody can yet answer the first question a reviewer will ask about any flag: how often does this thing fire on a venue that is doing nothing wrong? A detector that cannot answer that is not a detector, it is an opinion with a threshold. So tonight the detectors are measured before they are used, on the same constructed engine as every other bench, with every number computed in the page.</p>
+
+    <div class="legend">
+      <span class="pill">Live = worked through in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> A detector stated as three numbers instead of one: the reading, the false-positive rate measured on honest venues it never saw, and the floor below which it is blind. A calibration pipeline with a wall in it, so the target never shapes its own band. The false-positive table at four sensitivities, printed live: 1.5 percent at k=2, and the honest reading of "0 of 200" above it. The detection floor for two bots, and the surprise that the first-digit test is the last of the three to fire on both. And the copy bot, which no size test catches at any share up to 70 percent, stated as the limit it is.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>A detector is three numbers, not one<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p><strong>The reading</strong> is what the detector computes on a venue: a first-digit deviation of 0.0193, a round share of 44.9 percent. On its own it means nothing, because nobody knows what an honest venue reads.</p>
+        <p><strong>The false-positive rate</strong> is how often the detector's rule flags a venue that is honest. It has to be measured on honest venues the band was not fitted on, and it has to be printed beside every flag, because a reviewer weighing a flag needs to know how cheap a flag is.</p>
+        <p><strong>The floor</strong> is the smallest planted washer the rule catches. Below it the detector is silent, and silence below the floor is not evidence of honesty. A detector without a stated floor invites the reading "we checked and it was clean" when the truth is "we checked with something that cannot see that small".</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Cong, Li, Tang and Yang, "Crypto Wash Trading" (NBER working paper w30783, read at source), do the same thing at research scale: they estimate the benchmark relation between round and unrounded volume on the regulated venues in their 2019 sample, and only then measure the unregulated venues against it. They also state their bounds out loud: their Benford-based estimates are significantly lower and are offered as somewhat lower bounds, and if genuine algorithmic trading inflates unrounded volume, their roundness estimates should be read more as upper bounds. That is a published estimate carrying its own floor and ceiling, which is the standard tonight sets for a detector.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Calibration set.</strong> The honest venues the band is fitted on: 40 constructed tapes, seeds 1001 to 1040. Nothing washed ever enters it.</li>
+          <li><strong>k.</strong> The sensitivity, in honest standard deviations. A reading fires when it sits more than k spreads from the honest mean.</li>
+          <li><strong>Band.</strong> The range a reading may take without firing. One-sided for the first-digit deviation, two-sided for roundness and clustering.</li>
+          <li><strong>Fires.</strong> One detector's reading left its band.</li>
+          <li><strong>Flagged.</strong> At least two of the three detectors fired on the same venue. The majority rule is the verdict.</li>
+          <li><strong>False-positive rate.</strong> The share of fresh honest venues flagged: 200 constructed tapes, seeds 2001 to 2200, never used for calibration.</li>
+          <li><strong>Floor.</strong> The smallest declared wash share, in one-percent steps, at which the rule flags the planted venue.</li>
+          <li><strong>Ceiling statement.</strong> What "0 of 200" really says: none were seen in 200 trials, so the rate is probably small, and 200 trials cannot say how small.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers calibration and the band</span>
+      <h2>Calibrate on honest venues, never on the target</h2>
+      <span class="tag concept">14 min live</span>
+    </div>
+    <p class="lede">A band is a description of honest. It is built by generating 40 honest constructed tapes, taking the three readings on each, and recording the mean and the spread of each reading across the 40. The band at sensitivity k is the mean plus or minus k spreads. Then, and only then, a second pile of 200 fresh honest tapes is judged against the finished band to count false positives. The washed tape sits on the far side of a wall: it is judged by the band and never helps make it.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 588" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hand-drawn calibration pipeline in three rows. Top row: a pile of 40 honest tapes, seeds 1001 to 1040, feeds a box of three readings, then a box of mean and spread (first-digit MAD 0.00797 with spread 0.00125, round share 29.96 percent with spread 0.84 points, cluster share 12.17 percent with spread 0.67 points), then a band at k equals 2 (MAD above 0.0105, round 28.3 to 31.6, cluster 10.8 to 13.5). Middle row: a separate pile of 200 fresh honest tapes, seeds 2001 to 2200, takes the same readings and is judged against the finished band, giving a false-positive count of 3 of 200 flagged at k equals 2. A marigold wall runs across the figure: below it, a washed tape is judged only after the band exists and never feeds the band or the count.">
+        <defs>
+          <filter id="crp7aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="71" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp7aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp7aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp7aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp7aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp7aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp7aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp7aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp7aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp7aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp7aH" x="30" y="26">CALIBRATION SEES HONEST VENUES ONLY</text>
+
+        <g filter="url(#crp7aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- row 1: the calibration pile -->
+          <path d="M38 60 V52 H178 V124" transform="rotate(-2 108 92)"/>
+          <path d="M34 66 V58 H174 V130" transform="rotate(1.2 104 98)"/>
+          <rect x="30" y="64" width="140" height="80" rx="4" transform="rotate(-0.6 100 104)" fill="url(#crp7aHc)"/>
+          <path d="M180 106 L240 106" marker-end="url(#crp7aAr)"/>
+          <rect x="250" y="58" width="170" height="100" rx="8" transform="rotate(0.4 335 108)" fill="#FFFFFF"/>
+          <path d="M422 106 L470 106" marker-end="url(#crp7aAr)"/>
+          <rect x="480" y="50" width="190" height="118" rx="8" transform="rotate(-0.3 575 109)" fill="#FFFFFF"/>
+          <path d="M672 106 L700 106" marker-end="url(#crp7aAr)"/>
+          <rect x="708" y="50" width="160" height="128" rx="8" transform="rotate(0.3 788 114)" fill="#F4EFF9"/>
+
+          <!-- row 2: the fresh pile, judged against the finished band -->
+          <path d="M38 254 V246 H178 V318" transform="rotate(1.6 108 286)"/>
+          <path d="M34 260 V252 H174 V324" transform="rotate(-1 104 292)"/>
+          <rect x="30" y="258" width="140" height="80" rx="4" transform="rotate(0.5 100 298)" fill="url(#crp7aHc)"/>
+          <path d="M180 296 L240 296" marker-end="url(#crp7aAr)"/>
+          <rect x="250" y="252" width="170" height="86" rx="8" transform="rotate(-0.4 335 295)" fill="#FFFFFF"/>
+          <path d="M422 296 L470 296" marker-end="url(#crp7aAr)"/>
+          <rect x="480" y="252" width="388" height="88" rx="8" transform="rotate(0.2 674 296)" fill="#FFFFFF"/>
+          <path d="M840 182 L840 246" marker-end="url(#crp7aAr)"/>
+
+          <!-- the wall -->
+          <rect x="20" y="398" width="846" height="24" rx="3" transform="rotate(-0.3 443 410)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <!-- doodle anchor: a padlock on the wall -->
+          <path d="M826 398 C826 380 850 380 850 398" stroke="#8A5A12"/>
+          <rect x="820" y="396" width="36" height="26" rx="4" transform="rotate(2 838 409)" fill="#FFFFFF" stroke="#8A5A12"/>
+
+          <!-- row 3: the washed tape, judged later -->
+          <path d="M100 442 L100 432 M90 432 L110 432" stroke="#8A5A12"/>
+          <path d="M38 460 V452 H178 V504" transform="rotate(-1.4 108 482)"/>
+          <rect x="30" y="458" width="140" height="60" rx="4" transform="rotate(0.8 100 488)" fill="url(#crp7aHc)"/>
+          <path d="M180 484 L240 484" marker-end="url(#crp7aAr)"/>
+          <rect x="250" y="452" width="300" height="64" rx="8" transform="rotate(0.3 400 484)" fill="#FFFFFF"/>
+        </g>
+
+        <text class="crp7aL" x="30" y="172">40 honest tapes</text>
+        <text class="crp7aS" x="30" y="188">seeds 1001 to 1040</text>
+        <text class="crp7aS" x="30" y="204">3,000 prints each</text>
+        <text class="crp7aH" x="262" y="84">THREE READINGS</text>
+        <text class="crp7aS" x="262" y="106">first-digit MAD</text>
+        <text class="crp7aS" x="262" y="124">round share</text>
+        <text class="crp7aS" x="262" y="142">cluster share (top five)</text>
+        <text class="crp7aH" x="492" y="74">MEAN AND SPREAD</text>
+        <text class="crp7aS" x="492" y="98">MAD 0.00797, sd 0.00125</text>
+        <text class="crp7aS" x="492" y="118">round 29.96, sd 0.84 points</text>
+        <text class="crp7aS" x="492" y="138">cluster 12.17, sd 0.67 points</text>
+        <text class="crp7aA" x="492" y="158">population sd, 40 venues</text>
+        <text class="crp7aH" x="720" y="74">BAND AT k = 2</text>
+        <text class="crp7aS" x="720" y="98">MAD above 0.0105</text>
+        <text class="crp7aS" x="720" y="118">round 28.3 to 31.6</text>
+        <text class="crp7aS" x="720" y="138">cluster 10.8 to 13.5</text>
+        <text class="crp7aA" x="720" y="162">mean plus or minus k sd</text>
+        <text class="crp7aA" x="716" y="218">finished band</text>
+
+        <text class="crp7aL" x="30" y="364">200 fresh honest tapes</text>
+        <text class="crp7aS" x="30" y="380">seeds 2001 to 2200, never calibrated on</text>
+        <text class="crp7aH" x="262" y="278">SAME THREE READINGS</text>
+        <text class="crp7aS" x="262" y="300">judged against the band</text>
+        <text class="crp7aS" x="262" y="318">2 of 3 fire = flagged</text>
+        <text class="crp7aH" x="494" y="276">FALSE-POSITIVE COUNT AT k = 2</text>
+        <text class="crp7aV" x="494" y="304">3 of 200 flagged</text>
+        <text class="crp7aS" x="494" y="326">MAD alone 13, round 7, cluster 5; the majority rule flags 3, 1.5 percent</text>
+
+        <text class="crp7aB" x="34" y="415">THE WALL: nothing below this line feeds the band or the false-positive count</text>
+
+        <text class="crp7aS" x="118" y="440">no path up</text>
+        <text class="crp7aL" x="30" y="540">a washed tape (venue B)</text>
+        <text class="crp7aS" x="30" y="556">any bot, any share</text>
+        <text class="crp7aL" x="262" y="478">Judged only after the band exists</text>
+        <text class="crp7aS" x="262" y="498">same readings, same k, same two-of-three rule</text>
+
+        <text class="crp7aN" x="30" y="578">Calibrate on the target and the band stretches to fit it: the washer becomes the definition of normal.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the band and the false-positive count are both made from honest venues only, and the washed tape is judged by a band it never touched</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Why the target never enters the calibration<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Suppose Harrowgate calibrated on its whole venue table, suspects included. A venue with a round-lot washer at 30 percent reads a round share of 67.0 percent on the constructed bench, against an honest mean of 29.96. Put that venue in the calibration set and two things happen at once: the mean moves towards it, and the spread widens to cover it. The band now describes "venues like the ones we have", washers included, and the detector has been taught that the thing it hunts is normal. The more washers in the table, the more completely they hide.</p>
+        <p>The same mistake has a quieter form: calibrating on the full table and then dropping "the obvious outliers" before computing the band. That is calibrating on the target with an extra step, because the definition of "obvious" was the detector's own judgement. The only clean calibration set is one chosen for a reason that has nothing to do with the readings: on the bench, tapes generated honest by declaration; in practice, a reference set picked on criteria written down before any reading was taken.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>One side for first digits, two sides for sizes<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The three bands are not built the same way. The first-digit deviation is one-sided: a tape cannot be "too Benford", and more deviation is the only direction that means anything, so the MAD fires above the mean plus k spreads. Roundness and clustering are two-sided, and this is the design choice that matters most. A naive bot types round lots and pushes both readings up. But the published finding on unregulated venues was the other direction: Cong, Li, Tang and Yang report that regulated venues show an evident clustering effect at round sizes while unregulated venues show little, so in their sample the anomaly is too little roundness. A one-sided round test would have missed exactly what they found.</p>
+        <p>At k=2 on the constructed bench the bands are:</p>
+        <ul>
+          <li><strong>First-digit MAD</strong> fires above 0.0105.</li>
+          <li><strong>Round share</strong> fires outside 28.3 to 31.6 percent.</li>
+          <li><strong>Cluster share</strong> fires outside 10.8 to 13.5 percent.</li>
+          <li><strong>Flagged</strong> when at least two of the three fire.</li>
+        </ul>
+        <p>Raise k and every band widens: at k=2.5 the edges are 0.0111, 27.9 to 32.0 and 10.5 to 13.8; at k=3 they are 0.0117, 27.5 to 32.5 and 10.2 to 14.2; at k=4, 0.0130, 26.6 to 33.3 and 9.5 to 14.8. A wider band fires less on honest venues and sees less of the washer. Part 2 prints both sides of that trade.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree: whose honest?<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>On the bench, "honest" is declared: the generator made those 40 tapes without a washer, so they are honest by construction. Outside the bench nobody hands you that set, and the choice of reference is where the argument lives.</p>
+        <p>One camp uses the venues with the most outside scrutiny as the reference, the way the published study used its three regulated venues to estimate the benchmark round-to-unrounded relation. The case for it: those venues carry obligations and supervision the others do not, so they are the best available picture of what human order flow looks like.</p>
+        <p>The other camp points out that a reference set is honest only on the readings you happen to test, that heavily supervised venues may attract a different mix of traders altogether, and that the same study warns its roundness estimates become upper bounds if genuine algorithmic trading produces unrounded volume. On this view the reference is a modelling choice to be stress-tested, not a ground truth. Both camps agree on the part that matters tonight: the reference is chosen before the readings, on stated criteria, and it never contains the venue being judged.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers the false-positive rate and the floor</span>
+      <h2>The false-positive rate, printed</h2>
+      <span class="tag concept">13 min live</span>
+    </div>
+    <p class="lede">The band is finished. Now 200 fresh honest constructed tapes, seeds 2001 to 2200, each one never seen by the calibration, are read and judged at four sensitivities. The count of honest venues flagged is the false-positive rate, and it is a measurement, not a promise. Below it, the other half of the trade: the smallest planted washer the same rule can catch.</p>
+
+    <div class="wk" id="crp7-fp">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">The constructed engine, running in this page. On load it calibrates on 40 honest tapes and reads 200 fresh honest tapes, once; then every sensitivity you pick is judged against those same readings. It also plants two bots into the partner venue (seed 12) at one-percent steps to find the floor. Nothing here is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="crp7-k">Sensitivity k, in honest standard deviations</label>
+        <select class="sql-code" id="crp7-k">
+          <option value="2" selected>k = 2 (default)</option>
+          <option value="2.5">k = 2.5</option>
+          <option value="3">k = 3</option>
+          <option value="4">k = 4</option>
+        </select>
+        <div id="crp7-out"><p class="crp7-wait">Measuring 40 honest venues for the band and 200 fresh honest venues for the count, once, in this page.</p></div>
+        <p class="sql-note" id="crp7-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="crp7-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Read the count, then read the ceiling<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>At the default k=2 the majority rule flags 3 of the 200 fresh honest venues: 1.5 percent. That is the number to print beside every flag Harrowgate raises. If the venue table has 40 honest venues in it, a 1.5 percent rate says to expect a flag on an innocent venue now and then, and a reviewer should treat a single flag as a reason to look, not a finding.</p>
+        <p>Move k to 2.5 and the count drops to 0 of 200. The tempting sentence is "no false positives at k=2.5". It is wrong. "0 of 200" is a ceiling statement about 200 trials: none were seen, so the true rate is probably small, and 200 honest venues are not enough to say how small. 3 of 200 has the same problem in the other direction; 1.5 percent is the point estimate, and with 200 trials the uncertainty around it is wide. The build-along computes that interval on your own run, so the number is yours rather than quoted.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>The majority rule is quieter than any single test<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Look at the per-detector rows at k=2. The first-digit test alone fires on 13 honest venues, 6.5 percent. Roundness alone fires on 7, 3.5 percent; clustering on 5, 2.5 percent. Yet the rule that needs two of the three flags only 3. Honest venues that wander out of one band mostly stay inside the other two, so asking for agreement buys a quieter verdict without moving any band.</p>
+        <p>The effect holds as k rises: at k=2.5 the MAD still fires on 8 honest venues, 4.0 percent, and roundness on 3, while the majority rule flags none. At k=3 only the MAD fires, on 3 venues, 1.5 percent. At k=4 nothing fires. The single noisiest test is the first-digit one, which is worth remembering when someone proposes running it alone because it is the famous one.</p>
+      </div>
+    </details>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 436" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn staircases of the number of detectors firing, 0 to 3, against the declared wash share of venue B's reported volume at 0, 1, 2, 3, 4, 5 and 8 percent, at k equals 2, with a dashed flag line at 2 of 3. Left, the round-lot bot: 0, 0, 2, 2, 2, 3, 3, so it is flagged from 2 percent, where round share 32.9 and cluster share 14.9 fire while the MAD of 0.0064 stays silent; the MAD joins at 5 percent at 0.0107. Right, the flat bot: 0, 0, 1, 1, 2, 2, 3, so it is flagged from 4 percent; roundness fires alone at 2 percent at 27.6, below the band, clustering joins at 4 percent at 10.5, and the MAD only at 8 percent at 0.0111.">
+        <defs>
+          <filter id="crp7bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="73" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp7bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp7bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp7bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp7bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp7bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp7bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp7bV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp7bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp7bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp7bH" x="30" y="26">ROUND-LOT BOT, VENUE B (SEED 12), k = 2</text>
+        <text class="crp7bH" x="450" y="26">FLAT BOT, SAME VENUE, k = 2</text>
+
+        <g filter="url(#crp7bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- panels -->
+          <rect x="30" y="40" width="400" height="338" rx="8" transform="rotate(-0.3 230 209)" fill="#FFFFFF"/>
+          <rect x="450" y="40" width="400" height="338" rx="8" transform="rotate(0.3 650 209)" fill="#FFFFFF"/>
+
+          <!-- axes, left: x0=90, step 50, y(v) = 250 - 50v -->
+          <path d="M70 250 L410 250" stroke="#CFC5DA"/>
+          <path d="M70 250 L70 92" stroke="#CFC5DA"/>
+          <path d="M361 244 L367 256 M369 244 L375 256" stroke="#9C7FBF"/>
+          <path d="M70 150 L410 150" stroke="#9C7FBF" stroke-dasharray="6 6"/>
+          <!-- round bot staircase: 0,0,2,2,2,3,3 -->
+          <path d="M70 250 L165 250 L165 150 L315 150 L315 100 L410 100" stroke="#5B2A86" stroke-width="2.6"/>
+          <circle cx="90" cy="250" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="140" cy="250" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="190" cy="150" r="7" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <circle cx="240" cy="150" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="290" cy="150" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="340" cy="100" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="390" cy="100" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+
+          <!-- axes, right: x0=510 -->
+          <path d="M490 250 L830 250" stroke="#CFC5DA"/>
+          <path d="M490 250 L490 92" stroke="#CFC5DA"/>
+          <path d="M781 244 L787 256 M789 244 L795 256" stroke="#9C7FBF"/>
+          <path d="M490 150 L830 150" stroke="#9C7FBF" stroke-dasharray="6 6"/>
+          <!-- flat bot staircase: 0,0,1,1,2,2,3 -->
+          <path d="M490 250 L585 250 L585 200 L685 200 L685 150 L785 150 L785 100 L830 100" stroke="#5B2A86" stroke-width="2.6"/>
+          <circle cx="510" cy="250" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="560" cy="250" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="610" cy="200" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="660" cy="200" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="710" cy="150" r="7" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <circle cx="760" cy="150" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+          <circle cx="810" cy="100" r="4" fill="#5B2A86" stroke="#5B2A86"/>
+
+          <!-- doodle anchor: a magnifier over the flat bot's floor -->
+          <circle cx="814" cy="66" r="11" stroke="#5F5569"/>
+          <path d="M822 74 L832 84" stroke="#5F5569"/>
+        </g>
+
+        <text class="crp7bA" x="44" y="62">detectors firing, of 3</text>
+        <text class="crp7bA" x="464" y="62">detectors firing, of 3</text>
+
+        <text class="crp7bS" x="52" y="254">0</text>
+        <text class="crp7bS" x="52" y="204">1</text>
+        <text class="crp7bS" x="52" y="154">2</text>
+        <text class="crp7bS" x="52" y="104">3</text>
+        <text class="crp7bS" x="472" y="254">0</text>
+        <text class="crp7bS" x="472" y="204">1</text>
+        <text class="crp7bS" x="472" y="154">2</text>
+        <text class="crp7bS" x="472" y="104">3</text>
+
+        <text class="crp7bA" x="80" y="142">flag line: 2 of 3</text>
+        <text class="crp7bA" x="500" y="142">flag line: 2 of 3</text>
+        <text class="crp7bB" x="176" y="178">floor</text>
+        <text class="crp7bB" x="696" y="178">floor</text>
+
+        <text class="crp7bS" x="87" y="272">0</text>
+        <text class="crp7bS" x="137" y="272">1</text>
+        <text class="crp7bS" x="187" y="272">2</text>
+        <text class="crp7bS" x="237" y="272">3</text>
+        <text class="crp7bS" x="287" y="272">4</text>
+        <text class="crp7bS" x="337" y="272">5</text>
+        <text class="crp7bS" x="387" y="272">8</text>
+        <text class="crp7bS" x="507" y="272">0</text>
+        <text class="crp7bS" x="557" y="272">1</text>
+        <text class="crp7bS" x="607" y="272">2</text>
+        <text class="crp7bS" x="657" y="272">3</text>
+        <text class="crp7bS" x="707" y="272">4</text>
+        <text class="crp7bS" x="757" y="272">5</text>
+        <text class="crp7bS" x="807" y="272">8</text>
+        <text class="crp7bA" x="44" y="292">wash share of reported volume, percent</text>
+        <text class="crp7bA" x="464" y="292">wash share of reported volume, percent</text>
+
+        <text class="crp7bL" x="44" y="320">Flagged from 2 percent.</text>
+        <text class="crp7bS" x="44" y="338">At 2: round 32.9 and cluster 14.9 fire; MAD 0.0064 silent.</text>
+        <text class="crp7bS" x="44" y="356">At 5: MAD 0.0107 crosses 0.0105 and all three fire.</text>
+        <text class="crp7bL" x="464" y="320">Flagged from 4 percent.</text>
+        <text class="crp7bS" x="464" y="338">At 2: roundness alone, 27.6, below the band.</text>
+        <text class="crp7bS" x="464" y="356">At 4: cluster 10.5 joins. MAD only at 8, at 0.0111.</text>
+
+        <text class="crp7bN" x="30" y="404">The first-digit test is the last of the three to fire on both bots. Steps 6 and 7 percent are not drawn.</text>
+        <text class="crp7bN" x="30" y="422">Raise k and the flat floor climbs: 4 percent at k=2, 5 at 2.5, 6 at 3. The round floor stays at 2.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the floor is where the staircase first reaches the flag line, and the size habit of the bot decides how early that is</figcaption>
+    </figure>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>The floor: the smallest washer the rule can see<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The floor is found the dull way, which is the right way: plant the bot into venue B (seed 12) at 1 percent of reported volume, then 2, then 3, and judge each tape against the same band. At 1 percent nothing fires for either bot. The round-lot bot is flagged from 2 percent: roundness reads 32.9 and clustering 14.9, both above their bands, while the first-digit deviation sits at 0.0064, comfortably honest. The MAD does not join until 5 percent, where 0.0107 crosses the 0.0105 line.</p>
+        <p>The flat bot is slower to catch. At 2 percent roundness fires alone, at 27.6, below the band, because the bot's unrounded four-digit sizes dilute the round share. Clustering joins at 4 percent, at 10.5, and that second detector is what flags the venue. The MAD only fires at 8 percent, at 0.0111. Raise k and the flat floor climbs, to 5 percent at k=2.5 and 6 percent at k=3, while the round floor stays at 2 percent at every k up to 3. That is the price of the quieter false-positive count, printed rather than assumed.</p>
+        <p>So Harrowgate's honest statement at k=2 is: "flagged venues are flagged by a rule that fires on 1.5 percent of honest venues, and venues with less than about 2 percent round-lot wash, or less than about 4 percent flat-size wash, would not be flagged at all."</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Why the first-digit test fires last<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The first-digit law is the famous test, and on this bench it is the least sensitive of the three on both bots. The round-lot bot cycles 1, 2, 5, 10, 20, 50 and 100 units, so its first digits are 1, 2 and 5, and Benford's law already expects a first digit of 1 about 30.1 percent of the time and 2 about 17.6 percent. The bot's digits land where honest digits are already plentiful, and it takes a large dose before the mix bends far enough to notice.</p>
+        <p>The flat bot draws from 2 to 20 units, so its first digits run across the whole range and partly blend in, while its sizes carry four significant digits that almost nobody types. The habit that gives it away is about how many digits, not which first digit, and that is what roundness and clustering read. The lesson generalises: a detector is sensitive to the property it measures and nothing else, and the famous one is not automatically the useful one. Hill's result explains why an honest tape of many traders conforms; it says nothing about how fast a small bot breaks the conformity.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>Calibrate, count the false alarms, find the floor</h2>
+      <span class="tag build">15 min hands on</span>
+    </div>
+    <p class="lede">Six steps with numpy, pandas and scipy. You need two folders of honest tapes as CSVs with the columns t, side, size_u and px (sizes as integer micro-units), 40 for calibration and 200 more for the count, and the <code>plant()</code> function from session 6. Your random draws will differ from the engine's, so your numbers will differ; the comments quote only the constructed bench's figures for comparison. Run it in a scratch folder, never where the outputs could land in a repository.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>One function for all three readings</h4>
+        <p>The same function for the calibration set, the fresh set and the suspect. Integer sizes, so the round flag and first digit are exact.</p>
+        <div class="prompt-box good"><span class="label">python · three readings</span>import numpy as np, pandas as pd
+from pathlib import Path
+BENFORD = np.log10(1 + 1 / np.arange(1, 10))      # 30.1, 17.6, 12.5 ... 4.6 percent
+
+def is_round(m: int) -&gt; bool:
+    while m &gt; 0 and m % 10 == 0:
+        m //= 10
+    return m &lt; 10                                 # one significant digit left
+
+def readings(sizes: pd.Series) -&gt; dict:
+    first = sizes.astype(str).str[0].astype(int)
+    obs = first.value_counts(normalize=True).reindex(range(1, 10), fill_value=0).to_numpy()
+    vc = sizes.value_counts().sort_index().sort_values(ascending=False, kind="stable")
+    return {"mad": float(np.abs(obs - BENFORD).mean()),
+            "round": float(sizes.map(is_round).mean()),
+            "cluster": float(vc.head(5).sum() / len(sizes))}</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Calibrate on the honest folder, and nothing else</h4>
+        <p>Assert the folder holds what you think it holds. Population standard deviation, as the bench uses.</p>
+        <div class="prompt-box good"><span class="label">python · the band</span>calib_files = sorted(Path("honest_calibration").glob("*.csv"))
+assert len(calib_files) == 40                     # honest by construction; no suspect in here
+cal = pd.DataFrame([readings(pd.read_csv(f)["size_u"]) for f in calib_files])
+mu, sd = cal.mean(), cal.std(ddof=0)
+print(mu.round(5).to_dict(), sd.round(5).to_dict())
+# constructed bench: MAD 0.00797 sd 0.00125, round 0.2996 sd 0.0084, cluster 0.1217 sd 0.0067</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>z-scores, one side for MAD, two sides for sizes, two of three to flag</h4>
+        <p>Print the band edges at each k so the rule is written down where a reviewer can read it.</p>
+        <div class="prompt-box good"><span class="label">python · the verdict</span>def verdict(r: dict, k: float) -&gt; dict:
+    z = (pd.Series(r) - mu) / sd
+    fired = {"mad": bool(z["mad"] &gt; k),               # one-sided: more deviation is the anomaly
+             "round": bool(abs(z["round"]) &gt; k),      # two-sided: too little roundness counts too
+             "cluster": bool(abs(z["cluster"]) &gt; k)}
+    return {"z": z.round(2).to_dict(), "fired": fired, "flagged": sum(fired.values()) &gt;= 2}
+
+for k in (2, 2.5, 3, 4):
+    lo, hi = mu - k * sd, mu + k * sd
+    print(k, "MAD above", round(hi["mad"], 4),
+          "round", round(lo["round"] * 100, 1), "to", round(hi["round"] * 100, 1),
+          "cluster", round(lo["cluster"] * 100, 1), "to", round(hi["cluster"] * 100, 1))
+# constructed bench, k=2: MAD above 0.0105, round 28.3 to 31.6, cluster 10.8 to 13.5</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Count false positives on fresh honest venues, and say how uncertain the count is</h4>
+        <p>Read the fresh folder once, judge it at every k. Then compute an exact binomial interval on your own counts. The interval is your output, not a figure from this page; read the upper end of the zero row and notice it is not zero.</p>
+        <div class="prompt-box good"><span class="label">python · the false-positive table</span>from scipy.stats import binomtest
+
+fresh_files = sorted(Path("honest_fresh").glob("*.csv"))
+assert not set(fresh_files) &amp; set(calib_files)   # never a calibration venue
+fresh = [readings(pd.read_csv(f)["size_u"]) for f in fresh_files]   # read once
+n = len(fresh)
+
+for k in (2, 2.5, 3, 4):
+    v = [verdict(r, k) for r in fresh]
+    per = {d: sum(x["fired"][d] for x in v) for d in ("mad", "round", "cluster")}
+    hits = sum(x["flagged"] for x in v)
+    ci = binomtest(hits, n).proportion_ci(confidence_level=0.95, method="exact")
+    print(k, per, hits, "of", n, "| 95 percent interval",
+          round(ci.low * 100, 2), "to", round(ci.high * 100, 2), "percent")
+# constructed bench, k=2: mad 13, round 7, cluster 5, flagged 3 of 200
+# constructed bench, k=2.5 and above: flagged 0 of 200, a ceiling statement, never "zero"</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Find the floor in one-percent steps</h4>
+        <p>Plant each bot with session 6's <code>plant()</code> at 1, 2, 3 ... 8 percent, judge each tape against the same band, and stop at the first flag. Print which detectors fired at each step, because the order they join in is half the finding.</p>
+        <div class="prompt-box good"><span class="label">python · the floor search</span>def floor(style: str, k: float, steps=range(1, 9)):
+    for pct in steps:
+        tape = plant(pct / 100, style)                 # session 6: declared share of reported volume
+        v = verdict(readings(tape["size_u"]), k)
+        print(style, k, pct, [d for d, f in v["fired"].items() if f])
+        if v["flagged"]:
+            return pct
+    return None                                        # not seen within the steps tried: say so
+
+for k in (2, 2.5, 3):
+    print("k", k, "round floor", floor("round", k), "flat floor", floor("flat", k))
+# constructed venue B (seed 12): round 2 percent at every k up to 3; flat 4, 5 and 6 percent</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Meet the honest limit: the copy bot</h4>
+        <p>Plant the copy bot, which samples the honest size distribution, at up to 70 percent. Every size reading stays inside the band. The matched pairs are still on the tape; nothing in <code>readings()</code> looks at time or side.</p>
+        <div class="prompt-box good"><span class="label">python · the limit, stated</span>for w in (0.1, 0.3, 0.5, 0.7):
+    tape = plant(w, "copy")
+    r = readings(tape["size_u"])
+    v = verdict(r, 2)
+    print(w, round(r["round"] * 100, 1), round(r["cluster"] * 100, 1), round(r["mad"], 4),
+          sum(v["fired"].values()), "fired")
+# constructed venue B at 70 percent: round 30.7, cluster 12.6, MAD 0.0074, 0 fired</div>
+      </div></div>
+    </div>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The copy bot is the limit, not a failure<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>On the constructed bench the copy bot is never caught at any share up to 70 percent at k=2. At 70 percent its venue reads a round share of 30.7, a cluster share of 12.6 and a MAD of 0.0074, every one inside the honest band, and 0 detectors fire. That is not a bug in the detectors. A washer that draws its sizes from the honest size distribution produces an honest size distribution, by construction, and every test that reads only sizes will call it honest. Writing that down is part of stating the detector.</p>
+        <p>What the copy bot cannot hide is its structure: a buy and a sell of the same size, one to four seconds apart, over and over. Session 6 planted exactly that and asserted it on every tape. None of the three detectors reads timestamps or sides, so none of them can see it. A detector that does would need its own calibration on honest venues, because honest traders also reverse positions quickly, and its own printed false-positive rate. The general machinery for building and validating detectors of that kind, z-scores, isolation forests and control charts, lives in <a href="https://phoebefu6.github.io/learn-anomaly-detection-with-phoebe/">learn-anomaly-detection-with-phoebe</a>; tonight's homework sketches the first one on this bench.</p>
+      </div>
+    </details>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> State every detector as three numbers: the band, the false-positive rate with the number of honest trials behind it, and the floor with the bot it was measured on. Calibrate on a reference chosen before any reading was taken, and never on the venue being judged. Say "0 of 200", never "no false positives". And write down what the detector cannot read, because the washer that knows will live exactly there.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">Why is the band calibrated on 40 honest venues only, instead of on every venue in Harrowgate's table?</p>
+      <div class="qopt">A · Honest venues have more trades, so their mean is more precise</div>
+      <div class="qopt">B · A band fitted on a table that contains washers moves its mean towards them and widens to cover them, so the detector learns to call the washer normal</div>
+      <div class="qopt">C · Including washed venues would make the false-positive rate look higher than it is</div>
+      <q class="qwhy">The band is a description of honest. Fit it on the target and the target shapes its own judge: a venue reading 67.0 percent round pulls the mean up and the spread out, and the more washers in the table, the more completely they hide. The honest venues are chosen by declaration, before any reading, and the washed tape is judged by a band it never touched.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">At k=2.5 the majority rule flags 0 of 200 fresh honest venues. What does that tell you?</p>
+      <div class="qopt">A · The detector has no false positives at k=2.5</div>
+      <div class="qopt">B · The detector can no longer catch any washer at k=2.5</div>
+      <div class="qopt">C · None were seen in 200 trials, so the rate is probably small; 200 trials cannot rule out a small non-zero rate, and the report should say "0 of 200"</div>
+      <q class="qwhy">"0 of 200" is a ceiling statement about 200 trials, never "zero false positives". An exact binomial interval on 0 of 200 has an upper end above zero, which the build-along computes on your own run. And the detector still catches washers at k=2.5: the round floor stays at 2 percent and the flat floor moves to 5.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">The copy bot is never flagged at any share up to 70 percent. Why?</p>
+      <div class="qopt">A · It samples the honest size distribution, so roundness, clustering and first digits all read honest; its matched pairs are on the tape, but no size test reads time or side</div>
+      <div class="qopt">B · Its share of reported volume is too small for any detector to notice</div>
+      <div class="qopt">C · The calibration was done on the wrong venues, so the band is too wide</div>
+      <q class="qwhy">At 70 percent the copy bot's venue reads 30.7 / 12.6 / 0.0074, inside every band, so 0 detectors fire. The share is enormous and the calibration is fine; the detectors read sizes and nothing else. This is the honest limit of size-based detection, stated as part of the detector, not a failure of it.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 8</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">About forty minutes, split between the bench and your own work.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Sketch a pair reader and measure it like the others</h4>
+        <p>Count, per venue, the trades that have an opposite-side trade of the same size within 4 seconds, as a share of all trades. Calibrate that share on the 40 honest tapes, count how often it fires on the 200 fresh ones, then run it on the copy bot. Write the three numbers down. Expect honest venues to produce some pairs by chance; that is exactly why the calibration comes first.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>State one detector your team already runs as three numbers</h4>
+        <p>Any alert, any threshold, any rule. What reference was its threshold set on, and did that reference contain the things it hunts? How often does it fire on cases known to be clean, and out of how many? What is the smallest problem it would catch? If any of the three is unknown, that is the finding; bring it.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Calibration on honest venues only</span><span class="note">40 honest constructed tapes, seeds 1001 to 1040: MAD 0.00797 sd 0.00125, round 29.96 percent sd 0.84, cluster 12.17 percent sd 0.67. The target never enters.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Sensitivity k and the band edges</span><span class="note">MAD one-sided, roundness and clustering two-sided, flagged at two of three; edges at k=2, 2.5, 3 and 4.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The false-positive rate, printed</span><span class="note">200 fresh honest venues: 3 of 200 flagged at k=2, 1.5 percent; the MAD alone fires on 6.5 percent.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">"0 of 200" as a ceiling statement</span><span class="note">A count over 200 trials, never "zero false positives"; the interval is computed on the learner's own run.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The detection floor</span><span class="note">Round-lot bot from 2 percent at every k up to 3; flat bot from 4, 5 and 6 percent at k=2, 2.5 and 3. The first-digit test fires last on both.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The copy bot as the honest limit</span><span class="note">Never caught at any share up to 70 percent; the pairs are on the tape and no size test reads them.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">The full bench</span><span class="note">Named tonight. Session 10 puts the ladder, the anti-lever and the break button live with every input exposed.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">A detector that reads time and side</span><span class="note">Sketched in the homework only; it needs its own calibration and its own printed false-positive rate.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">General anomaly detectors</span><span class="note">z-scores, isolation forests and control charts live in learn-anomaly-detection-with-phoebe.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Anything to do with buying, selling or holding</span><span class="note">Out of scope. No real price, asset or venue appears and nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>Measuring the detector <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>Three numbers.</strong> A detector is its reading, its false-positive rate on honest venues it never saw, and its floor. One number is an opinion.</div>
+      <div class="cheat-item"><strong>The wall.</strong> Calibrate on a reference chosen before any reading. The venue being judged never enters its own band.</div>
+      <div class="cheat-item"><strong>The band.</strong> Honest mean plus or minus k spreads. MAD one-sided; roundness and clustering two-sided, because too little roundness is a finding too.</div>
+      <div class="cheat-item"><strong>The verdict.</strong> Flagged when at least two of three fire. Quieter than any single test: 1.5 percent against 6.5 for the MAD alone at k=2.</div>
+      <div class="cheat-item"><strong>The count.</strong> 3 of 200 honest venues at k=2. Print it beside every flag, with the number of trials.</div>
+      <div class="cheat-item"><strong>The ceiling.</strong> "0 of 200" means none seen in 200, never "zero false positives". Compute the interval; its upper end is not zero.</div>
+      <div class="cheat-item"><strong>The floor.</strong> Round-lot bot from 2 percent, flat bot from 4 at k=2. Raise k and the flat floor climbs to 5, then 6.</div>
+      <div class="cheat-item"><strong>The limit.</strong> A copy bot reads honest on every size test at up to 70 percent. Say so; the pairs need a different reader.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Practitioner session 8, depeg events in the tape. The unit the prices are quoted in is itself a traded thing. Restate the same constructed tape into a reference and a quoted move of -0.046 percent in an hour becomes -3.96 percent at a 6 percent depeg.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Practitioner session 7 of 10 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="p6-planting-a-wash-trader.html">← Prev: Practitioner session 6 · Planting a wash trader</a>
+        <a href="p8-depeg-events-in-the-tape.html">Next: Practitioner session 8 · Depeg events in the tape →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var kSel = document.getElementById("crp7-k");
+  var out = document.getElementById("crp7-out");
+  var verdict = document.getElementById("crp7-verdict");
+  var self = document.getElementById("crp7-self");
+  var SHARES = [1, 2, 3, 4, 5, 6, 7, 8];
+  var cal = null, rows = null, bots = null;
+
+  function pct(x) { return (x * 100).toFixed(1); }
+  function rate(count, n) { return count ? count + " (" + pct(count / n) + " percent)" : "0 (none in " + n + ")"; }
+
+  function measure() {
+    cal = CM.calibrate();
+    rows = CM.honestRows();
+    bots = {};
+    ["round", "flat"].forEach(function (style) {
+      bots[style] = SHARES.map(function (w) {
+        return CM.readings(CM.sizesOf(CM.makeTape({ seed: 12, washShare: w / 100, washStyle: style })));
+      });
+    });
+  }
+
+  function floorOf(style, k) {
+    var seq = [], flagFrom = null, first = { mad: null, round: null, cluster: null };
+    bots[style].forEach(function (r, i) {
+      var v = CM.verdict(r, cal, k);
+      seq.push(v.count);
+      if (flagFrom === null && v.flagged) flagFrom = SHARES[i];
+      ["mad", "round", "cluster"].forEach(function (d) { if (first[d] === null && v.fired[d]) first[d] = SHARES[i]; });
+    });
+    return { seq: seq, flagFrom: flagFrom, first: first };
+  }
+  function at(x) { return x === null ? "not within 8 percent" : x + " percent"; }
+  function later(a, b) { return (a === null ? 99 : a) > (b === null ? 99 : b); }
+
+  function render() {
+    if (!cal) return;
+    var k = Number(kSel.value);
+    var fp = CM.falsePositives(cal, k, { rows: rows });
+    var n = fp.seeds, c = fp.counts;
+    var madHi = cal.mean.mad + k * cal.sd.mad;
+    var rLo = cal.mean.round - k * cal.sd.round, rHi = cal.mean.round + k * cal.sd.round;
+    var cLo = cal.mean.cluster - k * cal.sd.cluster, cHi = cal.mean.cluster + k * cal.sd.cluster;
+
+    var html = '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>Detector</th><th>Fires when (band at k = ' + k + ')</th><th>Honest venues it fires on, of ' + n + '</th></tr></thead><tbody>';
+    html += "<tr><td>First-digit MAD</td><td>above " + madHi.toFixed(4) + "</td><td>" + rate(c.mad, n) + "</td></tr>";
+    html += "<tr><td>Round share</td><td>outside " + pct(rLo) + " to " + pct(rHi) + " percent</td><td>" + rate(c.round, n) + "</td></tr>";
+    html += "<tr><td>Cluster share</td><td>outside " + pct(cLo) + " to " + pct(cHi) + " percent</td><td>" + rate(c.cluster, n) + "</td></tr>";
+    html += '<tr class="crp7-row"><td><b>Flagged</b></td><td>at least two of three fire</td><td><b class="crp7-hit">' + c.flagged + " of " + n + "</b>" + (c.flagged ? " (" + pct(c.flagged / n) + " percent)" : "") + "</td></tr>";
+    html += "</tbody></table></div>";
+
+    var fr = floorOf("round", k), ff = floorOf("flat", k);
+    html += '<p class="crp7-sub">The floor at this k: each bot planted into venue B (seed 12) at 1 to 8 percent of reported volume, judged against the same band.</p>';
+    html += '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>Bot</th><th>Detectors firing at 1, 2 ... 8 percent</th><th>Flagged from</th><th>First-digit test fires from</th></tr></thead><tbody>';
+    html += "<tr><td>Round lots</td><td>" + fr.seq.join(" · ") + "</td><td><b>" + at(fr.flagFrom) + "</b></td><td>" + at(fr.first.mad) + "</td></tr>";
+    html += "<tr><td>Flat sizes</td><td>" + ff.seq.join(" · ") + "</td><td><b>" + at(ff.flagFrom) + "</b></td><td>" + at(ff.first.mad) + "</td></tr>";
+    html += "</tbody></table></div>";
+    out.innerHTML = html;
+
+    var msg = "At k = " + k + " the majority rule flags " + c.flagged + " of " + n + " fresh honest venues";
+    msg += c.flagged ? ", " + pct(c.flagged / n) + " percent" : "; that is a ceiling statement about " + n + " trials, not a claim of zero false positives";
+    if (c.mad > c.flagged) msg += ", while the first-digit test alone fires on " + c.mad;
+    msg += ". The round-lot bot is flagged from " + at(fr.flagFrom) + " and the flat bot from " + at(ff.flagFrom) + ".";
+    var lastBoth = later(fr.first.mad, fr.first.round) && later(fr.first.mad, fr.first.cluster) && later(ff.first.mad, ff.first.round) && later(ff.first.mad, ff.first.cluster);
+    if (lastBoth) msg += " The first-digit test is the last of the three to fire on both bots.";
+    verdict.textContent = msg;
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, including a round-lot washer at 50 percent being flagged and a bot with too few round sizes still firing the roundness test, so the counts above are the counts any correct run gives. The tapes are constructed; nothing here is a real market."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  kSel.addEventListener("change", render);
+  setTimeout(function () { measure(); render(); }, 40);
+})();
+</script>
+<style>
+  #crp7-fp .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 16rem; }
+  #crp7-fp table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #crp7-fp .crp7-hit { color: var(--amber-ink-text); }
+  #crp7-fp .crp7-sub, #crp7-fp .crp7-wait { font-size: .85rem; color: var(--muted); margin: .8rem 0 0; }
+</style>
+</body>
+</html>

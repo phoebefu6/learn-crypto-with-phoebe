@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Leader session 5 of 6. The market-data playbook leans on a consolidated audited tape, identified accounts, a settlement day and a print that gets corrected when it is wrong. A crypto tape has none of them. Three mechanisms drawn side by side, and a due-diligence checklist for any crypto-market figure that arrives on a slide.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Why the market-data playbook breaks here - learn crypto with phoebe">
+<meta property="og:description" content="Leader session 5 of 6. Source, identity and time, ground truth: three mechanisms a conventional feed provides and a crypto tape does not, and the checklist a leader runs before believing a figure. Not investment advice.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/a5-why-the-market-data-playbook-breaks-here.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why the market-data playbook breaks here - learn crypto with phoebe">
+<meta name="twitter:description" content="The arithmetic carries over. The source, the identity, the day and the correction do not. Ask four questions before a crypto-market figure goes on a slide.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Leader session 5 · Why the market-data playbook breaks here - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Leader session 5 of 6</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Leader session 5 of 6</div>
+    <h1>Why the market-data playbook <span class="accent">breaks here</span></h1>
+    <p class="sub">A data team that has run a conventional market-data pipeline for years owns a playbook that works: take the consolidated tape, trust the audited volume, join on the account, cut at the close, and wait for the correction when a print is wrong. Every step leans on something the market arrangement provides without being asked. Sessions 1 to 4 each took one of those away. Tonight puts them side by side as mechanisms, adds the two that hurt most, identity and ground truth, and ends with the checklist a leader runs on any crypto-market figure before it goes on a slide. Nothing here is investment advice, and nothing here is a real venue, asset or price.</p>
+    <div class="chip-row">
+      <span class="chip level">🟠 Leader track</span>
+      <span class="chip audience">Anyone moving a market-data team onto a new feed</span>
+      <span class="chip audience">Anyone who signs off a figure somebody else sourced</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:4">3-15 · The source</span>
+      <span class="a3" style="flex:4">15-27 · Identity and time</span>
+      <span class="a4" style="flex:6">27-45 · Ground truth and the checklist</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate, the week the old playbook stopped working</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm. By now it writes the boundary beside every daily number, screens its venues, names its index method and stores the quoting unit's own level. Each of those fixes was right. Then a senior colleague asks a reasonable question, "which venue matters most, how many traders does it have, and how sure are we", and the team discovers that none of its fixes answers it. The playbook did not have four holes. It had one assumption, that somebody else guarantees the record, and that assumption is gone everywhere at once.</p>
+
+    <div class="legend">
+      <span class="pill">Live = presented in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> Three mechanism contrasts drawn as figures: who produces the record, what the record can say about who and when, and whether anyone will ever tell you the record was wrong. A constructed two-venue bench in this page where a washed venue's share of reported volume climbs from 52.7 to 78.8 percent, caught by three detectors for one kind of washer and missed entirely by another. And a four-question due-diligence checklist, run in the room on three constructed figures of the kind that arrive on slides every week.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The playbook, written down for once<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Ask a market-data team what it does and you hear tools and tables. Ask what it assumes and you get five short sentences that nobody writes down because they have always been true. The record comes from one place that someone else audits. Every trade belongs to an account, and every day ends at a close. The unit prices are quoted in holds still. And when a print is wrong, an official correction arrives and the team can check itself against it.</p>
+        <p>Sessions 1 to 4 took away the close, the audited volume, the single price and the still unit, one at a time. Tonight is about why fixing them one at a time is not enough: every workaround for one of them quietly assumes another still holds. The two that remain, identity and the correction, are the ones with no engineering fix at all, only a change in what a leader is willing to sign.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>One public index rulebook, read at source, does not trust the raw record either. Before any venue's trades count toward its fixing, the venue is screened quarterly on criteria including "Regulated by an independent government body", "KYC/AML controls" and "Trading Policies", plus five years of operation and a liquidity floor of 0.5 percent of observed liquidity in the pair over three months. That is what a mature practitioner does when nobody guarantees the source: decide who is allowed into the record before computing anything on it.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Consolidated tape.</strong> One record of every trade across the venues trading an instrument, assembled by an operator. A conventional feed has one; a crypto feed does not. Session 3.</li>
+          <li><strong>Reported volume.</strong> The number a venue publishes about itself. A claim, not a measurement. Session 2.</li>
+          <li><strong>Wash trade.</strong> A buy and a sell of the same size that leave the trader's position unchanged and add volume to the record. Practitioner session 6 plants them.</li>
+          <li><strong>Identity.</strong> Which account, firm or person stands behind a trade. On a conventional record it is there for whoever is entitled to see it; on a crypto venue's public tape it is absent.</li>
+          <li><strong>Ground truth.</strong> The correct answer, published by someone with the authority to publish it, that a team can score its own numbers against.</li>
+          <li><strong>Correction.</strong> An official fix to a wrong print, after which the record is republished. The mechanism that lets a team learn from its errors.</li>
+          <li><strong>Feedback loop.</strong> Any path by which an output changes its own input. Here, a league table that rewards a venue for the volume it reports.</li>
+          <li><strong>Due diligence.</strong> The questions a leader asks before a number is allowed to carry a decision. Tonight's build-along.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers the source and its feedback loop</span>
+      <h2>One audited tape against many venues that report themselves</h2>
+      <span class="tag concept">12 min live</span>
+    </div>
+    <p class="lede">The first move of the market-data playbook is so automatic that it does not feel like a move: take the volume from the feed. On a conventional feed that is safe, because the volume was counted by an operator with an auditor behind it, from one consolidated record. On a crypto feed every venue counts its own volume and publishes the count, and the count decides where the venue sits in the tables that send it business. The source is not only unaudited. It is paid to be larger.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn pipelines. The upper one is a conventional feed: three venues feed one consolidated tape, volume is counted by an operator with an auditor behind it, and the data team takes the volume as a measurement. The lower one is a crypto feed: three venues each report their own volume to a league table that ranks them by reported volume, and the data team reads the table; a warm-coloured loop runs from the table back to the venues, labelled rank up brings flow, the incentive to inflate. A citation notes that in the 2019 sample of Cong, Li, Tang and Yang, 70 percent wash moved an exchange's rank up by 46 positions.">
+        <defs>
+          <filter id="cra5aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="51" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="cra5aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="cra5aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .cra5aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .cra5aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .cra5aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .cra5aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .cra5aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .cra5aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="cra5aH" x="30" y="26">A CONVENTIONAL FEED: MANY VENUES, ONE CONSOLIDATED TAPE, VOLUME COUNTED FOR THEM</text>
+
+        <g filter="url(#cra5aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- upper: venues -->
+          <rect x="40" y="48" width="130" height="34" rx="6" transform="rotate(-1 105 65)" fill="#FFFFFF"/>
+          <rect x="40" y="94" width="130" height="34" rx="6" transform="rotate(0.8 105 111)" fill="#FFFFFF"/>
+          <rect x="40" y="140" width="130" height="34" rx="6" transform="rotate(-0.6 105 157)" fill="#FFFFFF"/>
+          <path d="M172 65 L244 100" marker-end="url(#cra5aAr)"/>
+          <path d="M172 111 L244 111" marker-end="url(#cra5aAr)"/>
+          <path d="M172 157 L244 122" marker-end="url(#cra5aAr)"/>
+          <!-- consolidated tape -->
+          <rect x="250" y="68" width="230" height="86" rx="8" transform="rotate(0.4 365 111)" fill="#F4EFF9"/>
+          <rect x="262" y="134" width="206" height="10" rx="2" fill="url(#cra5aHc)" stroke-width="1.4"/>
+          <path d="M482 111 L504 111" marker-end="url(#cra5aAr)"/>
+          <!-- audited count -->
+          <rect x="510" y="68" width="180" height="86" rx="8" transform="rotate(-0.5 600 111)" fill="#FFFFFF"/>
+          <path d="M692 111 L714 111" marker-end="url(#cra5aAr)"/>
+          <!-- data team -->
+          <rect x="720" y="78" width="130" height="66" rx="8" transform="rotate(0.6 785 111)" fill="#FFFFFF"/>
+
+          <!-- lower: venues -->
+          <rect x="40" y="236" width="130" height="42" rx="6" transform="rotate(0.9 105 257)" fill="#FFFFFF"/>
+          <rect x="40" y="290" width="130" height="42" rx="6" transform="rotate(-0.7 105 311)" fill="#FFFFFF"/>
+          <rect x="40" y="344" width="130" height="42" rx="6" transform="rotate(0.5 105 365)" fill="#FFFFFF"/>
+          <!-- doodle: a small megaphone on venue 1 -->
+          <path d="M150 232 L166 222 L166 242 Z" fill="#FFFFFF" stroke-width="1.6"/>
+          <path d="M172 226 L180 222 M173 232 L182 232 M172 238 L180 242" stroke-width="1.4"/>
+          <path d="M172 257 L244 290" marker-end="url(#cra5aAr)"/>
+          <path d="M172 311 L244 311" marker-end="url(#cra5aAr)"/>
+          <path d="M172 365 L244 332" marker-end="url(#cra5aAr)"/>
+          <!-- league table -->
+          <rect x="250" y="250" width="230" height="122" rx="8" transform="rotate(-0.4 365 311)" fill="#FFFFFF"/>
+          <rect x="290" y="302" width="170" height="12" rx="2" fill="url(#cra5aHc)" stroke-width="1.4"/>
+          <rect x="290" y="322" width="118" height="12" rx="2" fill="url(#cra5aHc)" stroke-width="1.4"/>
+          <rect x="290" y="342" width="72" height="12" rx="2" fill="url(#cra5aHc)" stroke-width="1.4"/>
+          <path d="M482 300 L714 300" marker-end="url(#cra5aAr)"/>
+          <!-- data team -->
+          <rect x="720" y="268" width="130" height="66" rx="8" transform="rotate(-0.6 785 301)" fill="#FFFFFF"/>
+          <!-- the feedback loop: the one thing the figure is about -->
+          <path d="M365 374 L365 404 L105 404 L105 392" stroke="#B7791F" stroke-width="2.6" marker-end="url(#cra5aAr)"/>
+        </g>
+
+        <text class="cra5aL" x="54" y="70">venue 1</text>
+        <text class="cra5aL" x="54" y="116">venue 2</text>
+        <text class="cra5aL" x="54" y="162">venue 3</text>
+
+        <text class="cra5aH" x="264" y="94">ONE CONSOLIDATED TAPE</text>
+        <text class="cra5aS" x="264" y="112">every venue's trades in</text>
+        <text class="cra5aS" x="264" y="127">one record, one clock</text>
+
+        <text class="cra5aL" x="524" y="94">volume counted</text>
+        <text class="cra5aS" x="524" y="112">by an operator, with</text>
+        <text class="cra5aS" x="524" y="127">an auditor behind it</text>
+
+        <text class="cra5aL" x="734" y="102">data team</text>
+        <text class="cra5aS" x="734" y="120">takes the volume</text>
+        <text class="cra5aS" x="734" y="135">as a measurement</text>
+
+        <text class="cra5aH" x="30" y="206">A CRYPTO FEED: EVERY VENUE REPORTS ITS OWN VOLUME, AND THE RANKING PAYS FOR MORE</text>
+
+        <text class="cra5aL" x="54" y="254">venue 1</text>
+        <text class="cra5aS" x="54" y="270">counts itself</text>
+        <text class="cra5aL" x="54" y="308">venue 2</text>
+        <text class="cra5aS" x="54" y="324">counts itself</text>
+        <text class="cra5aL" x="54" y="362">venue 3</text>
+        <text class="cra5aS" x="54" y="378">counts itself</text>
+
+        <text class="cra5aH" x="264" y="274">LEAGUE TABLE</text>
+        <text class="cra5aS" x="264" y="292">ranked by reported volume</text>
+        <text class="cra5aA" x="264" y="313">#1</text>
+        <text class="cra5aA" x="264" y="333">#2</text>
+        <text class="cra5aA" x="264" y="353">#3</text>
+
+        <text class="cra5aL" x="734" y="292">data team</text>
+        <text class="cra5aS" x="734" y="310">reads the table</text>
+        <text class="cra5aS" x="734" y="325">as a measurement</text>
+
+        <text class="cra5aB" x="60" y="428">RANK UP BRINGS FLOW: THE INCENTIVE TO INFLATE</text>
+        <text class="cra5aS" x="420" y="412">Cong, Li, Tang and Yang, 2019 sample: 70 percent wash</text>
+        <text class="cra5aS" x="420" y="428">moved an exchange's rank up by 46 positions (their estimate)</text>
+
+        <text class="cra5aN" x="30" y="454">A ranking built on self-reported volume pays the venue that reports more. The source is a claim.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the upper pipeline has a counter nobody can bribe; the lower one has a loop that rewards the count</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The source is a claim, and the claim is paid<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>On a conventional feed the question "where does the volume come from" has a dull answer: the operator counted it from the consolidated record and somebody audits the operator. On a crypto feed the answer is "the venue says so". There is no consolidated tape to count from and no auditor behind the count. A data team that takes the number from the feed is taking a statement from the party with the most interest in it being large.</p>
+        <p>The loop is what turns an unaudited source into an inflated one. Tables of venues ranked by reported volume send traders and attention to the top of the table. A venue that reports more climbs; a venue that climbs gets flow. In their 2019 sample, Cong, Li, Tang and Yang estimate that 70 percent wash in a venue's reported volume moved it up 46 positions on a third-party ranking. That is their estimate, on their sample, and the mechanism is the point rather than the size: the output of the ranking rewards the input to the ranking.</p>
+        <p>The playbook move that breaks is weighting by volume. It is standard practice and correct when the volume is real. The rulebooks did not abandon it; they screen which venues may contribute before any weight is computed. The bench below shows why that order matters.</p>
+      </div>
+    </details>
+
+    <div class="wk" id="cra5-source">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">Two constructed venues, running in this page. Venue A is honest; venue B has a washer you set. Watch B's share of the reported volume and what three detectors make of it. Nothing here is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="cra5-seed">Which constructed pair</label>
+        <select class="sql-code" id="cra5-seed">
+          <option value="11">Tape A</option>
+          <option value="101">Tape B</option>
+          <option value="2024">Tape C</option>
+          <option value="7">Tape D</option>
+          <option value="55555">Tape E</option>
+        </select>
+        <label class="sql-label" for="cra5-style">What kind of washer</label>
+        <select class="sql-code" id="cra5-style">
+          <option value="round">Round lots, a naive bot</option>
+          <option value="flat">A flat band of odd sizes</option>
+          <option value="copy">Copies the honest sizes</option>
+        </select>
+        <label class="sql-label" for="cra5-share">Wash share of B's reported volume</label>
+        <select class="sql-code" id="cra5-share">
+          <option value="0">0 percent</option>
+          <option value="0.1">10 percent</option>
+          <option value="0.3">30 percent</option>
+          <option value="0.5">50 percent</option>
+          <option value="0.7" selected>70 percent</option>
+        </select>
+        <div id="cra5-out"></div>
+        <p class="sql-note" id="cra5-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="cra5-self">...</div>
+    </div>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Read the bench at 70 percent, then change one setting<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>On Tape A with the round-lot washer at 70 percent, venue B carries <strong>52.7 percent</strong> of the honest volume and <strong>78.8 percent</strong> of the reported volume. A slide built from reported volume shows a venue that dominates; the honest market is close to an even split. The three detectors all fire, 3 of 3, because a bot cycling round lots leaves a shape no crowd of human traders leaves: roundness 90.1 percent and the top five sizes covering 79.0 percent of trades, against honest bands of 28.3 to 31.6 and 10.8 to 13.5.</p>
+        <p>Now switch the washer to "copies the honest sizes" and leave everything else alone. Zero of three fire. Roundness reads 30.7 percent, clustering 12.6, the first-digit deviation 0.0074, all inside the honest bands. The weight moves exactly as far, because the wash share has not changed. That is not a broken detector. A washer that samples the honest size distribution is invisible to every size-based test by construction; what still gives it away is the matched-pair structure, same size, opposite side, seconds apart, and these three tests do not read it.</p>
+        <p>Try Tape B at 10 percent with the round bot: the washed venue moves from rank 2 to rank 1. A ranking moves before a slide looks strange.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>One camp says the only defensible source is a screened one: decide which venues are allowed into the record, on criteria a stranger can check, and then weight by volume as usual. This is what the public index rulebooks do, and it keeps the conventional arithmetic intact once the gate is passed.</p>
+        <p>The other camp says screening moves the trust problem rather than solving it, because the criteria are themselves partly self-reported, and a washer that copies honest sizes passes every statistical screen. On this view volume should never be a weight at all on an unaudited feed; use counts of independent observations, or medians that one venue cannot drag.</p>
+        <p>Both agree on what matters for a leader: the source is a decision, not a given, and the decision has to be written next to the number. Practitioner sessions 4 to 7 build the detectors, and practitioner session 10 runs this bench in full.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers identity and time</span>
+      <h2>Accounts and a settlement day against no identity and no close</h2>
+      <span class="tag concept">12 min live</span>
+    </div>
+    <p class="lede">The second move of the playbook is the join. A conventional trade record carries an account for whoever is entitled to see it, and it belongs to a trading day that ends at a close and settles on a known day after. Customer questions, concentration questions and daily questions are all joins on those two columns. A crypto venue's public tape has a time, a side, a size and a price. The two columns the join needs are not there.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 406" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn trade records. The upper one is conventional: columns for time, side, size and price drawn as hatched data, then an account column marked identified and a settlement column marked a fixed day, beside a note that the market stops, so there is a close everyone shares and settlement against known accounts. The lower one is the first five prints of constructed Tape A: t equals 12, 33, 45, 59 and 70 seconds, sides buy, sell, sell, buy, sell, sizes 0.223, 0.3, 3, 6.9 and 1.2, prices 99.998, 99.995, 99.996, 99.999 and 99.997. A warm-coloured block where the account and day columns would be reads not on the tape. A clock dial with no close mark sits to the right, with the first full-day returns under four boundaries: plus 0.052, minus 0.020, minus 0.061 and plus 0.054 percent.">
+        <defs>
+          <filter id="cra5bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="52" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="cra5bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="cra5bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .cra5bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .cra5bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .cra5bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .cra5bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .cra5bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .cra5bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="cra5bH" x="30" y="26">A CONVENTIONAL RECORD: EVERY TRADE HAS AN ACCOUNT AND A SETTLEMENT DAY</text>
+
+        <g filter="url(#cra5bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="30" y="42" width="530" height="92" rx="8" transform="rotate(-0.3 295 88)" fill="#FFFFFF"/>
+          <rect x="44" y="76" width="60" height="16" rx="2" fill="url(#cra5bHc)" stroke-width="1.2"/>
+          <rect x="124" y="76" width="40" height="16" rx="2" fill="url(#cra5bHc)" stroke-width="1.2"/>
+          <rect x="184" y="76" width="60" height="16" rx="2" fill="url(#cra5bHc)" stroke-width="1.2"/>
+          <rect x="264" y="76" width="70" height="16" rx="2" fill="url(#cra5bHc)" stroke-width="1.2"/>
+          <rect x="44" y="104" width="60" height="16" rx="2" fill="url(#cra5bHc)" stroke-width="1.2"/>
+          <rect x="124" y="104" width="40" height="16" rx="2" fill="url(#cra5bHc)" stroke-width="1.2"/>
+          <rect x="184" y="104" width="60" height="16" rx="2" fill="url(#cra5bHc)" stroke-width="1.2"/>
+          <rect x="264" y="104" width="70" height="16" rx="2" fill="url(#cra5bHc)" stroke-width="1.2"/>
+          <path d="M562 88 L594 88" marker-end="url(#cra5bAr)"/>
+          <rect x="600" y="48" width="250" height="80" rx="8" transform="rotate(0.5 725 88)" fill="#F4EFF9"/>
+
+          <rect x="30" y="194" width="530" height="138" rx="8" transform="rotate(0.3 295 263)" fill="#FFFFFF"/>
+          <!-- the missing columns: the one thing the figure is about -->
+          <rect x="360" y="200" width="192" height="126" rx="6" transform="rotate(-0.4 456 263)" fill="#FBF3E2" stroke="#B7791F" stroke-dasharray="6 5"/>
+          <!-- doodle: a 24-hour dial with no close mark -->
+          <circle cx="720" cy="264" r="54" fill="#FFFFFF"/>
+          <path d="M720 214 L720 222 M770 264 L762 264 M720 314 L720 306 M670 264 L678 264 M755 229 L750 234 M755 299 L750 294 M685 299 L690 294 M685 229 L690 234" stroke-width="1.6"/>
+          <path d="M720 264 L720 232 M720 264 L744 278" stroke-width="2.2"/>
+        </g>
+
+        <text class="cra5bA" x="44" y="62">time</text>
+        <text class="cra5bA" x="124" y="62">side</text>
+        <text class="cra5bA" x="184" y="62">size</text>
+        <text class="cra5bA" x="264" y="62">price</text>
+        <text class="cra5bA" x="364" y="62">account</text>
+        <text class="cra5bA" x="464" y="62">settlement</text>
+        <text class="cra5bL" x="364" y="89">identified</text>
+        <text class="cra5bL" x="464" y="89">a fixed day</text>
+        <text class="cra5bL" x="364" y="117">identified</text>
+        <text class="cra5bL" x="464" y="117">a fixed day</text>
+
+        <text class="cra5bL" x="614" y="74">the market stops</text>
+        <text class="cra5bS" x="614" y="92">a close everyone shares, then</text>
+        <text class="cra5bS" x="614" y="108">settlement against known accounts</text>
+
+        <text class="cra5bH" x="30" y="176">A CRYPTO TAPE: THE FIRST FIVE PRINTS OF TAPE A, AND THE TWO COLUMNS THAT ARE NOT THERE</text>
+
+        <text class="cra5bA" x="44" y="216">t (s)</text>
+        <text class="cra5bA" x="124" y="216">side</text>
+        <text class="cra5bA" x="184" y="216">size</text>
+        <text class="cra5bA" x="264" y="216">price</text>
+        <text class="cra5bL" x="44" y="238">12</text><text class="cra5bL" x="124" y="238">buy</text><text class="cra5bL" x="184" y="238">0.223</text><text class="cra5bL" x="264" y="238">99.998</text>
+        <text class="cra5bL" x="44" y="258">33</text><text class="cra5bL" x="124" y="258">sell</text><text class="cra5bL" x="184" y="258">0.3</text><text class="cra5bL" x="264" y="258">99.995</text>
+        <text class="cra5bL" x="44" y="278">45</text><text class="cra5bL" x="124" y="278">sell</text><text class="cra5bL" x="184" y="278">3</text><text class="cra5bL" x="264" y="278">99.996</text>
+        <text class="cra5bL" x="44" y="298">59</text><text class="cra5bL" x="124" y="298">buy</text><text class="cra5bL" x="184" y="298">6.9</text><text class="cra5bL" x="264" y="298">99.999</text>
+        <text class="cra5bL" x="44" y="318">70</text><text class="cra5bL" x="124" y="318">sell</text><text class="cra5bL" x="184" y="318">1.2</text><text class="cra5bL" x="264" y="318">99.997</text>
+
+        <text class="cra5bB" x="376" y="236">NOT ON THE TAPE</text>
+        <text class="cra5bS" x="376" y="256">who traded with whom</text>
+        <text class="cra5bS" x="376" y="274">which day a print is in</text>
+        <text class="cra5bS" x="376" y="300">both are yours to infer,</text>
+        <text class="cra5bS" x="376" y="316">and to state</text>
+
+        <text class="cra5bS" x="720" y="204" text-anchor="middle">00</text>
+        <text class="cra5bS" x="786" y="252">no bell,</text>
+        <text class="cra5bS" x="786" y="268">no close</text>
+
+        <text class="cra5bS" x="30" y="352">On Tape A's washed twin, sell then buy 50 units at t=96 and 97 s: one trader or two?</text>
+        <text class="cra5bS" x="30" y="368">Without the who column the tape cannot say. The pair is visible only as structure.</text>
+        <text class="cra5bA" x="610" y="352">first full-day return by boundary</text>
+        <text class="cra5bB" x="610" y="368">+0.052  -0.020  -0.061  +0.054 %</text>
+
+        <text class="cra5bN" x="30" y="392">No identity and no close: two columns every conventional join and every daily report lean on.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the upper record answers "who" and "which day" itself; the lower one leaves both to whoever reads it</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>No identity means no customer, no concentration, no count<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Most of the questions a senior colleague asks about a market are questions about people. How many traders are active? How concentrated is the volume? Is one participant on both sides of a lot of trades? On a conventional record those are joins on the account column, sometimes restricted, never impossible. On a crypto venue's public tape there is no account column. Tape A has 3,000 trades in a day. It does not have a number of traders, and no amount of cleaning will produce one.</p>
+        <p>The wash pair in the figure shows the cost. On venue B's constructed tape at 10 percent wash, a sell and then a buy of 50 units print at t=96 and 97 seconds. A conventional surveillance team would check whether the two sides share an owner. Here the two rows look exactly like two strangers who happened to pick the same size a second apart. The bench knows they are one washer because it planted them; the tape alone does not.</p>
+        <p>The instinct to reach for the chain is natural and belongs elsewhere: what can and cannot be said about identity from on-chain addresses is the subject of <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/">learn-web3-with-phoebe</a>, and linking records that may be the same party is <a href="https://phoebefu6.github.io/learn-entity-resolution-with-phoebe/">learn-entity-resolution-with-phoebe</a>. Neither turns a venue's tape into an account ledger.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>No close means every daily number carries a choice<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Session 1 measured this on a constructed five-day tape: the first full-day return reads +0.052, -0.020, -0.061 or +0.054 percent depending on whether the day ends at 00:00, 08:00, 16:00 or 21:00. The playbook's daily join, today's close to yesterday's, has no fixed key. Every daily table, every day-over-day chart and every month-end figure is built on a boundary somebody chose.</p>
+        <p>Identity and time fail together for a reason. On a conventional market both are supplied by the same arrangement: the operator that stops the market also settles the trades against known accounts. Take the operator out and both columns go at once. That is why a team that fixes the boundary still cannot answer "how many traders", and a team that buys an identity product still has to say which day it means.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>What a leader stops promising<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The practical consequence is a short list of questions a crypto-market data team cannot answer from venue tapes, and should say so before it is asked: unique participants, participant concentration, whether one party is on both sides, and any daily figure without a stated boundary. Leaders who come from conventional markets tend to promise these by reflex, because on their old feed they were cheap.</p>
+        <p>The professional move is not to refuse the question but to answer the question the data can answer, and say which one it is. "3,000 trades on the venue yesterday, 00:00 boundary; the tape carries no participant identity, so trader counts are not available" is a finished sentence. A trader count that somebody inferred and did not label is a liability that arrives later.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · covers ground truth, then the build-along</span>
+      <h2>A corrected print against a number nobody will ever correct</h2>
+      <span class="tag build">18 min live and hands on</span>
+    </div>
+    <p class="lede">The last move of the playbook is the one teams notice least: being told when they were wrong. A conventional print that is wrong gets busted or corrected by the operator, the record is republished, and the team can score its own pipeline against the fix. That loop is how a market-data team gets better. On a crypto feed no authority will ever publish the true wash share of a venue, the true volume or the true participant count, so the loop never closes. Six minutes on what that does to the cost of being wrong, then the checklist.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 466" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn loops. The upper one is conventional: a print feeds a report, an error is found as a bust or correction, the record is fixed and republished, and a loop arrow carries the corrected print back so the team can score itself. The lower one is a crypto market figure: reported volume feeds a wash estimate, and the true wash share, drawn in the warm contrast colour, is never published by anyone, so the box after it, no label returns, has a dashed loop that stops short. A band underneath holds three facts: two estimates with no referee, 77.5 percent against 95 percent; the ruler moves too, a worst hour of minus 0.046 percent quoted against minus 3.96 percent restated on a constructed 6 percent depeg; and truth only on a bench, 3 of 200 honest venues flagged at k equals 2 while the copy bot is never caught.">
+        <defs>
+          <filter id="cra5cSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="53" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="cra5cHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="cra5cAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .cra5cH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .cra5cL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .cra5cS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .cra5cB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .cra5cV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .cra5cA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .cra5cN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="cra5cH" x="30" y="26">A CONVENTIONAL ERROR GETS CORRECTED, SO THE LOOP CLOSES</text>
+
+        <g filter="url(#cra5cSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="30" y="46" width="170" height="60" rx="8" transform="rotate(-0.6 115 76)" fill="url(#cra5cHc)"/>
+          <rect x="240" y="46" width="170" height="60" rx="8" transform="rotate(0.5 325 76)" fill="#FFFFFF"/>
+          <rect x="450" y="46" width="190" height="60" rx="8" transform="rotate(-0.4 545 76)" fill="#FFFFFF"/>
+          <rect x="680" y="46" width="170" height="60" rx="8" transform="rotate(0.6 765 76)" fill="#F4EFF9"/>
+          <path d="M202 76 L234 76" marker-end="url(#cra5cAr)"/>
+          <path d="M412 76 L444 76" marker-end="url(#cra5cAr)"/>
+          <path d="M642 76 L674 76" marker-end="url(#cra5cAr)"/>
+          <path d="M765 108 L765 134 L115 134 L115 112" marker-end="url(#cra5cAr)"/>
+
+          <rect x="30" y="210" width="170" height="60" rx="8" transform="rotate(0.5 115 240)" fill="url(#cra5cHc)"/>
+          <rect x="240" y="210" width="170" height="60" rx="8" transform="rotate(-0.5 325 240)" fill="#FFFFFF"/>
+          <!-- the one thing the figure is about -->
+          <rect x="450" y="210" width="190" height="60" rx="8" transform="rotate(0.4 545 240)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <rect x="680" y="210" width="170" height="60" rx="8" transform="rotate(-0.6 765 240)" fill="#FFFFFF" stroke-dasharray="6 5"/>
+          <path d="M202 240 L234 240" marker-end="url(#cra5cAr)"/>
+          <path d="M412 240 L444 240" marker-end="url(#cra5cAr)"/>
+          <path d="M642 240 L674 240" stroke-dasharray="6 5" marker-end="url(#cra5cAr)"/>
+          <path d="M765 272 L765 296 L520 296" stroke-dasharray="6 5"/>
+
+          <rect x="30" y="322" width="820" height="106" rx="10" transform="rotate(0.15 440 375)" fill="#F4EFF9"/>
+          <path d="M303 336 L303 414 M576 336 L576 414" stroke="#CFC5DA"/>
+        </g>
+
+        <text class="cra5cL" x="44" y="72">a print</text>
+        <text class="cra5cS" x="44" y="90">time, side, size, price</text>
+        <text class="cra5cL" x="254" y="72">the report</text>
+        <text class="cra5cS" x="254" y="90">built on the print</text>
+        <text class="cra5cL" x="464" y="72">an error is found</text>
+        <text class="cra5cS" x="464" y="90">a bust or a correction</text>
+        <text class="cra5cL" x="694" y="72">the record is fixed</text>
+        <text class="cra5cS" x="694" y="90">and republished</text>
+        <text class="cra5cS" x="270" y="154">the corrected print comes back, so the team can score itself against it</text>
+
+        <text class="cra5cH" x="30" y="192">A CRYPTO MARKET FIGURE: THE CORRECTION NEVER ARRIVES</text>
+
+        <text class="cra5cL" x="44" y="236">reported volume</text>
+        <text class="cra5cS" x="44" y="254">a venue's claim</text>
+        <text class="cra5cL" x="254" y="236">your wash estimate</text>
+        <text class="cra5cS" x="254" y="254">a model, not a count</text>
+        <text class="cra5cB" x="464" y="236">THE TRUE WASH SHARE</text>
+        <text class="cra5cS" x="464" y="254">never published by anyone</text>
+        <text class="cra5cL" x="694" y="236">no label returns</text>
+        <text class="cra5cS" x="694" y="254">nothing to score against</text>
+        <text class="cra5cS" x="300" y="300">the loop never closes</text>
+
+        <text class="cra5cA" x="44" y="346">two estimates, no referee</text>
+        <text class="cra5cV" x="44" y="370">77.5% vs 95%</text>
+        <text class="cra5cS" x="44" y="390">academic, 26 venues, 4 months;</text>
+        <text class="cra5cS" x="44" y="406">industry, 81 venues, 4 days (reported)</text>
+
+        <text class="cra5cA" x="317" y="346">the ruler moves too</text>
+        <text class="cra5cV" x="317" y="370">-0.046% vs -3.96%</text>
+        <text class="cra5cS" x="317" y="390">worst hour, quoted vs restated,</text>
+        <text class="cra5cS" x="317" y="406">constructed 6 percent depeg</text>
+
+        <text class="cra5cA" x="590" y="346">truth only on a bench</text>
+        <text class="cra5cV" x="590" y="370">3 of 200</text>
+        <text class="cra5cS" x="590" y="390">honest venues flagged at k=2;</text>
+        <text class="cra5cS" x="590" y="406">the copy bot is never caught</text>
+
+        <text class="cra5cN" x="30" y="452">Where no correction ever arrives, accuracy is measured on a planted bench, never on the market.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the upper loop teaches a team from its errors; the lower one stops before the lesson arrives</figcaption>
+    </figure>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Without a correction, the cost of being wrong is invisible<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Two published estimates of how much reported volume is wash exist, and nobody will ever publish the answer they are estimating. Cong, Li, Tang and Yang (read at source) estimate wash at 77.5 percent on average of unregulated venues' volume, median 79.1, on 26 unregulated venues over about four months of 2019. They bound it both ways: their Benford-based estimates are "somewhat lower bounds", and if authentic algorithmic trading inflates unrounded volume, the main estimates "should be viewed more as upper bounds". A 2019 industry presentation by Fusaro and Hougan, reported rather than read, put about 95 percent on one aggregator's figure for one asset, across 81 venues over four days. Different denominators, samples, windows and methods. Neither is "the" wash rate, and no correction will ever say which was closer.</p>
+        <p>The unit of account adds a second kind of uncorrected error. On session 4's constructed 6 percent depeg the quoted tape's worst hour is -0.046 percent and the restated one is -3.96 percent. Nobody republishes the quoted figure when the unit slips; the team has to restate it or stay wrong.</p>
+        <p>So the only place a detector's accuracy can be measured is a bench where the truth was planted. On the constructed bench, 3 of 200 fresh honest venues are flagged at k=2, 1.5 percent, and the copy bot is never caught at any share up to 70 percent. Those two numbers are the cost of being wrong in each direction, and they exist only because the bench knows the answer the market never gives.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Why fixing one mechanism at a time fails<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Each workaround leans on another mechanism that is also gone. Screening venues relies on criteria that are partly self-reported. A wash detector needs ground truth to be calibrated on the market, and there is none, so it is calibrated on constructed honest tapes instead. A trader count needs identity. A daily return needs a boundary, and comparing two venues' daily returns needs both to have used the same one. A restatement needs the unit's own level, at the grain of the prints, from a source that is itself one more claim.</p>
+        <p>The honest summary for a leader: the arithmetic of the playbook carries over intact. What does not carry over is the guarantee under the inputs. Session 6 turns that into a transfer map of what to keep, what to learn and what to unlearn.</p>
+      </div>
+    </details>
+
+    <p class="lede">The build-along. No code. Four questions a leader asks of any crypto-market figure on a slide, then three constructed figures run through them out loud in the room. Each figure is built from the constructed tapes in sessions 1 to 5, so every answer can be checked on this page or its siblings.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Question 1 · Whose claim is it?</h4>
+        <p>One venue, several, or a table that ranks them? Reported volume or a count somebody else made? Which venues were screened out before the number was computed, and on what criteria? A figure with no answer here is a venue's statement about itself with a chart around it.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Question 2 · Which day, and which unit?</h4>
+        <p>If the figure is daily, what boundary made it a day? If it is a price or a change, what is it quoted in, and was it restated into a reference unit? Sessions 1 and 4 showed that either choice alone can carry the sign or the size.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Question 3 · Does it need an identity the tape does not have?</h4>
+        <p>Traders, users, participants, concentration, "the same party on both sides". If the figure counts people and the source is a venue's tape, somebody inferred it. Ask how, and ask whether the inference is labelled.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Question 4 · Who would ever tell us it is wrong?</h4>
+        <p>Is there a correction mechanism, a published answer, anything to score against? If not, where was the method measured: on a bench with planted truth, with its false-positive rate and the case it cannot catch stated? A method with no bench and no correction has an unknown error rate.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Figure 1 · "Venue B carries 78.8 percent of the volume"</h4>
+        <p>Question 1 fails first: it is reported volume, unscreened. On the honest volume B carries 52.7 percent. The detectors flag a round-lot washer 3 of 3; switch to a washer that copies honest sizes and 0 of 3 fire with the same weight. The finished slide says "78.8 percent of reported volume, unscreened; honest share unknown on a real feed".</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Figure 2 · "The asset's worst hour yesterday: -3.96 percent"</h4>
+        <p>Question 2 fails twice. Yesterday by which boundary? And -3.96 percent is the restated figure on session 4's 6 percent depeg; quoted in the venue's own unit the same hour reads -0.046 percent. Both are true. The slide needs the unit named and the quoted figure beside it, or a reader will believe the asset moved when the ruler did.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Figure 3 · "3,000 active traders on the venue yesterday"</h4>
+        <p>Question 3 fails outright. Tape A carries 3,000 trades in a day, and no account column. Someone turned trades into traders. The finished slide says "3,000 trades, 00:00 boundary; participant counts are not available from the tape". Then Question 4: nobody will ever publish the true count, so any inferred one needs its method on the slide.</p>
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> When a crypto-market figure arrives on a slide, run the four questions before you discuss the number. Whose claim, which day and unit, which identity it assumes, who would ever correct it. The arithmetic is almost never the problem. The missing guarantee underneath it almost always is.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">A slide says venue B carries 78.8 percent of the two-venue market. What is the first question to ask?</p>
+      <div class="qopt">A · Which boundary was used to define the day</div>
+      <div class="qopt">B · Whether that is reported volume, and which venues were screened before it was counted</div>
+      <div class="qopt">C · Whether 78.8 was rounded correctly</div>
+      <q class="qwhy">The source comes first. On the constructed bench 78.8 percent is B's share of reported volume with a washer at 70 percent; its honest share is 52.7. Weighting by volume is correct only after the venues have been screened, which is what the public index rulebooks do.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">With a washer that copies honest trade sizes at 70 percent, none of the three detectors fires. What does that mean?</p>
+      <div class="qopt">A · Size-based tests cannot see a washer that samples the honest size distribution; it is the honest limit of the method, and the matched-pair structure is what remains</div>
+      <div class="qopt">B · The venue is honest after all</div>
+      <div class="qopt">C · The detectors are broken and should be replaced</div>
+      <q class="qwhy">The copy bot's sizes are drawn from the same distribution as the honest ones, so roundness, clustering and the first-digit test read inside the honest bands by construction. Same size, opposite side, seconds apart is still there; these three tests do not read it.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">Why can Harrowgate not measure its wash detector's accuracy on the real venues it watches?</p>
+      <div class="qopt">A · There are too many venues to check by hand</div>
+      <div class="qopt">B · The detectors are too slow to run on a full day</div>
+      <div class="qopt">C · Nobody ever publishes a venue's true wash share, so there is no label to score against; accuracy is measured on a constructed bench where the truth was planted</div>
+      <q class="qwhy">A conventional feed corrects wrong prints and the team can score itself against the fix. Here no correction arrives. The bench is where the false-positive rate, 3 of 200 honest venues at k=2, and the case the method cannot catch, the copy bot, become numbers.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 6</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">Twenty minutes, on a slide you have seen and on the habits your team already has.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Run the four questions on one figure</h4>
+        <p>Pick one market figure from a deck or report you have seen recently, crypto or not. Write one line per question: whose claim, which day and unit, which identity it assumes, who would correct it. Count how many lines you could fill without asking anybody.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Sort five of your team's habits</h4>
+        <p>List five things your team does every week on its current feed: a join, a check, a default, a chart. Mark each "carries over", "must change" or "would be dangerous here". Session 6 turns that sorting into a transfer map with a 90-day reading ladder behind it.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The source and its feedback loop</span><span class="note">One audited consolidated tape against venues that report themselves to a ranking that rewards the count; Cong, Li, Tang and Yang's estimate that 70 percent wash moved a venue up 46 positions in their 2019 sample.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The bench, live</span><span class="note">On Tape A at 70 percent wash, B's share is 52.7 percent honest and 78.8 percent reported; a round-lot washer fires 3 of 3, a washer that copies honest sizes fires 0 of 3. Constructed.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Identity and time</span><span class="note">Accounts and a settlement day against a tape of time, side, size and price; no trader count from 3,000 trades, and four boundaries giving +0.052, -0.020, -0.061 and +0.054 percent.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Ground truth and the cost of being wrong</span><span class="note">A corrected print against a number nobody corrects; 77.5 against about 95 percent taught as a disagreement; -0.046 quoted against -3.96 percent restated; 3 of 200 honest venues flagged at k=2.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The leader's due-diligence checklist</span><span class="note">Four questions, run on three constructed figures. Harrowgate, constructed.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">The transfer map</span><span class="note">Named tonight. Session 6 sorts what carries over, what must be learned and what must be unlearned, with a 90-day ladder of free sources.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">The detectors and the full bench, hands on</span><span class="note">Practitioner sessions 4 to 7 build and measure them; practitioner session 10 runs the ladder, the break button and the copy bot.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">On-chain identity and chain mechanics</span><span class="note">Live in <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/">learn-web3-with-phoebe</a> and <a href="https://phoebefu6.github.io/learn-blockchain-with-phoebe/">learn-blockchain-with-phoebe</a> and not repeated.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Record linkage and general anomaly detection</span><span class="note">Live in <a href="https://phoebefu6.github.io/learn-entity-resolution-with-phoebe/">learn-entity-resolution-with-phoebe</a> and <a href="https://phoebefu6.github.io/learn-anomaly-detection-with-phoebe/">learn-anomaly-detection-with-phoebe</a>.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Anything to do with buying, selling or holding</span><span class="note">Out of scope by design. No real venue, asset or price appears, and nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>Why the market-data playbook breaks here <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>The one sentence.</strong> The arithmetic carries over. The guarantee under the inputs, the audited source, the account, the close and the correction, does not.</div>
+      <div class="cheat-item"><strong>The source.</strong> Venues report their own volume to rankings that reward the count. 52.7 percent honest share became 78.8 percent reported on the constructed bench.</div>
+      <div class="cheat-item"><strong>The honest limit.</strong> A round-lot washer fires 3 of 3. A washer that copies honest sizes fires 0 of 3 at the same weight. The matched pair is what remains.</div>
+      <div class="cheat-item"><strong>Identity.</strong> A tape has time, side, size and price. 3,000 trades is not a trader count, and no cleaning makes it one.</div>
+      <div class="cheat-item"><strong>Time.</strong> No close: +0.052, -0.020, -0.061 or +0.054 percent for the same day, by boundary.</div>
+      <div class="cheat-item"><strong>Ground truth.</strong> No correction ever arrives. 77.5 against about 95 percent is a disagreement to teach, and accuracy lives only on a planted bench: 3 of 200 at k=2.</div>
+      <div class="cheat-item"><strong>The four questions.</strong> Whose claim? Which day and unit? Which identity does it assume? Who would ever tell us it is wrong?</div>
+      <div class="cheat-item"><strong>Not advice.</strong> No real venue, asset or price appears. The job is a figure whose provenance a stranger can check, not a view.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Leader session 6, from warehouse to crypto desk: the transfer map. What a conventional data analyst, engineer or scientist already has that is worth more here, what is new, and the habits that are actively dangerous, with a 90-day self-study ladder of free sources, the official ones marked.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Leader session 5 of 6 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="a4-the-unit-of-account-can-move.html">← Prev: Leader session 4 · The unit of account can move</a>
+        <a href="a6-from-warehouse-to-crypto-desk.html">Next: Leader session 6 · From warehouse to crypto desk: the transfer map →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var seedSel = document.getElementById("cra5-seed");
+  var styleSel = document.getElementById("cra5-style");
+  var shareSel = document.getElementById("cra5-share");
+  var out = document.getElementById("cra5-out");
+  var verdict = document.getElementById("cra5-verdict");
+  var self = document.getElementById("cra5-self");
+  var NAMES = { "11": "Tape A", "101": "Tape B", "2024": "Tape C", "7": "Tape D", "55555": "Tape E" };
+  var STYLES = { round: "round-lot washer", flat: "flat-band washer", copy: "washer that copies honest sizes" };
+
+  var cal = CM.calibrate();
+
+  function pct(x) { return (x * 100).toFixed(1) + "%"; }
+  function mark(f) { return f ? "<b>fires</b>" : '<span class="sql-null">silent</span>'; }
+
+  function render() {
+    var s = Number(seedSel.value), st = styleSel.value, w = Number(shareSel.value);
+    var L = CM.ladder({ seedA: s, seedB: s + 1, shares: [w], washStyle: st, cal: cal, k: 2 });
+    var r = L.rows[0];
+    var html = '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>Venue B, against honest venue A</th><th>Value</th></tr></thead><tbody>';
+    html += "<tr><td>B's share of the honest volume</td><td>" + pct(r.weightHonest) + "</td></tr>";
+    html += "<tr><td>B's share of the reported volume, the number on the slide</td><td><b>" + pct(r.weightByReported) + "</b></td></tr>";
+    html += "<tr><td>B's rank if venues are ranked by reported volume</td><td>" + r.rankByReported + " of 2</td></tr>";
+    html += "<tr><td>First-digit deviation (MAD), fires above " + (cal.mean.mad + 2 * cal.sd.mad).toFixed(4) + "</td><td>" + r.readings.mad.toFixed(4) + " · " + mark(r.fired.mad) + "</td></tr>";
+    html += "<tr><td>Round share, honest band " + pct(cal.mean.round - 2 * cal.sd.round) + " to " + pct(cal.mean.round + 2 * cal.sd.round) + "</td><td>" + pct(r.readings.round) + " · " + mark(r.fired.round) + "</td></tr>";
+    html += "<tr><td>Cluster share, honest band " + pct(cal.mean.cluster - 2 * cal.sd.cluster) + " to " + pct(cal.mean.cluster + 2 * cal.sd.cluster) + "</td><td>" + pct(r.readings.cluster) + " · " + mark(r.fired.cluster) + "</td></tr>";
+    html += "<tr><td>Verdict at k=2, flagged when 2 of 3 fire</td><td><b>" + r.count + " of 3, " + (r.flagged ? "flagged" : "reads honest") + "</b></td></tr>";
+    html += "</tbody></table></div>";
+    out.innerHTML = html;
+
+    var msg = NAMES[String(s)] + ", " + STYLES[st] + " at " + Math.round(w * 100) + " percent: B carries " + pct(r.weightHonest)
+      + " of the honest volume and " + pct(r.weightByReported) + " of the reported volume. ";
+    if (w === 0) msg += "With no washer the two shares agree and nothing fires.";
+    else if (r.flagged) msg += "The detectors fire " + r.count + " of 3, so a screen would catch this venue before its volume became a weight.";
+    else msg += "The detectors fire " + r.count + " of 3 and the venue reads honest. The weight moved anyway; only the matched-pair structure is left to find it.";
+    verdict.textContent = msg;
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, so the readings above are the readings any correct run gives. Both venues are constructed; nothing here is a real market, venue or price."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  seedSel.addEventListener("change", render);
+  styleSel.addEventListener("change", render);
+  shareSel.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #cra5-source .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 16rem; }
+  #cra5-source table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+</style>
+</body>
+</html>

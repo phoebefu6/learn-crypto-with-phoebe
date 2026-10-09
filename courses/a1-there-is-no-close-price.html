@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Leader session 1 of 6. A conventional market feed hands a data team a close price, because the market stops. A crypto tape never stops, so the close is a convention you choose, and the sign of yesterday's return depends on the choice. Harrowgate, and the four boundaries.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="There is no close price - learn crypto with phoebe">
+<meta property="og:description" content="Leader session 1 of 6. Four boundary conventions on the same prints, four different daily returns, two of them negative. Not investment advice.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/a1-there-is-no-close-price.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="There is no close price - learn crypto with phoebe">
+<meta name="twitter:description" content="The return is a property of the boundary as much as of the market. State the convention beside the number or the number is not finished.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Leader session 1 · There is no close price - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Leader session 1 of 6</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Leader session 1 of 6</div>
+    <h1>There is no <span class="accent">close price</span></h1>
+    <p class="sub">A conventional market feed hands a data team one number a day without being asked: the close. It exists because the market stops, settles and reopens, so the last print of the session is an official event with a timestamp everybody shares. A crypto market tape never stops. Nothing settles, no bell rings, and the last print before midnight is not more official than the last print before lunch. Tonight is what that does to the most ordinary sentence in a report, "yesterday's return", measured on a constructed five-day tape where the same prints give four different answers depending on when you decided the day ends. Nothing here is investment advice, and nothing here is a price of anything real.</p>
+    <div class="chip-row">
+      <span class="chip level">🟠 Leader track</span>
+      <span class="chip audience">Anyone who signs off a number from a market feed</span>
+      <span class="chip audience">Anyone deciding whether to build on one</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-18 · Nothing closes</span>
+      <span class="a3" style="flex:3">18-28 · Harrowgate's report</span>
+      <span class="a4" style="flex:4">28-45 · Build-along and Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate, on the morning the report asks for yesterday's return</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm. It has been asked to publish, every morning, a reference level for an abstract asset and a one-line daily return, the way it already does for a dozen conventional instruments. The team is competent and the pipeline exists. The first morning on the crypto feed, two analysts compute yesterday's return from the same prints and get different signs. Neither has made an arithmetic error. Tonight is about why, and what the honest sentence in the report looks like.</p>
+
+    <div class="legend">
+      <span class="pill">Live = presented in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> The reason a conventional feed has a close and a crypto tape does not, drawn as a mechanism rather than asserted. Four boundary conventions run on the same constructed tape in this page, with the daily returns they produce, two of which disagree in sign with the other two. A rule for what has to sit beside any daily number taken from a market that never stops. And the list of the other four things the conventional feed quietly provides that this one does not, which sessions 2, 3 and 4 take apart one at a time.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>What a conventional feed quietly provides<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Ask a data leader what their market-data pipeline depends on and you get vendors, entitlements and a warehouse. The things it actually leans on are quieter: a session that opens and closes, so there is one official last price a day; one consolidated record of every trade, so "the price" means something; volume counted by an operator with an auditor behind it; a currency that is stable enough to be the ruler rather than the thing being measured; and counterparties who are, at some level, identified.</p>
+        <p>None of those is a technology choice. They are properties of the arrangement, and they are so reliable on a conventional feed that the whole reporting craft is built on top of them without a mention. A crypto market tape removes all five at once. That is why the experience is disorienting rather than merely unfamiliar: the arithmetic is the same, the assumptions under the arithmetic are gone.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Harrowgate's first week went badly for a reason nobody predicted. Nobody lacked skill. Every recovery move the team reached for assumed at least one of the five: they looked for the official close, they looked for the consolidated tape, they ranked venues by the volume each venue reported. Each of those is the right instinct somewhere else. Harrowgate is constructed; the mistakes are the ordinary ones.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Tape.</strong> The sequence of executed trades a venue publishes: a timestamp, a side, a size and a price per row. The only thing that happened. Practitioner session 1.</li>
+          <li><strong>Print.</strong> One row of the tape. "The last print before the boundary" is what a close is made of.</li>
+          <li><strong>Boundary.</strong> The moment you decide a day ends. On a conventional feed the market decides; here you do. Tonight.</li>
+          <li><strong>Candle.</strong> Open, high, low, close and volume over a chosen interval. A derived object, never an observation. Practitioner session 2.</li>
+          <li><strong>Venue.</strong> One exchange, with its own tape, its own book and its own reported volume. Session 3 is about having many of them.</li>
+          <li><strong>Reported volume.</strong> The number a venue publishes about itself. Session 2 is about why that is a claim rather than a measurement.</li>
+          <li><strong>Unit of account.</strong> The thing prices are quoted in. On this feed it is often itself a traded asset, and session 4 is about what happens when it moves.</li>
+          <li><strong>Reference level.</strong> The number an index publishes after reconciling venues. Session 3 and practitioner session 3.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers why there is no close</span>
+      <h2>Nothing closes, so the close is a choice</h2>
+      <span class="tag concept">15 min live</span>
+    </div>
+    <p class="lede">A close price is not a property of prices. It is a property of a market that stops. The conventional session has an open, a close, and a settlement step that turns the last print into an official number with a shared timestamp. Take the stopping away and every print is just a print. Somebody has to draw a line through the tape and call the print before it "the close", and whoever draws the line is choosing the number.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 372" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn rails. The upper rail is a conventional trading day: an opening bell at the left, a hatched session, a closing bell, and a settlement box that turns the last print into one official close. The lower rail is a crypto tape that runs the full 24 hours with prints all along it and no bells; four flags mark candidate boundaries at 00:00, 08:00, 16:00 and 21:00, each labelled with the first full-day return it produces on the constructed tape: plus 0.052, minus 0.020, minus 0.061 and plus 0.054 percent. A note says the same prints give four closes and two signs.">
+        <defs>
+          <filter id="cra1aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="cra1aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="cra1aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .cra1aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .cra1aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .cra1aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .cra1aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .cra1aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .cra1aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .cra1aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="cra1aH" x="30" y="26">A CONVENTIONAL SESSION: THE MARKET STOPS, SO THERE IS ONE CLOSE</text>
+
+        <g filter="url(#cra1aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- upper rail -->
+          <path d="M60 96 L660 96"/>
+          <rect x="200" y="78" width="320" height="36" rx="4" transform="rotate(-0.4 360 96)" fill="url(#cra1aHc)"/>
+          <!-- bells -->
+          <path d="M200 60 C190 60 188 48 200 44 C212 48 210 60 200 60 Z" fill="#FFFFFF"/>
+          <path d="M520 60 C510 60 508 48 520 44 C532 48 530 60 520 60 Z" fill="#FFFFFF"/>
+          <path d="M200 60 L200 78 M520 60 L520 78"/>
+          <!-- settlement box -->
+          <path d="M520 96 C560 96 580 96 612 96" marker-end="url(#cra1aAr)"/>
+          <rect x="620" y="66" width="230" height="60" rx="8" transform="rotate(0.5 735 96)" fill="#F4EFF9"/>
+
+          <!-- lower rail, 24 hours -->
+          <path d="M60 262 L820 262"/>
+          <path d="M72 254 L72 270 M96 256 L96 268 M118 253 L118 271 M140 257 L140 267 M164 254 L164 270 M186 256 L186 268 M210 253 L210 271 M232 257 L232 267 M256 255 L256 269 M278 254 L278 270 M300 256 L300 268 M324 253 L324 271 M346 257 L346 267 M368 255 L368 269 M392 254 L392 270 M414 256 L414 268 M436 253 L436 271 M460 257 L460 267 M482 255 L482 269 M504 254 L504 270 M528 256 L528 268 M550 253 L550 271 M572 257 L572 267 M596 255 L596 269 M618 254 L618 270 M640 256 L640 268 M664 253 L664 271 M686 257 L686 267 M708 255 L708 269 M732 254 L732 270 M754 256 L754 268 M776 253 L776 271 M800 257 L800 267" stroke="#9C7FBF" stroke-width="1.6"/>
+          <!-- four boundary flags -->
+          <path d="M60 240 L60 196" stroke="#B7791F"/>
+          <path d="M60 196 L92 204 L60 212 Z" fill="#FBF3E2" stroke="#B7791F"/>
+          <path d="M313 240 L313 196" stroke="#B7791F"/>
+          <path d="M313 196 L345 204 L313 212 Z" fill="#FBF3E2" stroke="#B7791F"/>
+          <path d="M567 240 L567 196" stroke="#B7791F"/>
+          <path d="M567 196 L599 204 L567 212 Z" fill="#FBF3E2" stroke="#B7791F"/>
+          <path d="M725 240 L725 196" stroke="#B7791F"/>
+          <path d="M725 196 L757 204 L725 212 Z" fill="#FBF3E2" stroke="#B7791F"/>
+        </g>
+
+        <text class="cra1aS" x="178" y="40">open</text>
+        <text class="cra1aS" x="500" y="40">close</text>
+        <text class="cra1aS" x="60" y="128">overnight: no prints, nothing to argue about</text>
+        <text class="cra1aL" x="634" y="88">settlement</text>
+        <text class="cra1aS" x="634" y="106">the last print becomes</text>
+        <text class="cra1aS" x="634" y="121">one official number</text>
+
+        <text class="cra1aH" x="30" y="178">A CRYPTO TAPE: PRINTS ALL DAY, NO BELL, SO SOMEBODY DRAWS THE LINE</text>
+        <text class="cra1aB" x="70" y="192">00:00</text>
+        <text class="cra1aB" x="323" y="192">08:00</text>
+        <text class="cra1aB" x="577" y="192">16:00</text>
+        <text class="cra1aB" x="735" y="192">21:00</text>
+        <text class="cra1aV" x="60" y="300">+0.052%</text>
+        <text class="cra1aV" x="313" y="300">-0.020%</text>
+        <text class="cra1aV" x="567" y="300">-0.061%</text>
+        <text class="cra1aV" x="725" y="300">+0.054%</text>
+        <text class="cra1aA" x="60" y="318">first full-day return under each boundary, same prints</text>
+
+        <text class="cra1aN" x="30" y="356">Same tape, four closes, two signs. The return is a property of the boundary as much as of the market.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the upper rail has a close because trading stops; the lower rail has four because it never does</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The settlement day is a service, not a fact of nature<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>On a conventional feed the close arrives as if it were an observation. It is not. It is the output of an operator stopping a market, running a closing procedure, and publishing a number under a shared timestamp that every downstream consumer agrees to use. The data team never has to decide anything, which is exactly why it never notices that a decision was made.</p>
+        <p>A crypto venue runs continuously. There is no closing procedure because there is no closing. The tape at 23:59:59 is the same kind of thing as the tape at 11:00:00: a sequence of prints. If a data team wants "the close", it has to pick a boundary, take the last print before it, and call that the close. Three teams picking three boundaries get three closes and all of them are correct. What is wrong is any report that prints one of them without saying which.</p>
+        <p>The boundary is not the only thing missing. The overnight gap on a conventional feed is a stretch with no prints at all, so "yesterday's close to today's open" is a clean comparison. Here the stretch is full of prints, so a return computed between any two boundaries is also a return over a period that contains a whole night of trading nobody in the room was watching.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Four conventions, four returns, two signs<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The constructed tape in this page runs five days with 3,000 prints a day. Under a midnight boundary the first full-day return is <strong>+0.052 percent</strong>. Move the boundary to 08:00 and the same day reads <strong>-0.020 percent</strong>. At 16:00 it reads <strong>-0.061 percent</strong>, and at 21:00 it reads <strong>+0.054 percent</strong>. Nothing about the prints changed. Only the line somebody drew through them.</p>
+        <p>The sizes are small, which is the point rather than a weakness. On a tape with no trend, the entire day-over-day return is made of where the boundary happens to fall between prints. A reader who sees "-0.061 percent" in a report and "+0.052 percent" in another will assume one source is wrong. Both are right, and both are unfinished until the boundary is written beside them.</p>
+        <p>One more detail worth noticing in the widget below. The midnight convention prints four returns on a five-day tape and the others print five, because the first midnight boundary sits at the very start of the tape with no print before it. That is not a bug in the widget. A boundary with nothing before it has no close, and a feed that starts at midnight has one fewer day than it looks like.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>One camp holds that the only honest daily number on a continuous market is a fixing: a reference level published at a stated time of day by a stated method, the way a public index rulebook does it, with a calculation window and partitions rather than a single last print. On this view "the close" should never appear in a report at all; the fixing time and the method appear instead, and the daily return is a return between fixings.</p>
+        <p>The other camp holds that a fixing is just a boundary with a committee behind it, and that the right move is to stop pretending there is a day. Report rolling 24-hour windows, or report the full distribution of prints in the period, and let the reader see that "yesterday" is a shape rather than a point. On this view the fixing is a comfort for people who want the old sentence back.</p>
+        <p>Both camps agree on the thing that matters tonight: the number does not exist until the convention does, and the convention has to travel with the number. Which camp the person across the table belongs to tells you how they will react when two reports disagree.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers Harrowgate</span>
+      <h2>Harrowgate's report, and the sentence it has to put in it</h2>
+      <span class="tag concept">10 min live</span>
+    </div>
+    <p class="lede">Harrowgate's mechanism is five steps long and there is nothing exotic in any of them. A tape arrives. Somebody picks a boundary. The last print before it becomes the close. The close is compared with the previous close. A number goes in the report. Each step is ordinary. One of them is a choice that a conventional feed makes for you, and it is the step the report never mentions.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five hand-drawn stations left to right: the tape arrives, a boundary is chosen, the last print before it becomes the close, the close is compared with the previous one, a number goes in the report. The second station is drawn in the warm contrast colour with a note that on a conventional feed the market makes this choice and here the team does. Underneath, a band lists the four conventions and the first full-day return each gives on the constructed tape, and a closing note says the convention has to travel with the number.">
+        <defs>
+          <filter id="cra1bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="23" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="cra1bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="cra1bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .cra1bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .cra1bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .cra1bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .cra1bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .cra1bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .cra1bV { font: 800 14px Inter, sans-serif; fill: #3A1A58; }
+          .cra1bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="cra1bH" x="30" y="26">FROM A TAPE TO A NUMBER IN A REPORT, AND THE STEP THE REPORT NEVER MENTIONS</text>
+
+        <g filter="url(#cra1bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="30" y="60" width="150" height="74" rx="8" transform="rotate(-0.6 105 97)" fill="url(#cra1bHc)"/>
+          <rect x="200" y="60" width="150" height="74" rx="8" transform="rotate(0.5 275 97)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <rect x="370" y="60" width="150" height="74" rx="8" transform="rotate(-0.4 445 97)" fill="#FFFFFF"/>
+          <rect x="540" y="60" width="150" height="74" rx="8" transform="rotate(0.4 615 97)" fill="#FFFFFF"/>
+          <rect x="710" y="60" width="150" height="74" rx="8" transform="rotate(-0.5 785 97)" fill="#F4EFF9"/>
+          <path d="M182 97 L196 97" marker-end="url(#cra1bAr)"/>
+          <path d="M352 97 L366 97" marker-end="url(#cra1bAr)"/>
+          <path d="M522 97 L536 97" marker-end="url(#cra1bAr)"/>
+          <path d="M692 97 L706 97" marker-end="url(#cra1bAr)"/>
+          <!-- the choice callout -->
+          <path d="M275 136 L275 162" stroke="#B7791F"/>
+          <rect x="150" y="166" width="470" height="56" rx="8" transform="rotate(0.3 385 194)" fill="#FFFFFF" stroke="#B7791F"/>
+          <!-- band of four conventions -->
+          <rect x="30" y="248" width="830" height="96" rx="10" transform="rotate(0.15 445 296)" fill="#F4EFF9"/>
+          <path d="M237 262 L237 330 M444 262 L444 330 M651 262 L651 330" stroke="#CFC5DA"/>
+        </g>
+
+        <text class="cra1bL" x="44" y="88">1 · The tape arrives</text>
+        <text class="cra1bS" x="44" y="106">15,000 prints over</text>
+        <text class="cra1bS" x="44" y="121">five days, no bell</text>
+
+        <text class="cra1bB" x="214" y="88">2 · A boundary is chosen</text>
+        <text class="cra1bS" x="214" y="106">00:00? 08:00? 16:00?</text>
+        <text class="cra1bS" x="214" y="121">21:00? somebody decides</text>
+
+        <text class="cra1bL" x="384" y="88">3 · Last print before it</text>
+        <text class="cra1bS" x="384" y="106">becomes "the close"</text>
+        <text class="cra1bS" x="384" y="121">for that boundary</text>
+
+        <text class="cra1bL" x="554" y="88">4 · Compared with</text>
+        <text class="cra1bS" x="554" y="106">the previous close</text>
+        <text class="cra1bS" x="554" y="121">under the same rule</text>
+
+        <text class="cra1bL" x="724" y="88">5 · A number goes</text>
+        <text class="cra1bS" x="724" y="106">in the report as</text>
+        <text class="cra1bS" x="724" y="121">"yesterday's return"</text>
+
+        <text class="cra1bB" x="164" y="188">ON A CONVENTIONAL FEED THE MARKET MAKES THIS CHOICE</text>
+        <text class="cra1bS" x="164" y="206">Here the team makes it, every day, and usually without noticing.</text>
+
+        <text class="cra1bA" x="44" y="270">00:00 boundary</text>
+        <text class="cra1bV" x="44" y="292">+0.052%</text>
+        <text class="cra1bS" x="44" y="312">four returns on five days</text>
+        <text class="cra1bA" x="251" y="270">08:00 boundary</text>
+        <text class="cra1bV" x="251" y="292">-0.020%</text>
+        <text class="cra1bS" x="251" y="312">five returns on five days</text>
+        <text class="cra1bA" x="458" y="270">16:00 boundary</text>
+        <text class="cra1bV" x="458" y="292">-0.061%</text>
+        <text class="cra1bS" x="458" y="312">five returns on five days</text>
+        <text class="cra1bA" x="665" y="270">21:00 boundary</text>
+        <text class="cra1bV" x="665" y="292">+0.054%</text>
+        <text class="cra1bS" x="665" y="312">five returns on five days</text>
+
+        <text class="cra1bN" x="30" y="382">The rule travels with the number: "-0.061 percent, 16:00 boundary, last print" is finished; the number alone is not.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - step 2 is the one a conventional feed does for you, which is why nobody at Harrowgate thought to write it down</figcaption>
+    </figure>
+
+    <div class="wk" id="cra1-close">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">The constructed five-day tape, running in this page. Pick a boundary and watch the closes and the returns recompute. Nothing here is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="cra1-seed">Which constructed tape</label>
+        <select class="sql-code" id="cra1-seed">
+          <option value="11">Tape A</option>
+          <option value="101">Tape B</option>
+          <option value="2024">Tape C</option>
+          <option value="7">Tape D</option>
+          <option value="55555">Tape E</option>
+        </select>
+        <label class="sql-label" for="cra1-off">Where the day ends</label>
+        <select class="sql-code" id="cra1-off">
+          <option value="0">00:00, midnight</option>
+          <option value="28800">08:00</option>
+          <option value="57600">16:00</option>
+          <option value="75600">21:00</option>
+        </select>
+        <div id="cra1-out"></div>
+        <p class="sql-note" id="cra1-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="cra1-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Why the convention column is the honest one<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Change the boundary and watch the first full-day return on Tape A move from +0.052 to -0.020 to -0.061 to +0.054 percent. Then look at what did not move: the final close is 100.306 under every convention, because the tape ends at the same print whichever line you drew. That is the giveaway. The close is only stable where the tape happens to stop, and a real tape never stops.</p>
+        <p>A data team's reflex at this point is to go and find the right boundary. There is no right boundary. There is a stated one, and the professional norm on any continuous market is that the statement sits beside the number, in the same cell or the same sentence, so that two reports can be compared without a phone call. Practitioner session 2 builds the candles that make the choice explicit; practitioner session 3 shows what the public index rulebooks do instead of a last print.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>The other four things the conventional feed quietly provided<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The close is the first thing Harrowgate noticed missing because it is the first thing a daily report needs. It is not the biggest. There is no consolidated tape, so "the price" is one venue's last print at one moment and four venues give four defensible answers at once (session 3). Every venue reports its own volume with no auditor and a league table to climb, so the most-quoted number in the market is a claim rather than a measurement (session 2). The unit everything is quoted in is itself a traded thing, so a chart can move because the ruler moved (session 4). And nobody on the tape is identified, so a question like "how many participants" has no column that answers it.</p>
+        <p>All five change at the same time, which is why none of them can be handled on its own. Every workaround for one of them quietly assumes another still holds. Session 5 takes the five apart as mechanisms; session 6 says what a data team already knows that is worth more here than it was before.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Not investment advice, and what that means for a data team<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Nothing in these sessions is advice about buying, selling or holding anything, and no page quotes a real price, a real venue or a real asset. That is a content rule, and it is also the professional stance of a data team on this feed. Harrowgate's job is not to have a view on the asset. It is to publish a number whose provenance a stranger can check: which venues, which boundary, which method, which exclusions.</p>
+        <p>The discipline pays off in an unexpected place. A team that writes the convention beside every number is a team whose numbers can be reproduced by someone who disagrees with them, which is the only kind of number worth defending in a dispute. On a conventional feed the operator's settlement procedure provides that reproducibility for free. Here the team has to provide it itself, every morning, in the report.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>Find the boundaries hiding in your own reports</h2>
+      <span class="tag build">17 min hands on</span>
+    </div>
+    <p class="lede">No code. Six steps on a number your own team publishes today, said out loud in the room. The aim is to notice how many conventions a conventional feed has been choosing for you, because those are the ones that will bite first on a tape that never stops.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Name the five from memory</h4>
+        <p>Without looking up: a session that closes, one consolidated tape, audited volume, a stable unit of account, identified participants. Say what each one gives a daily report. The one most people cannot state is the fourth, which is also the one with no engineering fix.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Pick a daily number you publish</h4>
+        <p>Something real, with a return or a change that goes to someone senior. Write down the boundary it uses. If the answer is "the close", write down who decided when the close is, and whether anyone on your team could state it without looking.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Move the boundary by eight hours in your head</h4>
+        <p>For a continuous source, ask whether the sign of yesterday's number could plausibly flip. On Tape A it did, twice. If you cannot say how large the flip could be, you do not yet know how much of your number is the market and how much is the line.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Find the cell where the convention would go</h4>
+        <p>Look at the report layout. Is there a place for "16:00 boundary, last print, venue A" beside the number? If there is not, the report was designed for a feed that made the choice for you, and the first thing to change is the layout, not the pipeline.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Count the other four</h4>
+        <p>For the same number: is the source consolidated or one venue? Is its volume audited or self-reported? Is the quoting unit stable or traded? Are the participants identified? Mark each as "provided by the feed" or "we would have to provide it". The second column is the size of the job.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Commit to a sentence</h4>
+        <p>Write the finished version of "yesterday's return was X" for a continuous source, with every convention in it, on paper where you can see it. Session 2 adds the word that has to go beside the volume figure, and it is not "audited".</p>
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> When someone hands you a daily number taken from a market that never stops, ask which boundary made it a day before you ask anything about the market. The arithmetic is almost never wrong. The boundary is almost never stated, and it can carry the whole sign.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">Two Harrowgate analysts compute yesterday's return from the same prints and get +0.052 percent and -0.061 percent. Which statement is right?</p>
+      <div class="qopt">A · One of them has the wrong data, because the same prints must give the same return</div>
+      <div class="qopt">B · Both are right under their own boundary, and neither number is finished until the boundary is written beside it</div>
+      <div class="qopt">C · The two should be averaged to remove the disagreement</div>
+      <q class="qwhy">On a continuous tape the close is the last print before a boundary somebody chose. Two boundaries give two closes and two returns, both correct. Averaging them produces a third number with no convention at all, which is worse than either.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">Why does a conventional equity feed have a close price when a crypto venue does not?</p>
+      <div class="qopt">A · Because the conventional market stops and runs a settlement procedure, so the last print becomes one official number under a shared timestamp</div>
+      <div class="qopt">B · Because regulators publish the close for conventional markets and not for crypto venues</div>
+      <div class="qopt">C · Because conventional feeds have more trades, which makes the last one more reliable</div>
+      <q class="qwhy">The close is a product of stopping. A market that never stops has no last print of the session because there is no session, and no amount of trade volume creates one. The data team has to draw the line itself.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">On the same five-day tape the midnight convention prints four daily returns and the 08:00 convention prints five. Why?</p>
+      <div class="qopt">A · The 08:00 tape contains more prints, so it has more days</div>
+      <div class="qopt">B · The widget has an off-by-one error that session 2 fixes</div>
+      <div class="qopt">C · The first midnight boundary sits at the very start of the tape with no print before it, so it has no close and the first return is lost</div>
+      <q class="qwhy">A close needs a print before the boundary. A tape that begins at midnight has nothing before its first midnight boundary, so that convention has one fewer close than a boundary that falls eight hours in. The count of days is itself a property of the convention.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 2</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">Twenty minutes, on a number your own team reports and on the sentence you just wrote.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Write the five down for one report</h4>
+        <p>For one daily number: the boundary, the source, who counts the volume, what the quoting unit is, and whether participants are identified. One line each. Mark the ones you had never articulated before tonight.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Bring one volume figure you trust</h4>
+        <p>Any volume number your team quotes, with the name of whoever produced it. Session 2 asks one question about it: who would have noticed if it were inflated, and what they stood to gain from not noticing.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Why a conventional feed has a close</span><span class="note">Stopping, settlement and a shared timestamp, drawn as a mechanism rather than listed as a feature.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The close as a convention</span><span class="note">Four boundaries on the same constructed tape: +0.052, -0.020, -0.061 and +0.054 percent for the same day.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The day count is a convention too</span><span class="note">Four returns under a midnight boundary and five under the others, because a boundary with no print before it has no close.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Harrowgate's mechanism end to end</span><span class="note">Tape, boundary, last print, comparison, report, and the step the report never mentions. Constructed.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The finished sentence</span><span class="note">The convention travels with the number, or the number is not done.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Self-reported volume</span><span class="note">Named tonight as the second missing thing. Session 2 puts two published estimates on it and teaches their disagreement.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Many venues, many prices</span><span class="note">Named tonight. Session 3 reconciles four venues four ways and gets four levels.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">A moving unit of account</span><span class="note">Named tonight. Session 4 restates a tape and shows the move the quoted tape hides.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Candles, fixings and index methods, hands on</span><span class="note">Practitioner sessions 2 and 3 build them.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Chain mechanics and on-chain data</span><span class="note">Live in learn-blockchain-with-phoebe and learn-web3-with-phoebe and are not repeated.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Anything to do with buying, selling or holding</span><span class="note">Out of scope by design. Nothing here is investment advice and no real price appears.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>There is no close price <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>The one sentence.</strong> A close is a property of a market that stops. On a tape that never stops, the close is a boundary somebody chose.</div>
+      <div class="cheat-item"><strong>Four boundaries, four returns.</strong> +0.052, -0.020, -0.061 and +0.054 percent for the same day on the same constructed prints.</div>
+      <div class="cheat-item"><strong>The only stable close.</strong> The final one, 100.306 under every convention, because the tape happened to end there. Real tapes do not end.</div>
+      <div class="cheat-item"><strong>The day count moves too.</strong> A boundary with no print before it has no close. Midnight on a tape that starts at midnight gives one fewer day.</div>
+      <div class="cheat-item"><strong>The finished sentence.</strong> Number, boundary, rule, source. "-0.061 percent, 16:00 boundary, last print, venue A."</div>
+      <div class="cheat-item"><strong>The five quiet gifts of a conventional feed.</strong> A session that closes, one tape, audited volume, a stable unit, identified participants. All five go at once.</div>
+      <div class="cheat-item"><strong>The test for a report.</strong> Is there a cell for the convention? If not, the layout assumed a feed that chose for you.</div>
+      <div class="cheat-item"><strong>Not advice.</strong> No price, no venue, no asset is real here. The job is provenance a stranger can check, not a view.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Leader session 2, the volume that reports itself. Every venue publishes its own volume with no auditor and a league table to climb. Two published estimates of how much of it is fake, and why a data team should teach their disagreement rather than pick one.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Leader session 1 of 6 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="../index.html">← All sessions</a>
+        <a href="a2-the-volume-that-reports-itself.html">Next: Leader session 2 · The volume that reports itself →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var sel = document.getElementById("cra1-seed");
+  var off = document.getElementById("cra1-off");
+  var out = document.getElementById("cra1-out");
+  var verdict = document.getElementById("cra1-verdict");
+  var self = document.getElementById("cra1-self");
+  var NAMES = { "0": "00:00", "28800": "08:00", "57600": "16:00", "75600": "21:00" };
+
+  function px(t) { return (t / 1000).toFixed(3); }
+  function pct(r) { var v = r * 100; return (v >= 0 ? "+" : "") + v.toFixed(3) + "%"; }
+
+  function render() {
+    var s = Number(sel.value), o = Number(off.value);
+    var tape = CM.makeTape({ seed: s, days: 5 });
+    var c = CM.closesAt(tape, o);
+    var html = '<table class="sql-table"><thead><tr><th>Boundary</th><th>Close, last print before it</th><th>Day-over-day return</th></tr></thead><tbody>';
+    for (var i = 0; i < c.closes.length; i++) {
+      var row = c.closes[i];
+      var ret = i === 0 ? '<span class="sql-null">no previous close</span>' : "<b>" + pct(c.returns[i - 1].ret) + "</b>";
+      html += "<tr><td>day " + row.day + " at " + NAMES[String(o)] + "</td><td>" + px(row.close) + "</td><td>" + ret + "</td></tr>";
+    }
+    html += "</tbody></table>";
+    out.innerHTML = html;
+
+    var first = c.returns.length ? pct(c.returns[0].ret) : "none";
+    verdict.textContent = tape.trades.length.toLocaleString() + " prints over five days, " + c.closes.length + " closes under the "
+      + NAMES[String(o)] + " boundary, " + c.returns.length + " returns. The first full-day return reads " + first
+      + ". Change the boundary and the same prints give a different number; the final close stays put only because the tape ends there.";
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, so the closes above are the closes any correct run gives. The tape is constructed; nothing here is a real market or a price of anything."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  sel.addEventListener("change", render);
+  off.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #cra1-close .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 14rem; }
+  #cra1-close table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+</style>
+</body>
+</html>

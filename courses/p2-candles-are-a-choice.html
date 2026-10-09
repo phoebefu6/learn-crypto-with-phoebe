@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Practitioner session 2 of 10. Building OHLCV bars from prints, the boundary nobody writes down, the empty minute as a decision, and an up-bar count that moves with the bar size while the last close never does. Harrowgate's constructed tape at four bar sizes.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Candles are a choice - learn crypto with phoebe">
+<meta property="og:description" content="Practitioner session 2 of 10. A candle is a rule applied to the tape. Change the bar and the day goes from more up bars than down to more down than up.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/p2-candles-are-a-choice.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Candles are a choice - learn crypto with phoebe">
+<meta name="twitter:description" content="401 up bars against 375 down at one minute; 129 against 136 at five. Same tape, same last close, opposite headline.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Practitioner session 2 · Candles are a choice - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Practitioner session 2 of 10</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Practitioner session 2 of 10</div>
+    <h1>Candles are a <span class="accent">choice</span></h1>
+    <p class="sub">Session 1 ended on a sentence: a candle is not on the tape, it is built from prints by a rule somebody chose. Tonight you choose it, on purpose, and watch what the choice does. Four fields come from four selection rules, a fifth from a sum, and all five depend on where the interval starts and ends. Build the same constructed day at one, five, fifteen and sixty minutes and the last close is 99.957 every time, while the count of up bars moves enough to flip the headline: more up bars than down at one minute, more down than up at every larger size. Somewhere in between, 169 minutes with no print at all have to be given an answer.</p>
+    <div class="chip-row">
+      <span class="chip level">🔧 Practitioner track</span>
+      <span class="chip audience">Data engineers who build the bar tables</span>
+      <span class="chip audience">Analysts who read the charts they feed</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-17 · Building bars from prints</span>
+      <span class="a3" style="flex:3">17-30 · Empty bars and moving counts</span>
+      <span class="a4" style="flex:4">30-45 · Build-along and Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate is asked for "the 1-minute chart"</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm. Since session 1 it keeps prints at print grain, which turns out to be the easy part. On Monday a reviewer asks for "the 1-minute chart for yesterday", as if there were exactly one. To draw it, somebody has to decide where each minute starts, which clock the minute is measured on, which print is first when two share a second, and what to draw for a minute in which nothing traded. None of those decisions is on the tape. Every number below comes from the same engine as session 1, on the same constructed day of 3,000 prints, so the consequences of each decision are computed rather than asserted.</p>
+
+    <div class="legend">
+      <span class="pill">Live = worked through in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> The bar rule written as five aggregations plus a count, over an interval you name. A drawing of the same fifteen minutes of prints cut three ways, so you can see a bar change colour when only the boundary moves. The constructed day at four bar sizes, computed in the page: 1,271 one-minute bars out of 1,440 possible, 169 empty, and an up-bar count that beats the down count at one minute and loses at five, fifteen and sixty. A pandas build that exposes the empty bars instead of hiding them, and a bar table that carries its own rule as columns.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Why "the 1-minute chart" is the wrong noun<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>"The" implies one. There are as many 1-minute charts of a day as there are combinations of boundary, clock, tie rule and empty-bar policy, and they agree only where none of those decisions bites. On a tape with a print every few seconds they bite rarely. On a tape where 12 percent of the minutes are empty, they bite on every eighth bar.</p>
+        <p>The right noun is "a bar series built under rule R". Once the rule has a name, the reviewer's question becomes answerable, and a second reviewer who asks for five minutes gets a series that can be reconciled with the first instead of one that silently disagrees with it.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Harrowgate's first answer was a screenshot from a charting tool. The reviewer then compared it with a five-minute view of the same day and asked why one showed more up bars than down and the other the opposite. Both were correct under their own rule, and neither rule was written anywhere. Harrowgate is constructed; the conversation is common.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Bar, candle.</strong> One row summarising the prints inside one interval. A candle is the same data drawn differently.</li>
+          <li><strong>OHLCV.</strong> Open, high, low, close, volume. The first four are prices picked out of the interval; the fifth is a sum of sizes.</li>
+          <li><strong>Bar size.</strong> The interval length in seconds: 60, 300, 900 or 3,600 tonight.</li>
+          <li><strong>Boundary.</strong> Where each interval starts. Here, aligned to midnight on the venue's clock, left-closed: a print at exactly 09:20:00 belongs to the 09:20 bar.</li>
+          <li><strong>Empty bar.</strong> An interval with no print in it. Nothing was observed, so whatever the row says is a policy.</li>
+          <li><strong>Carried forward.</strong> An empty bar given the previous close as its open, high, low and close, zero volume, and a flag that says so.</li>
+          <li><strong>Up, down, flat bar.</strong> Close above open, below open, or equal to it. A bar with a single print is always flat.</li>
+          <li><strong>Busiest bar.</strong> Tonight, the bar with the most volume. Not necessarily the one with the most prints.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers building OHLCV from prints</span>
+      <h2>Building a bar from prints, and where the cut falls</h2>
+      <span class="tag concept">14 min live</span>
+    </div>
+    <p class="lede">A bar is six small decisions applied to a window of prints: the first one, the largest, the smallest, the last one, the sum of their sizes and how many there were. The aggregations are not controversial. The window is. Move the boundary and different prints become first and last, which changes the open and the close, which changes whether the bar is up or down, while the prints themselves have not moved at all.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 466" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A hand-drawn strip of the 37 prints between 09:15 and 09:30 on the constructed tape, each a dot placed by time and price. Below it the same strip is cut three ways. Cut into fifteen one-minute brackets, the bars read down, flat, flat, up, flat, down, up, down, down, flat, flat, flat, flat, down, flat. Cut into three five-minute brackets they read up, down, up. Cut once into a fifteen-minute bracket they are one up bar holding all 37 prints. The 09:17 minute holds 4 prints and the 09:15 five-minute bar holds 13. A note says the prints never moved; only the boundary did.">
+        <defs>
+          <filter id="crp2aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="41" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp2aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp2aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp2aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp2aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp2aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp2aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp2aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp2aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp2aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp2aH" x="30" y="26">ONE STRIP OF PRINTS, 09:15 TO 09:30, CUT THREE WAYS</text>
+
+        <g filter="url(#crp2aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- the strip's frame and the two five-minute cuts, dashed through the minute row -->
+          <rect x="116" y="50" width="728" height="82" rx="6" transform="rotate(0.2 480 91)" fill="#F4EFF9" stroke="#CFC5DA" stroke-width="1.4"/>
+          <path d="M360 52 L360 330 M600 52 L600 330" stroke="#9C7FBF" stroke-width="1.4" stroke-dasharray="5 5"/>
+          <!-- the 37 prints of 09:15 to 09:30: x is the venue clock, y is the price in ticks -->
+          <circle cx="133.6" cy="121" r="3.4" fill="#5B2A86"/>
+          <circle cx="146.4" cy="116" r="3.4" fill="#5B2A86"/>
+          <circle cx="151.2" cy="126" r="3.4" fill="#5B2A86"/>
+          <circle cx="196.8" cy="111" r="3.4" fill="#5B2A86"/>
+          <circle cx="240.8" cy="126" r="3.4" fill="#5B2A86"/>
+          <circle cx="246.4" cy="126" r="3.4" fill="#5B2A86"/>
+          <circle cx="253.6" cy="116" r="3.4" fill="#5B2A86"/>
+          <circle cx="258.4" cy="126" r="3.4" fill="#5B2A86"/>
+          <circle cx="278.4" cy="111" r="3.4" fill="#5B2A86"/>
+          <circle cx="280.8" cy="96" r="3.4" fill="#5B2A86"/>
+          <circle cx="298.4" cy="86" r="3.4" fill="#5B2A86"/>
+          <circle cx="310.4" cy="71" r="3.4" fill="#5B2A86"/>
+          <circle cx="320" cy="71" r="3.4" fill="#5B2A86"/>
+          <circle cx="380" cy="71" r="3.4" fill="#5B2A86"/>
+          <circle cx="403.2" cy="81" r="3.4" fill="#5B2A86"/>
+          <circle cx="426.4" cy="91" r="3.4" fill="#5B2A86"/>
+          <circle cx="449.6" cy="76" r="3.4" fill="#5B2A86"/>
+          <circle cx="457.6" cy="71" r="3.4" fill="#5B2A86"/>
+          <circle cx="467.2" cy="56" r="3.4" fill="#5B2A86"/>
+          <circle cx="479.2" cy="66" r="3.4" fill="#5B2A86"/>
+          <circle cx="481.6" cy="81" r="3.4" fill="#5B2A86"/>
+          <circle cx="491.2" cy="66" r="3.4" fill="#5B2A86"/>
+          <circle cx="493.6" cy="81" r="3.4" fill="#5B2A86"/>
+          <circle cx="493.6" cy="91" r="3.4" fill="#5B2A86"/>
+          <circle cx="504" cy="81" r="3.4" fill="#5B2A86"/>
+          <circle cx="509.6" cy="81" r="3.4" fill="#5B2A86"/>
+          <circle cx="512.8" cy="91" r="3.4" fill="#5B2A86"/>
+          <circle cx="577.6" cy="81" r="3.4" fill="#5B2A86"/>
+          <circle cx="578.4" cy="81" r="3.4" fill="#5B2A86"/>
+          <circle cx="643.2" cy="81" r="3.4" fill="#5B2A86"/>
+          <circle cx="690.4" cy="71" r="3.4" fill="#5B2A86"/>
+          <circle cx="692" cy="71" r="3.4" fill="#5B2A86"/>
+          <circle cx="710.4" cy="76" r="3.4" fill="#5B2A86"/>
+          <circle cx="748.8" cy="66" r="3.4" fill="#5B2A86"/>
+          <circle cx="765.6" cy="61" r="3.4" fill="#5B2A86"/>
+          <circle cx="776.8" cy="71" r="3.4" fill="#5B2A86"/>
+          <circle cx="802.4" cy="71" r="3.4" fill="#5B2A86"/>
+          <!-- 1-minute cut -->
+          <path d="M122 156 L122 150 L166 150 L166 156" stroke="#9C7FBF"/>
+          <path d="M170 156 L170 150 L214 150 L214 156" stroke="#9C7FBF"/>
+          <path d="M218 156 L218 150 L262 150 L262 156" stroke="#9C7FBF"/>
+          <path d="M266 156 L266 150 L310 150 L310 156" stroke="#9C7FBF"/>
+          <path d="M314 156 L314 150 L358 150 L358 156" stroke="#9C7FBF"/>
+          <path d="M362 156 L362 150 L406 150 L406 156" stroke="#9C7FBF"/>
+          <path d="M410 156 L410 150 L454 150 L454 156" stroke="#9C7FBF"/>
+          <path d="M458 156 L458 150 L502 150 L502 156" stroke="#9C7FBF"/>
+          <path d="M506 156 L506 150 L550 150 L550 156" stroke="#9C7FBF"/>
+          <path d="M554 156 L554 150 L598 150 L598 156" stroke="#9C7FBF"/>
+          <path d="M602 156 L602 150 L646 150 L646 156" stroke="#9C7FBF"/>
+          <path d="M650 156 L650 150 L694 150 L694 156" stroke="#9C7FBF"/>
+          <path d="M698 156 L698 150 L742 150 L742 156" stroke="#9C7FBF"/>
+          <path d="M746 156 L746 150 L790 150 L790 156" stroke="#9C7FBF"/>
+          <path d="M794 156 L794 150 L838 150 L838 156" stroke="#9C7FBF"/>
+          <path d="M144 200 L144 206" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="138" y="203" width="12" height="3" rx="1.5" fill="#FFFFFF"/>
+          <path d="M186 197 L198 197" stroke-width="2.4"/>
+          <path d="M240 200 L240 206" stroke="#5B2A86" stroke-width="1.6"/>
+          <path d="M234 206 L246 206" stroke-width="2.4"/>
+          <path d="M288 173 L288 197" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="282" y="173" width="12" height="24" rx="1.5" fill="#D3C3E6"/>
+          <path d="M330 173 L342 173" stroke-width="2.4"/>
+          <path d="M384 173 L384 179" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="378" y="173" width="12" height="6" rx="1.5" fill="#FFFFFF"/>
+          <path d="M432 176 L432 185" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="426" y="176" width="12" height="9" rx="1.5" fill="#D3C3E6"/>
+          <path d="M480 164 L480 185" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="474" y="173" width="12" height="12" rx="1.5" fill="#FFFFFF"/>
+          <path d="M528 179 L528 185" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="522" y="179" width="12" height="6" rx="1.5" fill="#FFFFFF"/>
+          <path d="M570 179 L582 179" stroke-width="2.4"/>
+          <path d="M618 179 L630 179" stroke-width="2.4"/>
+          <path d="M666 173 L678 173" stroke-width="2.4"/>
+          <path d="M714 176 L726 176" stroke-width="2.4"/>
+          <path d="M768 167 L768 173" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="762" y="170" width="12" height="3" rx="1.5" fill="#FFFFFF"/>
+          <path d="M810 173 L822 173" stroke-width="2.4"/>
+          <!-- 5-minute cut -->
+          <path d="M122 248 L122 242 L358 242 L358 248" stroke="#9C7FBF"/>
+          <path d="M362 248 L362 242 L598 242 L598 248" stroke="#9C7FBF"/>
+          <path d="M602 248 L602 242 L838 242 L838 248" stroke="#9C7FBF"/>
+          <path d="M240 265 L240 298" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="222" y="265" width="36" height="30" rx="1.5" fill="#D3C3E6"/>
+          <path d="M480 256 L480 277" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="462" y="265" width="36" height="6" rx="1.5" fill="#FFFFFF"/>
+          <path d="M720 259 L720 271" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="702" y="265" width="36" height="6" rx="1.5" fill="#D3C3E6"/>
+          <!-- 15-minute cut -->
+          <path d="M122 340 L122 334 L838 334 L838 340" stroke="#9C7FBF"/>
+          <path d="M480 348 L480 390" stroke="#5B2A86" stroke-width="1.6"/>
+          <rect x="435" y="357" width="90" height="30" rx="1.5" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <!-- doodle anchor: a pair of scissors at the cut -->
+          <circle cx="804" cy="14" r="4.5"/>
+          <circle cx="804" cy="30" r="4.5"/>
+          <path d="M808 16 L838 27 M808 28 L838 17" stroke-width="1.8"/>
+        </g>
+
+        <text class="crp2aA" x="124" y="44">09:15</text>
+        <text class="crp2aA" x="360" y="44" text-anchor="middle">09:20</text>
+        <text class="crp2aA" x="600" y="44" text-anchor="middle">09:25</text>
+        <text class="crp2aA" x="836" y="44" text-anchor="end">09:30</text>
+
+        <text class="crp2aH" x="20" y="84">PRINTS</text>
+        <text class="crp2aS" x="20" y="100">37 of them</text>
+        <text class="crp2aH" x="20" y="178">1 MINUTE</text>
+        <text class="crp2aS" x="20" y="194">09:17 holds 4</text>
+        <text class="crp2aH" x="20" y="270">5 MINUTES</text>
+        <text class="crp2aS" x="20" y="286">09:15 holds 13</text>
+        <text class="crp2aH" x="20" y="362">15 MINUTES</text>
+        <text class="crp2aS" x="20" y="378">37 prints, 1 bar</text>
+
+        <text class="crp2aS" x="144" y="224" text-anchor="middle">down</text>
+        <text class="crp2aS" x="192" y="224" text-anchor="middle">flat</text>
+        <text class="crp2aS" x="240" y="224" text-anchor="middle">flat</text>
+        <text class="crp2aS" x="288" y="224" text-anchor="middle">up</text>
+        <text class="crp2aS" x="336" y="224" text-anchor="middle">flat</text>
+        <text class="crp2aS" x="384" y="224" text-anchor="middle">down</text>
+        <text class="crp2aS" x="432" y="224" text-anchor="middle">up</text>
+        <text class="crp2aS" x="480" y="224" text-anchor="middle">down</text>
+        <text class="crp2aS" x="528" y="224" text-anchor="middle">down</text>
+        <text class="crp2aS" x="576" y="224" text-anchor="middle">flat</text>
+        <text class="crp2aS" x="624" y="224" text-anchor="middle">flat</text>
+        <text class="crp2aS" x="672" y="224" text-anchor="middle">flat</text>
+        <text class="crp2aS" x="720" y="224" text-anchor="middle">flat</text>
+        <text class="crp2aS" x="768" y="224" text-anchor="middle">down</text>
+        <text class="crp2aS" x="816" y="224" text-anchor="middle">flat</text>
+        <text class="crp2aS" x="240" y="316" text-anchor="middle">up</text>
+        <text class="crp2aS" x="480" y="316" text-anchor="middle">down</text>
+        <text class="crp2aS" x="720" y="316" text-anchor="middle">up</text>
+        <text class="crp2aB" x="480" y="408" text-anchor="middle">one up bar</text>
+
+        <text class="crp2aN" x="30" y="436">Under each bar: up means close above open, down means close below open, flat means they are equal.</text>
+        <text class="crp2aN" x="30" y="456">The prints never moved; only the boundary did. Mostly flat and down minutes become one up bar.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the colour of a bar is a fact about the boundary as much as about the prints; the 15-minute bar is up while most of its minutes are flat or down</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The rule, field by field<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p><strong>Open</strong> is the first print in the window, <strong>high</strong> the largest price, <strong>low</strong> the smallest, <strong>close</strong> the last print. <strong>Volume</strong> is the sum of the sizes, and <strong>n</strong>, the count of prints, is the column most bar tables forget and every later check needs. Open and close are order statistics, so they depend on the order of the prints; high, low, volume and n do not. That asymmetry is why the colour of a bar is the fragile part.</p>
+        <p>On the constructed tape the 09:15 five-minute bar holds 13 prints and the 09:15 fifteen-minute bar holds 37. The busiest one-minute bar by volume is 09:17, and it holds only 4 prints: busiest by volume and busiest by count are different questions, and a bar table should answer both by keeping v and n side by side.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>A public market-data definition read for this session describes an open-high-low-close bar over "one unit of time, e.g., one day or one hour", and says a candlestick shows "exactly the same data" drawn differently. Volume as a fifth field, OHLCV, is a convention, reported rather than part of that definition. Neither the definition nor the convention says where the unit of time starts or what an empty one contains. That part is yours.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Where the cut falls<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Read the drawing from the top. The 37 dots are the prints between 09:15 and 09:30, placed by time and price. Cut into minutes, they make fifteen small bars, most of them flat or down. Cut into five-minute pieces, the same dots make an up bar, a down bar and an up bar. Cut once, they make a single up bar. Nothing about the trading changed between the rows. What changed is which print counts as the first and which as the last.</p>
+        <p>Three boundary decisions sit inside every bar builder. <strong>Alignment:</strong> intervals start at midnight on some clock, or at the first print, or at the moment the job started. <strong>Closure:</strong> a print at exactly 09:20:00 belongs to the bar that starts there or the one that ends there; integer division of seconds by the bar size makes it the one that starts there. <strong>Ties:</strong> two prints can share a second, and then first and last depend on the venue's sequence, not the clock. Write all three down, because a second team making a different choice will get different colours on a handful of bars and spend a week finding out why.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>A bar is a windowed aggregate<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Everything above is a tumbling window over an event stream: fixed length, no overlap, one aggregate per window. That framing is useful because it imports the right worries. A print that arrives after its window has been emitted is a late event. A window can only be closed safely once you believe nothing more is coming for it, which is a watermark decision. Re-emitting a corrected bar is an idempotency question. Those mechanics are the same for exchange prints as for clicks or sensor readings, and they are taught properly in <a href="https://phoebefu6.github.io/learn-streaming-data-with-phoebe/">learn-streaming-data-with-phoebe</a> rather than here.</p>
+        <p>What is specific to a tape is the daily version of the same choice. A one-day bar needs a day boundary, and on a market that never closes the day boundary is a convention too. Leader session 1 shows four day boundaries giving opposite signs for the same day's return. The one-minute version is smaller and more frequent, and it is the one your pipeline makes thousands of times a day.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers empty bars and the counts that move</span>
+      <h2>Empty bars, and the count that moves with the bar</h2>
+      <span class="tag concept">13 min live</span>
+    </div>
+    <p class="lede">Build the whole constructed day at four bar sizes and compare. At one minute, 1,271 of the 1,440 possible bars have at least one print and 169 have none, about 12 percent. At five minutes, fifteen minutes and an hour every bar has a print, so the empty-bar problem disappears into the larger window rather than being solved. The up count moves from 401 against 375 down at one minute, to 129 against 136 at five, 46 against 47 at fifteen and 10 against 13 at an hour. The last close is 99.957 at every size.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four hand-drawn stacked bars, one per bar size, each split into up, down and flat bars as shares of the bars printed. One minute: 1,271 bars printed, 169 empty, 401 up, 375 down, 495 flat, headline more up than down. Five minutes: 288 of 288, 129 up, 136 down, 23 flat, more down than up. Fifteen minutes: 96 of 96, 46 up, 47 down, 3 flat, more down than up. One hour: 24 of 24, 10 up, 13 down, 1 flat, more down than up. An arrow marks the headline flipping between one and five minutes. Every row shows last close 99.957.">
+        <defs>
+          <filter id="crp2bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="43" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp2bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp2bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp2bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp2bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp2bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp2bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp2bV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp2bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp2bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp2bH" x="30" y="24">ONE TAPE, FOUR BAR SIZES, TWO OPPOSITE HEADLINES</text>
+        <text class="crp2bA" x="30" y="46">BAR SIZE</text>
+        <text class="crp2bA" x="160" y="46">UP, DOWN AND FLAT, AS SHARES OF THE BARS PRINTED</text>
+        <text class="crp2bA" x="662" y="46">HEADLINE</text>
+
+        <g filter="url(#crp2bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- 1 minute: 401 / 375 / 495 of 1,271 -->
+          <rect x="160" y="72" width="151.4" height="24" rx="2" transform="rotate(-0.4 236 84)" fill="#D3C3E6"/>
+          <rect x="311.4" y="72" width="141.6" height="24" rx="2" transform="rotate(0.3 382 84)" fill="#FFFFFF"/>
+          <rect x="453" y="72" width="187" height="24" rx="2" transform="rotate(-0.3 546 84)" fill="url(#crp2bHc)"/>
+          <rect x="652" y="64" width="150" height="30" rx="5" transform="rotate(-1.2 727 79)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <!-- 5 minutes: 129 / 136 / 23 of 288 -->
+          <rect x="160" y="144" width="215" height="24" rx="2" transform="rotate(0.3 267 156)" fill="#D3C3E6"/>
+          <rect x="375" y="144" width="226.7" height="24" rx="2" transform="rotate(-0.3 488 156)" fill="#FFFFFF"/>
+          <rect x="601.7" y="144" width="38.3" height="24" rx="2" transform="rotate(0.5 621 156)" fill="url(#crp2bHc)"/>
+          <!-- 15 minutes: 46 / 47 / 3 of 96 -->
+          <rect x="160" y="216" width="230" height="24" rx="2" transform="rotate(-0.3 275 228)" fill="#D3C3E6"/>
+          <rect x="390" y="216" width="235" height="24" rx="2" transform="rotate(0.3 507 228)" fill="#FFFFFF"/>
+          <rect x="625" y="216" width="15" height="24" rx="2" transform="rotate(0.5 632 228)" fill="url(#crp2bHc)"/>
+          <!-- 1 hour: 10 / 13 / 1 of 24 -->
+          <rect x="160" y="288" width="200" height="24" rx="2" transform="rotate(0.3 260 300)" fill="#D3C3E6"/>
+          <rect x="360" y="288" width="260" height="24" rx="2" transform="rotate(-0.3 490 300)" fill="#FFFFFF"/>
+          <rect x="620" y="288" width="20" height="24" rx="2" transform="rotate(0.5 630 300)" fill="url(#crp2bHc)"/>
+          <!-- even line: half of the bars printed -->
+          <path d="M400 58 L400 66 M400 98 L400 140 M400 170 L400 212 M400 242 L400 284 M400 314 L400 322" stroke="#9C7FBF" stroke-width="1.4" stroke-dasharray="4 4"/>
+          <!-- doodle anchor: the headline flips -->
+          <path d="M806 84 C 834 100, 834 140, 790 158" marker-end="url(#crp2bAr)" stroke-width="1.8"/>
+        </g>
+
+        <text class="crp2bS" x="160" y="64">401 up · 375 down · 495 flat</text>
+        <text class="crp2bL" x="30" y="82">1 minute</text>
+        <text class="crp2bS" x="30" y="98">1,271 bars, 169 empty</text>
+        <text class="crp2bB" x="662" y="84">more up than down</text>
+        <text class="crp2bS" x="662" y="112">last close 99.957</text>
+        <text class="crp2bS" x="836" y="124">flips</text>
+
+        <text class="crp2bS" x="160" y="136">129 up · 136 down · 23 flat</text>
+        <text class="crp2bL" x="30" y="154">5 minutes</text>
+        <text class="crp2bS" x="30" y="170">288 of 288 bars</text>
+        <text class="crp2bL" x="662" y="160">more down than up</text>
+        <text class="crp2bS" x="662" y="184">last close 99.957</text>
+
+        <text class="crp2bS" x="160" y="208">46 up · 47 down · 3 flat</text>
+        <text class="crp2bL" x="30" y="226">15 minutes</text>
+        <text class="crp2bS" x="30" y="242">96 of 96 bars</text>
+        <text class="crp2bL" x="662" y="232">more down than up</text>
+        <text class="crp2bS" x="662" y="256">last close 99.957</text>
+
+        <text class="crp2bS" x="160" y="280">10 up · 13 down · 1 flat</text>
+        <text class="crp2bL" x="30" y="298">1 hour</text>
+        <text class="crp2bS" x="30" y="314">24 of 24 bars</text>
+        <text class="crp2bL" x="662" y="304">more down than up</text>
+        <text class="crp2bS" x="662" y="328">last close 99.957</text>
+
+        <text class="crp2bN" x="30" y="350">Soft: up bars. White: down bars. Hatched: flat bars. Dashed: half. The 169 empty minutes are in no row.</text>
+        <text class="crp2bN" x="30" y="370">Same tape, same last close. Whether up bars beat down bars depends on the bar you chose.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the last close never moves; the up-bar headline flips between one minute and five</figcaption>
+    </figure>
+
+    <div class="wk" id="crp2-bars">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">The constructed tape, running in this page. Pick a tape and a bar size; the bars are built from the prints right here with the engine's bar rule. Nothing is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="crp2-seed">Which constructed tape</label>
+        <select class="sql-code" id="crp2-seed">
+          <option value="11">Tape A</option>
+          <option value="101">Tape B</option>
+          <option value="2024">Tape C</option>
+          <option value="7">Tape D</option>
+          <option value="55555">Tape E</option>
+        </select>
+        <label class="sql-label" for="crp2-bar">Bar size</label>
+        <select class="sql-code" id="crp2-bar">
+          <option value="60">1 minute (60 s)</option>
+          <option value="300">5 minutes (300 s)</option>
+          <option value="900">15 minutes (900 s)</option>
+          <option value="3600">1 hour (3,600 s)</option>
+        </select>
+        <div id="crp2-out"></div>
+        <p class="sql-note" id="crp2-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="crp2-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Reading the four rows<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Start on Tape A at one minute. 1,271 bars printed of 1,440 possible, 169 empty. 401 up, 375 down, 495 flat. The busiest bar by volume is 09:17 with 4 prints, the widest range is 10 ticks, and the last close is 99.957. Now switch to five minutes: 288 of 288, 129 up, 136 down, 23 flat, busiest 09:15 with 13 prints. Fifteen minutes: 96 of 96, 46 up, 47 down, 3 flat, busiest 09:15 with 37. One hour: 24 of 24, 10 up, 13 down, 1 flat, busiest 09:00 with 125 prints, and the widest range is 57 ticks, in the 04:00 bar.</p>
+        <p>Three things moved and one did not. The flat count collapses as the bar grows, because a flat bar is mostly a bar with one print, and long bars rarely have one print. The widest range grows, because a longer window has more room for the price to wander. The up-versus-down headline flips, because which print is first and last changes with the boundary. The last close stays at 99.957, because the last print of the day is the last print of the day under any rule. A dashboard that reports "share of up bars" without the bar size is reporting a fact about its configuration.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>An empty minute is a decision<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The widget's bar table shows the first few slots of the day on the clock, not just the bars that printed. Where a slot is empty, it carries the previous close into open, high, low and close, writes zero volume and zero prints, and marks the row "carried". That is one honest policy. The other is to print no row at all and let the reader see the gap. The dishonest one is to carry forward silently, so 1,440 rows look like 1,440 observations.</p>
+        <p>The policy leaks into every number downstream. Carried bars are flat by construction, so on Tape A the one-minute flat count would rise by 169 if they were counted, and the up-bar share would fall without a single trade changing. Returns computed over carried closes include 169 returns of exactly zero, which pulls any volatility estimate down. The larger bars hide the problem rather than solve it: a five-minute bar that swallowed two empty minutes still has an honest open, but it no longer tells you the market was silent for part of it. Keeping n beside every bar is how that silence stays visible.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>One camp prints a row for every slot on the clock, carried forward and flagged. Their argument is alignment: every join, every cross-venue comparison and every resample assumes a regular index, and a series with holes in it breaks those quietly. The flag is the price of alignment, and it is cheap.</p>
+        <p>The other camp prints only bars that contain prints. Their argument is that a row is a claim that something was observed, and that a flag is a column most readers never filter on. On this view the gaps are information, and the job of filling them belongs to whoever needs a regular index, at the moment they need it, with their own rule.</p>
+        <p>Both camps agree on what is not acceptable: an unflagged carried bar, and a bar table that does not say which policy built it. Practitioner session 3 makes the choice harder, because four venues with four different empty minutes have to be lined up on one clock.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>Build the bars, expose the gaps, store the rule</h2>
+      <span class="tag build">15 min hands on</span>
+    </div>
+    <p class="lede">Six steps with pandas on a constructed tape exported as a CSV with four columns: t in seconds since midnight on the venue's clock, side, size_micro as an integer number of millionths of a unit, and px_t as an integer number of ticks. The widget above prints the answers for Tape A; on any other tape, including your own, your numbers will differ, which is the point. Run the code in a scratch folder, never where the outputs could land in a repository.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Load at print grain and fix the order</h4>
+        <p>Open and close depend on order, so make the order explicit. A stable sort on the clock keeps the venue's sequence for prints that share a second.</p>
+        <div class="prompt-box good"><span class="label">python · load and order</span>import pandas as pd
+tape = pd.read_csv("tape.csv")    # columns: t, side, size_micro, px_t
+tape = tape.sort_values("t", kind="stable").reset_index(drop=True)
+DAY = 86_400
+print(len(tape), "prints")</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Bucket by integer division of the clock</h4>
+        <p>One line is the whole boundary rule: aligned to midnight, left-closed. A print at exactly 09:20:00 lands in the bar that starts at 09:20.</p>
+        <div class="prompt-box good"><span class="label">python · the boundary</span>BAR = 60                                # seconds; try 300, 900, 3600
+tape["bar"] = tape["t"] // BAR          # 0 .. DAY // BAR - 1
+print(tape["bar"].nunique(), "bars with at least one print")</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Aggregate: first, max, min, last, sum, count</h4>
+        <p>Six named aggregations. Keep n: busiest by volume and busiest by count are different bars.</p>
+        <div class="prompt-box good"><span class="label">python · OHLCV plus n</span>bars = tape.groupby("bar").agg(
+    open=("px_t", "first"), high=("px_t", "max"),
+    low=("px_t", "min"),    close=("px_t", "last"),
+    volume_micro=("size_micro", "sum"), n=("px_t", "count"))
+print(bars.loc[bars["volume_micro"].idxmax()])   # the busiest bar by volume</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Reindex to the full clock to expose the empty bars</h4>
+        <p>groupby only returns bars that printed, so the empty ones are invisible until you ask for every slot on the clock. On Tape A at one minute this is where 169 appears.</p>
+        <div class="prompt-box good"><span class="label">python · every slot, flagged</span>bars = bars.reindex(range(DAY // BAR))
+bars["observed"] = bars["n"].notna()
+print((~bars["observed"]).sum(), "empty bars")
+bars["close"] = bars["close"].ffill()              # carried forward, and SAID so
+for col in ("open", "high", "low"):
+    bars[col] = bars[col].fillna(bars["close"])
+bars[["volume_micro", "n"]] = bars[["volume_micro", "n"]].fillna(0).astype("int64")</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Count up, down and flat across bar sizes</h4>
+        <p>Count only observed bars, so the policy above does not inflate the flat count. Then run it at four sizes and watch the headline.</p>
+        <div class="prompt-box good"><span class="label">python · the count that moves</span>def counts(bars):
+    b = bars[bars["observed"]]
+    return dict(up=int((b["close"] &gt; b["open"]).sum()),
+                down=int((b["close"] &lt; b["open"]).sum()),
+                flat=int((b["close"] == b["open"]).sum()),
+                last_close=int(b["close"].iloc[-1]))
+# wrap steps 2 to 4 in build(tape, BAR), then:
+for size in (60, 300, 900, 3600):
+    print(size, counts(build(tape, size)))</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Store the bars with their rule as columns</h4>
+        <p>The rule travels with the rows, so nobody joins a carried one-minute series to a print-only five-minute one by accident. Bars are regenerable; the prints are not, so the prints stay the source.</p>
+        <div class="prompt-box good"><span class="label">python · bars that say how they were built</span>bars["bar_sec"] = BAR
+bars["boundary"] = "midnight-aligned, left-closed, venue clock"
+bars["empty_policy"] = "carry_close_flagged"
+bars["bar_start_t"] = bars.index * BAR
+bars.to_parquet(f"bars_{BAR}s_carry.parquet")   # rebuilt from prints whenever the rule changes</div>
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> Never say "the chart". Say "bars at 60 seconds, midnight-aligned, left-closed, carried and flagged", and keep n beside v. When two charts disagree, compare their rules before you compare their numbers.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">On Tape A the one-minute bars show 401 up and 375 down, and the five-minute bars show 129 up and 136 down. Why did the headline flip?</p>
+      <div class="qopt">A · Five-minute bars smooth out noise, so they show the true direction of the day</div>
+      <div class="qopt">B · A bar's colour compares its first and last print, and changing the boundary changes which prints are first and last; the tape did not change</div>
+      <div class="qopt">C · The five-minute build dropped the 169 empty minutes, which were mostly up bars</div>
+      <q class="qwhy">The prints are identical in both builds and the last close is 99.957 in both. Open and close are order statistics inside a window, so moving the window moves them. Neither count is the true direction; each is a fact about a rule. The empty minutes have no prints, so they were never up or down bars in the first place.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">Your one-minute job finds 169 minutes with no print. Which output is honest?</p>
+      <div class="qopt">A · Interpolate a close between the neighbouring bars so the chart has no gaps</div>
+      <div class="qopt">B · Either a carried row with the previous close, zero volume, zero prints and observed set to false, or no row at all, with the policy stored beside the bars</div>
+      <div class="qopt">C · Carry the previous close forward so the series has 1,440 rows that all look alike</div>
+      <q class="qwhy">Both honest policies keep the reader able to tell an observation from a decision, and storing the policy lets the next team reproduce it. Interpolation invents prices that never printed, and a silent carry makes 169 decisions look like 169 trades.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">Which statement about regenerating one object from another is right?</p>
+      <div class="qopt">A · Prints can be rebuilt from one-minute bars, because the bars keep open, high, low, close and volume</div>
+      <div class="qopt">B · One-minute bars can be rebuilt from five-minute bars by splitting each into five equal parts</div>
+      <div class="qopt">C · Every bar size can be rebuilt from the prints; a five-minute bar can also be rebuilt from aligned one-minute bars, but never the reverse</div>
+      <q class="qwhy">Prints are the observation and every bar is derived from them. Larger bars can be built from smaller ones only when the boundaries nest and n and v were kept: first open, largest high, smallest low, last close, summed volume and count. A bar has already thrown away the order and the individual sizes, so nothing smaller can come back out of it.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 3</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">About forty minutes, on a bar table your own team already publishes.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Write down the rule your bars were built with</h4>
+        <p>Bar size, alignment, closure, tie rule, clock and empty policy. If any of the six has no written answer, find out who decided it, or whether anybody did. Bring the list.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Move the bar and count the headline</h4>
+        <p>Rebuild one day of your own events at two bar sizes and count up and down bars at each. If the headline flips, you have a dashboard metric that is really a configuration setting. Session 3 lines up four venues on one clock, and every one of them has its own empty minutes.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">OHLCV built from prints</span><span class="note">First, max, min, last, sum and count over a chosen interval, per a public definition read at source; volume as a fifth field is a convention, reported.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The boundary decisions</span><span class="note">Alignment, closure and ties; the same 37 prints drawn as one, three and fifteen bars of different colours.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Empty bars as a decision</span><span class="note">169 of 1,440 one-minute bars empty on the constructed tape; carry forward with a flag, or print nothing, and store the policy.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Counts that move with the bar</span><span class="note">401/375/495 at one minute, 129/136/23 at five, 46/47/3 at fifteen, 10/13/1 at an hour; last close 99.957 at every size, computed in the page.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Bars that carry their rule</span><span class="note">Bar size, boundary and empty policy stored as columns; bars regenerated from prints whenever the rule changes.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">The day boundary on a market that never closes</span><span class="note">Named tonight. Leader session 1 shows four day boundaries giving opposite signs for one day's return.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Lining up venues on one clock</span><span class="note">Named tonight. Session 3 reconciles four venues at one moment and finds four levels.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Stream windowing mechanics</span><span class="note">Late prints, watermarks and idempotent re-emission live in learn-streaming-data-with-phoebe.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Bars built on anything but time</span><span class="note">Not taught; every bar here is a time bar, and the rule-writing habit carries over unchanged.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Reading charts to buy, sell or hold</span><span class="note">Out of scope. No real price, asset or venue appears and nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>Candles are a choice <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>The rule.</strong> Open = first print, high = max, low = min, close = last, volume = sum of sizes, n = count, over an interval you named.</div>
+      <div class="cheat-item"><strong>The fragile part.</strong> Open and close are order statistics. Move the boundary and the colour can flip while the prints stay put.</div>
+      <div class="cheat-item"><strong>Three boundary decisions.</strong> Alignment, closure, ties. Integer division of seconds gives midnight-aligned and left-closed.</div>
+      <div class="cheat-item"><strong>The empty bar.</strong> 169 of 1,440 one-minute bars on the constructed tape. Carry and flag, or print nothing. Never a silent carry.</div>
+      <div class="cheat-item"><strong>The moving headline.</strong> 401 up against 375 down at one minute; 129 against 136 at five. Up-bar share is a configuration, not a fact.</div>
+      <div class="cheat-item"><strong>The fixed point.</strong> The last close, 99.957 at every bar size. The last print is the last print.</div>
+      <div class="cheat-item"><strong>Keep n beside v.</strong> Busiest by volume and busiest by count are different bars; 09:17 is busiest by volume with 4 prints.</div>
+      <div class="cheat-item"><strong>Regenerable.</strong> Every bar from prints; larger aligned bars from smaller ones; nothing smaller from anything larger.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Practitioner session 3, reconciling venues into an index. Four constructed venues at 13:00, one of them frozen since 10:00, and four defensible methods (mean, median, volume-weighted mean, volume-weighted median) that give four levels 75.5 ticks apart before any venue is excluded.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Practitioner session 2 of 10 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="p1-reading-an-exchange-tape.html">← Prev: Practitioner session 1 · Reading an exchange tape</a>
+        <a href="p3-reconciling-venues-into-an-index.html">Next: Practitioner session 3 · Reconciling venues into an index →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var seedSel = document.getElementById("crp2-seed");
+  var barSel = document.getElementById("crp2-bar");
+  var out = document.getElementById("crp2-out");
+  var verdict = document.getElementById("crp2-verdict");
+  var self = document.getElementById("crp2-self");
+  var names = { 60: "one minute", 300: "five minutes", 900: "fifteen minutes", 3600: "one hour" };
+
+  function px(t) { return (t / 1000).toFixed(3); }
+  function comma(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+  function hm(sec) {
+    var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
+    return (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
+  }
+
+  var tapes = {};
+  function tapeFor(s) { if (!tapes[s]) tapes[s] = CM.makeTape({ seed: s }); return tapes[s]; }
+
+  function render() {
+    var s = Number(seedSel.value), bs = Number(barSel.value);
+    var tape = tapeFor(s);
+    var bars = CM.buildCandles(tape, bs);
+    var possible = CM.DAY / bs, empty = possible - bars.length;
+    var up = 0, down = 0, flat = 0, busy = bars[0], wide = bars[0], firstEmpty = null, byBar = {};
+    for (var i = 0; i < bars.length; i++) {
+      var b = bars[i];
+      byBar[b.bar] = b;
+      if (b.c > b.o) up++; else if (b.c < b.o) down++; else flat++;
+      if (b.v > busy.v) busy = b;
+      if (b.h - b.l > wide.h - wide.l) wide = b;
+    }
+    for (var k = 0; k < possible; k++) { if (!byBar[k]) { firstEmpty = k; break; } }
+    var last = bars[bars.length - 1].c;
+
+    var html = '<table class="sql-table"><thead><tr><th>Reading</th><th>Value</th></tr></thead><tbody>';
+    html += "<tr><td>Bars printed</td><td>" + comma(bars.length) + " of " + comma(possible) + " possible</td></tr>";
+    html += '<tr><td>Empty bars</td><td><b class="crp2-gap">' + comma(empty) + "</b>" + (firstEmpty !== null ? ", the first at " + hm(firstEmpty * bs) : "") + "</td></tr>";
+    html += "<tr><td>Up / down / flat</td><td>" + comma(up) + " / " + comma(down) + " / " + comma(flat) + "</td></tr>";
+    html += "<tr><td>Busiest bar, by volume</td><td>" + hm(busy.t) + ", " + busy.n + " prints, " + CM.fmtUnits(busy.v) + " units</td></tr>";
+    html += "<tr><td>Widest range</td><td>" + (wide.h - wide.l) + " ticks, in the " + hm(wide.t) + " bar</td></tr>";
+    html += "<tr><td>Last close</td><td>" + px(last) + "</td></tr>";
+    html += "</tbody></table>";
+
+    html += '<table class="sql-table"><thead><tr><th>Slot</th><th>open</th><th>high</th><th>low</th><th>close</th><th>volume</th><th>n</th><th>row</th></tr></thead><tbody>';
+    var prevClose = null, shown = 0;
+    for (var j = 0; j < possible && shown < 8; j++, shown++) {
+      var r = byBar[j];
+      if (r) {
+        html += "<tr><td>" + hm(r.t) + "</td><td>" + px(r.o) + "</td><td>" + px(r.h) + "</td><td>" + px(r.l) + "</td><td>" + px(r.c) + "</td><td>" + CM.fmtUnits(r.v) + "</td><td>" + r.n + "</td><td>observed</td></tr>";
+        prevClose = r.c;
+      } else {
+        var cc = prevClose === null ? "-" : px(prevClose);
+        html += '<tr class="crp2-carried"><td>' + hm(j * bs) + "</td><td>" + cc + "</td><td>" + cc + "</td><td>" + cc + "</td><td>" + cc + "</td><td>0</td><td>0</td><td><b>carried</b></td></tr>";
+      }
+    }
+    html += "</tbody></table>";
+    out.innerHTML = html;
+
+    var head = up > down ? "more up bars than down" : (up < down ? "more down bars than up" : "as many up bars as down");
+    verdict.textContent = "At " + names[bs] + ", " + comma(bars.length) + " of " + comma(possible) + " bars print and " + comma(empty) + " are empty. "
+      + comma(up) + " up against " + comma(down) + " down: " + head + ". The last close is " + px(last)
+      + " at every bar size; the up count is not. Switch the bar size and watch which of these numbers move.";
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, so the counts above are the counts any correct run gives. The tape is constructed; nothing here is a real market."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  seedSel.addEventListener("change", render);
+  barSel.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #crp2-bars .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 14rem; }
+  #crp2-bars table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #crp2-bars .crp2-gap { color: var(--amber-ink-text); }
+  #crp2-bars tr.crp2-carried td { background: var(--amber-50); color: var(--amber-ink-text); }
+  #crp2-bars .wk-body { overflow-x: auto; }
+</style>
+</body>
+</html>

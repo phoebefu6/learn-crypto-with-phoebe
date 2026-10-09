@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Practitioner session 6 of 10. Nobody knows which real trades are wash, so a detector can only be measured against a structure you planted and declared. Harrowgate's constructed generator: matched pairs, a wash share of reported volume, three bot styles, and the two checks that keep the answer key honest.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Planting a wash trader - learn crypto with phoebe">
+<meta property="og:description" content="Practitioner session 6 of 10. Build the answer key before you build the detector: a synthetic tape with a declared wash structure, checked to the micro-unit.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/p6-planting-a-wash-trader.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Planting a wash trader - learn crypto with phoebe">
+<meta name="twitter:description" content="Same size, opposite side, seconds apart. 424 planted pairs lift a constructed venue from 105,370.65 to 117,086.65 units of reported volume, and only the builder holds the label.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Practitioner session 6 · Planting a wash trader - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Practitioner session 6 of 10</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Practitioner session 6 of 10</div>
+    <h1>Planting a <span class="accent">wash trader</span></h1>
+    <p class="sub">Sessions 4 and 5 built three detectors and pointed them at a bot. Here is the question nobody asked out loud: how do you know the bot was a bot? On a real venue nobody can tell you which trades were wash, so nobody can tell you how often a detector is right. The honest way out is to build the answer key first. Tonight you plant a wash trader into a constructed tape on purpose, write down exactly what you planted, check that the plant is what you said it is, and lock the label away where no detector can read it. Everything after this, every detection rate and every false alarm, is counted against that key.</p>
+    <div class="chip-row">
+      <span class="chip level">🔧 Practitioner track</span>
+      <span class="chip audience">Data scientists who build and test detectors</span>
+      <span class="chip audience">Analysts who have to defend a flag</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-17 · Why the tape must be synthetic</span>
+      <span class="a3" style="flex:3">17-30 · The declared structure</span>
+      <span class="a4" style="flex:4">30-45 · Build-along and Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate has three detectors and no way to mark their homework</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm. After session 5 it has a first-digit test, a roundness test and a clustering test, and a manager who asks the reasonable question: how good are they? The team's first instinct is to run them on real venues and count the flags. That counts flags, not hits. To know whether a flag was right, someone has to know which trades on that venue were wash, and on a real venue nobody outside the washer does. The only ground truth Harrowgate can ever have is one it planted itself, on a tape it generated, with the plant written down before any detector runs.</p>
+
+    <div class="legend">
+      <span class="pill">Live = worked through in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> Why a detector can only be measured on a synthetic tape with a declared structure. The generator drawn as two streams, many honest habits and one washer, merging into one published tape. What the wash share w means, a share of reported volume, and the rule that hits it: add pairs until wash reaches w / (1 - w) of honest volume. Three bot styles, round, flat and copy. The two properties that keep the plant honest, the volume identity and the opposite-side twin, checked live on venue B: 3,848 trades and 424 pairs at 10 percent. And a build-along that writes the label to a file no detector ever opens.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Counting flags is not measuring a detector<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A detector has two numbers that matter: how often it fires on a tape that has wash in it, and how often it fires on a tape that does not. Both are ratios with a known answer in the denominator. "Flagged 4 of 20 venues" has no known answer anywhere; it could be four hits, four false alarms, or two of each, and nothing on the tapes can tell you which.</p>
+        <p>So the work splits into two jobs that must never touch. One job builds tapes and knows what is in them. The other job runs detectors and is not allowed to know. Tonight is the first job, done carefully enough that session 7 can do the second.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Harrowgate's first draft of a venue screen reported "detector agreement" as its quality metric: when all three tests fired on a venue, the screen was assumed to be right. A reviewer pointed out that three tests built on the same size column can agree perfectly and all be wrong in the same way. The team replaced agreement with a planted bench, and the agreement metric went into the appendix. Harrowgate is constructed; the shortcut is common.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Wash trade.</strong> A buy and a sell of the same size that leave the trader where they started. It adds to reported volume and moves no risk.</li>
+          <li><strong>Pair, or twin.</strong> The two legs of one wash trade: same size, opposite side, a few seconds apart. On this bench, 1 to 4 seconds.</li>
+          <li><strong>Honest volume.</strong> The sum of sizes of the trades that are not wash. Fixed when the honest tape is generated; planting never changes it.</li>
+          <li><strong>Reported volume.</strong> The sum of sizes of every print, honest and wash. The number a venue publishes.</li>
+          <li><strong>Wash share, w.</strong> Wash volume divided by reported volume. A share of volume, not a share of trades.</li>
+          <li><strong>Ground truth.</strong> The correct label for every trade, known independently of any detector.</li>
+          <li><strong>Declared structure.</strong> The written description of what was planted, how much and in what style, fixed before any detector runs.</li>
+          <li><strong>Test harness.</strong> The code and files that compare a detector's output with the declared labels. The only place the labels are allowed to live.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers why ground truth must be planted</span>
+      <h2>Why the tape must be synthetic, and declared</h2>
+      <span class="tag concept">14 min live</span>
+    </div>
+    <p class="lede">There is no labelled public set of wash trades. The published estimates of how much wash there is are models, built carefully, with their authors' own bounds printed beside them. A planted structure is the one thing that gives a detector a known answer: you decide what is wash, you write it down, and then detection rate and false positives stop being opinions and become counts.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 446" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The generator drawn as two streams merging into one tape. Top left, many honest traders with sizes 8.9, 10, 0.831 and 7.1 units: log-normal sizes over several decades, typed like a person, 25 percent to one significant digit, 45 percent to two, the rest to three, 3,000 trades a day. Bottom left, one washer: a sell of 50 and a buy of 50, same size, opposite side, 1 to 4 seconds apart, added until wash volume reaches w over 1 minus w of honest volume. Both streams feed the published tape of venue B, nine rows with time, side and size. A marigold wash column on the tape holds the flag: 0 for honest rows, 1 for the two 50-unit legs and the two 5-unit legs. The tape feeds a reported volume counter that sums honest plus wash and is published with no flag. The wash column feeds a declared label, the answer key, written to the test harness and never to the published tape.">
+        <defs>
+          <filter id="crp6aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="61" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp6aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp6aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp6aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp6aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp6aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp6aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp6aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp6aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp6aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp6aH" x="30" y="26">THE GENERATOR: TWO STREAMS, ONE PUBLISHED TAPE, ONE LABEL THAT STAYS BEHIND</text>
+        <text class="crp6aA" x="376" y="52">THE PUBLISHED TAPE, VENUE B (CONSTRUCTED)</text>
+
+        <g filter="url(#crp6aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- stream 1: many honest habits -->
+          <rect x="30" y="48" width="290" height="160" rx="6" transform="rotate(-0.4 175 128)" fill="#F4EFF9"/>
+          <rect x="46" y="82" width="58" height="28" rx="4" transform="rotate(-3 75 96)" fill="#FFFFFF" stroke-width="1.6"/>
+          <rect x="114" y="82" width="58" height="28" rx="4" transform="rotate(2 143 96)" fill="#FFFFFF" stroke-width="1.6"/>
+          <rect x="182" y="82" width="58" height="28" rx="4" transform="rotate(-2 211 96)" fill="#FFFFFF" stroke-width="1.6"/>
+          <rect x="250" y="82" width="58" height="28" rx="4" transform="rotate(3 279 96)" fill="#FFFFFF" stroke-width="1.6"/>
+          <!-- stream 2: one washer, one habit -->
+          <rect x="30" y="236" width="290" height="168" rx="6" transform="rotate(0.4 175 320)" fill="#FFFFFF"/>
+          <rect x="50" y="272" width="96" height="30" rx="4" transform="rotate(-2 98 287)" fill="#F4EFF9" stroke-width="1.6"/>
+          <rect x="196" y="272" width="96" height="30" rx="4" transform="rotate(2 244 287)" fill="#F4EFF9" stroke-width="1.6"/>
+          <path d="M148 287 L194 287" stroke-dasharray="4 4" stroke-width="1.6"/>
+          <!-- the merge -->
+          <path d="M322 128 C346 128 352 168 370 186" marker-end="url(#crp6aAr)"/>
+          <path d="M322 320 C346 320 352 282 370 264" marker-end="url(#crp6aAr)"/>
+          <!-- the tape -->
+          <rect x="376" y="60" width="250" height="330" rx="4" transform="rotate(-0.3 501 225)" fill="#FFFFFF"/>
+          <path d="M380 97 L562 97" stroke="#E6DFEE" stroke-width="1.4"/>
+          <!-- the wash flag column: the thing the figure is about -->
+          <rect x="566" y="63" width="57" height="324" transform="rotate(0.3 594 225)" fill="#FBF3E2" stroke="#B7791F"/>
+          <!-- outputs -->
+          <path d="M628 130 L664 130" marker-end="url(#crp6aAr)"/>
+          <path d="M626 300 L664 300" stroke="#B7791F" marker-end="url(#crp6aAr)"/>
+          <rect x="668" y="60" width="190" height="150" rx="6" transform="rotate(0.5 763 135)" fill="#FFFFFF"/>
+          <rect x="668" y="236" width="190" height="168" rx="6" transform="rotate(-0.5 763 320)" fill="#FBF3E2" stroke="#B7791F"/>
+          <!-- doodle anchor: a key, the answer key -->
+          <circle cx="690" cy="382" r="7" stroke="#8A5A12" stroke-width="1.8"/>
+          <path d="M697 382 L730 382 M722 382 L722 390 M728 382 L728 388" stroke="#8A5A12" stroke-width="1.8"/>
+        </g>
+
+        <!-- stream 1 text -->
+        <text class="crp6aL" x="46" y="72">Many honest traders, many habits</text>
+        <text class="crp6aS" x="75" y="100" text-anchor="middle">8.9</text>
+        <text class="crp6aS" x="143" y="100" text-anchor="middle">10</text>
+        <text class="crp6aS" x="211" y="100" text-anchor="middle">0.831</text>
+        <text class="crp6aS" x="279" y="100" text-anchor="middle">7.1</text>
+        <text class="crp6aS" x="46" y="134">log-normal sizes over several decades</text>
+        <text class="crp6aS" x="46" y="152">typed like a person: 25 percent to 1 digit,</text>
+        <text class="crp6aS" x="46" y="168">45 percent to 2 digits, the rest to 3</text>
+        <text class="crp6aS" x="46" y="186">3,000 trades a day at random times</text>
+
+        <!-- stream 2 text -->
+        <text class="crp6aL" x="46" y="260">One washer, one habit</text>
+        <text class="crp6aL" x="98" y="291" text-anchor="middle">sell 50</text>
+        <text class="crp6aL" x="244" y="291" text-anchor="middle">buy 50</text>
+        <text class="crp6aS" x="171" y="324" text-anchor="middle">same size, opposite side, 1 to 4 s apart</text>
+        <text class="crp6aS" x="46" y="346">adds pairs until wash volume reaches</text>
+        <text class="crp6aS" x="46" y="362">w / (1 - w) of honest volume</text>
+        <text class="crp6aS" x="46" y="380">sizes: round lots, flat band, or a copy</text>
+
+        <!-- the tape -->
+        <text class="crp6aA" x="390" y="86">time</text>
+        <text class="crp6aA" x="446" y="86">side</text>
+        <text class="crp6aA" x="548" y="86" text-anchor="end">size</text>
+        <text class="crp6aB" x="595" y="86" text-anchor="middle">wash</text>
+
+        <text class="crp6aS" x="390" y="122">00:01:28</text><text class="crp6aS" x="446" y="122">buy</text><text class="crp6aL" x="548" y="122" text-anchor="end">8.9</text><text class="crp6aS" x="595" y="122" text-anchor="middle">0</text>
+        <text class="crp6aS" x="390" y="150">00:01:36</text><text class="crp6aS" x="446" y="150">sell</text><text class="crp6aL" x="548" y="150" text-anchor="end">50</text><text class="crp6aB" x="595" y="150" text-anchor="middle">1</text>
+        <text class="crp6aS" x="390" y="178">00:01:37</text><text class="crp6aS" x="446" y="178">buy</text><text class="crp6aL" x="548" y="178" text-anchor="end">50</text><text class="crp6aB" x="595" y="178" text-anchor="middle">1</text>
+        <text class="crp6aS" x="390" y="206">00:01:41</text><text class="crp6aS" x="446" y="206">sell</text><text class="crp6aL" x="548" y="206" text-anchor="end">10</text><text class="crp6aS" x="595" y="206" text-anchor="middle">0</text>
+        <text class="crp6aS" x="390" y="234">00:01:53</text><text class="crp6aS" x="446" y="234">sell</text><text class="crp6aL" x="548" y="234" text-anchor="end">0.831</text><text class="crp6aS" x="595" y="234" text-anchor="middle">0</text>
+        <text class="crp6aS" x="390" y="262">00:01:57</text><text class="crp6aS" x="446" y="262">buy</text><text class="crp6aL" x="548" y="262" text-anchor="end">0.609</text><text class="crp6aS" x="595" y="262" text-anchor="middle">0</text>
+        <text class="crp6aS" x="390" y="290">00:02:27</text><text class="crp6aS" x="446" y="290">buy</text><text class="crp6aL" x="548" y="290" text-anchor="end">5</text><text class="crp6aB" x="595" y="290" text-anchor="middle">1</text>
+        <text class="crp6aS" x="390" y="318">00:02:28</text><text class="crp6aS" x="446" y="318">sell</text><text class="crp6aL" x="548" y="318" text-anchor="end">5</text><text class="crp6aB" x="595" y="318" text-anchor="middle">1</text>
+        <text class="crp6aS" x="390" y="346">00:02:38</text><text class="crp6aS" x="446" y="346">buy</text><text class="crp6aL" x="548" y="346" text-anchor="end">7.1</text><text class="crp6aS" x="595" y="346" text-anchor="middle">0</text>
+        <text class="crp6aS" x="376" y="410">a detector reads time, side and size; never the flag</text>
+
+        <!-- reported volume -->
+        <text class="crp6aL" x="682" y="84">Reported volume</text>
+        <text class="crp6aS" x="682" y="106">sums the size of every print,</text>
+        <text class="crp6aS" x="682" y="122">honest and wash alike</text>
+        <text class="crp6aV" x="682" y="152">honest + wash</text>
+        <text class="crp6aS" x="682" y="176">published with no flag</text>
+        <text class="crp6aS" x="682" y="192">and no auditor</text>
+
+        <!-- declared label -->
+        <text class="crp6aL" x="682" y="260">Declared label</text>
+        <text class="crp6aS" x="682" y="282">the wash flag, known only</text>
+        <text class="crp6aS" x="682" y="298">because the builder planted it</text>
+        <text class="crp6aS" x="682" y="314">written to the test harness,</text>
+        <text class="crp6aS" x="682" y="330">never to the published tape</text>
+        <text class="crp6aB" x="682" y="354">the answer key</text>
+
+        <text class="crp6aN" x="30" y="434">Merged, the tape looks like one venue. Only the builder's flag says which prints are wash.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - two streams go into one tape; the venue publishes the sum of both as its volume, and the only record of which prints were wash is a label the builder wrote and the detector never sees</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Nobody holds the answer key for a real venue<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A real tape has the columns in the middle of the figure and no others. Time, side, size, price. There is no wash column, because the only party who knows which prints were wash is the party who placed them, and that party is not filling in a spreadsheet for you. A venue that inflates its volume has no reason to label it; a venue that does not inflate has no way to prove a negative.</p>
+        <p>That makes every real-data accuracy claim circular. If you score a detector by whether it flags the venues you already suspected, you are measuring agreement with your suspicion. If you score it against another detector, you are measuring agreement between two instruments that may share a blind spot. Neither is a detection rate. There is no labelled public ground truth for wash trades to check either against.</p>
+        <p>The generator in the figure removes the circle by construction. The builder writes the wash flag at the moment each pair is created, so the label is a fact about how the tape was made, not a judgement about how it looks. Every widget on these pages says the tape is synthetic for the same reason: a number measured on a planted tape is only honest if the reader knows it was planted.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>What the published estimates actually are<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The best-known academic estimate is a model, and its authors say so. Cong, Li, Tang and Yang, "Crypto Wash Trading" (NBER working paper read at source; published version in Management Science, reported), estimated a benchmark ratio of unrounded to round volume on three regulated venues, then treated an unregulated venue's unrounded volume above what that ratio predicts as the wash estimate. The answer depends on the benchmark being right, and no trade in their sample carries a label saying it was wash.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>On their 2019 sample of 29 venues the authors estimate wash at "77.5% of the total trading volume on unregulated exchanges" on average, and they print the bounds beside it: their Benford-based estimates "are significantly lower" and give "somewhat lower bounds", and if genuine algorithmic trading inflates unrounded volume "our estimates should be viewed more as upper bounds". They add "we cannot assert that our estimates are the gold standard". That is what careful work without ground truth looks like: an estimate, its method, and its bounds, side by side.</p>
+        </div>
+        <p>None of this is a criticism of the paper. It is the reason a detector cannot be validated on real tapes: if the best estimate is a model with a lower and an upper bound, there is nothing more exact to score a detector against.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>What a planted structure buys you<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Once you planted the wash, two ratios become arithmetic. <strong>Detection rate</strong>: of the tapes you washed, the share the detector flagged. <strong>False-positive rate</strong>: of the tapes you left honest, the share it flagged anyway. Both have a known denominator because you built it. Session 7 computes both on the bench, including the floor, the smallest wash share each bot can hide at.</p>
+        <p>The price is scope. A planted tape only tests the bots you thought to plant. A detector that catches your round-lot bot every time has learned nothing about a washer you did not imagine, and Part 2 plants one on purpose, a bot that copies the honest size habit, to keep that limit in view. A planted bench is a lower standard than the truth and a higher one than a guess.</p>
+        <p>Declaring the structure is what stops the bench being tuned. Write down the wash share, the style, the seeds and the pair rule before any detector runs, and the result cannot drift toward whatever the detector happened to find.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Two published numbers are often quoted as if they measured the same thing. Cong and co-authors estimate 77.5 percent on average for unregulated venues: an academic roundness method, 26 unregulated venues against 3 regulated ones, four months in 2019. An industry presentation to the US securities regulator in March 2019 (Fusaro and Hougan, an asset manager's presentation, reported; the hosted file is image-only) reported that roughly 95 percent of the volume shown on a widely used aggregator for one asset was "fake or non-economic", from 81 venues over four days, using size histograms, volume patterns and spread behaviour, and found 10 venues with real volume. The academic authors say their estimates "are in the same order of magnitude".</p>
+        <p>Different denominators, different samples, different windows, different methods. Neither is "the" wash rate, and neither could be checked against a label, because no label exists. That is the strongest argument for a planted bench: it is the only setting where a disagreement about a detector can be settled by counting.</p>
+        <p>The opposing view deserves its due. A practitioner who works on real venues will say a synthetic bench tests the builder's imagination, and that the only detector worth trusting is one that has been argued over on real tapes by people with different priors. Both camps are right about the other's weakness. The bench measures what it planted; real tapes measure nothing exactly.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers the declared structure</span>
+      <h2>Pairs, a share of reported volume, and three habits</h2>
+      <span class="tag concept">13 min live</span>
+    </div>
+    <p class="lede">The declaration has four parts. A wash trade is a pair: one buy and one sell of the same size, 1 to 4 seconds apart. The wash share w is a share of reported volume. The bot keeps adding pairs until wash volume reaches w / (1 - w) of honest volume, which is exactly the amount that makes wash divided by reported equal w. And the bot has one size habit, chosen from three. The honest tape underneath never changes: on venue B, the partner of Tape A, it is 3,000 trades and 105,370.65 units on every rung.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 446" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Seventy seconds of constructed venue B at 10 percent round-lot wash, nine prints in time order. Honest prints: 00:01:28 buy 8.9, 00:01:41 sell 10, 00:01:53 sell 0.831, 00:01:57 buy 0.609, 00:02:38 buy 7.1. Wash pair one: 00:01:36 sell 50 and 00:01:37 buy 50, bracketed as same size, opposite side, 1 second apart, reported volume plus 100 units, washer's net position 0. Wash pair two: 00:02:27 buy 5 and 00:02:28 sell 5, bracketed the same way, plus 10 units, net position 0. The nine prints add 137.44 units of reported volume, 27.44 honest and 110 wash.">
+        <defs>
+          <filter id="crp6bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="63" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp6bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp6bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp6bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp6bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp6bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp6bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp6bV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp6bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp6bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp6bH" x="30" y="26">VENUE B AT 10 PERCENT ROUND-LOT WASH: SEVENTY SECONDS OF ITS TAPE</text>
+        <text class="crp6bA" x="56" y="56">time</text>
+        <text class="crp6bA" x="140" y="56">side</text>
+        <text class="crp6bA" x="262" y="56" text-anchor="end">size, units</text>
+        <text class="crp6bA" x="362" y="56" text-anchor="end">volume adds</text>
+        <text class="crp6bA" x="388" y="56">builder's flag</text>
+
+        <g filter="url(#crp6bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- honest rows -->
+          <rect x="40" y="71" width="450" height="26" rx="4" transform="rotate(-0.3 265 84)" fill="#FFFFFF" stroke="#CFC5DA" stroke-width="1.6"/>
+          <rect x="40" y="161" width="450" height="26" rx="4" transform="rotate(0.3 265 174)" fill="#FFFFFF" stroke="#CFC5DA" stroke-width="1.6"/>
+          <rect x="40" y="191" width="450" height="26" rx="4" transform="rotate(-0.2 265 204)" fill="#FFFFFF" stroke="#CFC5DA" stroke-width="1.6"/>
+          <rect x="40" y="221" width="450" height="26" rx="4" transform="rotate(0.2 265 234)" fill="#FFFFFF" stroke="#CFC5DA" stroke-width="1.6"/>
+          <rect x="40" y="311" width="450" height="26" rx="4" transform="rotate(-0.3 265 324)" fill="#FFFFFF" stroke="#CFC5DA" stroke-width="1.6"/>
+          <!-- wash rows: the thing the figure is about -->
+          <rect x="40" y="101" width="450" height="26" rx="4" transform="rotate(0.3 265 114)" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="40" y="131" width="450" height="26" rx="4" transform="rotate(-0.3 265 144)" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="40" y="251" width="450" height="26" rx="4" transform="rotate(-0.2 265 264)" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="40" y="281" width="450" height="26" rx="4" transform="rotate(0.2 265 294)" fill="#FBF3E2" stroke="#B7791F"/>
+          <!-- brackets joining each pair -->
+          <path d="M498 103 L508 103 L508 155 L498 155 M508 129 L516 129" stroke="#8A5A12"/>
+          <path d="M498 253 L508 253 L508 305 L498 305 M508 279 L516 279" stroke="#8A5A12"/>
+          <!-- doodle anchor: two legs that cancel -->
+          <path d="M660 362 L730 362" marker-end="url(#crp6bAr)"/>
+          <path d="M730 382 L660 382" marker-end="url(#crp6bAr)"/>
+        </g>
+
+        <text class="crp6bS" x="56" y="90">00:01:28</text><text class="crp6bL" x="140" y="90">buy</text><text class="crp6bL" x="262" y="90" text-anchor="end">8.9</text><text class="crp6bS" x="362" y="90" text-anchor="end">+8.9</text><text class="crp6bS" x="388" y="90">honest</text>
+        <text class="crp6bS" x="56" y="120">00:01:36</text><text class="crp6bL" x="140" y="120">sell</text><text class="crp6bL" x="262" y="120" text-anchor="end">50</text><text class="crp6bS" x="362" y="120" text-anchor="end">+50</text><text class="crp6bB" x="388" y="120">wash</text>
+        <text class="crp6bS" x="56" y="150">00:01:37</text><text class="crp6bL" x="140" y="150">buy</text><text class="crp6bL" x="262" y="150" text-anchor="end">50</text><text class="crp6bS" x="362" y="150" text-anchor="end">+50</text><text class="crp6bB" x="388" y="150">wash</text>
+        <text class="crp6bS" x="56" y="180">00:01:41</text><text class="crp6bL" x="140" y="180">sell</text><text class="crp6bL" x="262" y="180" text-anchor="end">10</text><text class="crp6bS" x="362" y="180" text-anchor="end">+10</text><text class="crp6bS" x="388" y="180">honest</text>
+        <text class="crp6bS" x="56" y="210">00:01:53</text><text class="crp6bL" x="140" y="210">sell</text><text class="crp6bL" x="262" y="210" text-anchor="end">0.831</text><text class="crp6bS" x="362" y="210" text-anchor="end">+0.831</text><text class="crp6bS" x="388" y="210">honest</text>
+        <text class="crp6bS" x="56" y="240">00:01:57</text><text class="crp6bL" x="140" y="240">buy</text><text class="crp6bL" x="262" y="240" text-anchor="end">0.609</text><text class="crp6bS" x="362" y="240" text-anchor="end">+0.609</text><text class="crp6bS" x="388" y="240">honest</text>
+        <text class="crp6bS" x="56" y="270">00:02:27</text><text class="crp6bL" x="140" y="270">buy</text><text class="crp6bL" x="262" y="270" text-anchor="end">5</text><text class="crp6bS" x="362" y="270" text-anchor="end">+5</text><text class="crp6bB" x="388" y="270">wash</text>
+        <text class="crp6bS" x="56" y="300">00:02:28</text><text class="crp6bL" x="140" y="300">sell</text><text class="crp6bL" x="262" y="300" text-anchor="end">5</text><text class="crp6bS" x="362" y="300" text-anchor="end">+5</text><text class="crp6bB" x="388" y="300">wash</text>
+        <text class="crp6bS" x="56" y="330">00:02:38</text><text class="crp6bL" x="140" y="330">buy</text><text class="crp6bL" x="262" y="330" text-anchor="end">7.1</text><text class="crp6bS" x="362" y="330" text-anchor="end">+7.1</text><text class="crp6bS" x="388" y="330">honest</text>
+
+        <text class="crp6bB" x="526" y="114">same size, opposite side, 1 s apart</text>
+        <text class="crp6bS" x="526" y="130">reported volume +100 units</text>
+        <text class="crp6bS" x="526" y="146">washer's net position: 0</text>
+        <text class="crp6bB" x="526" y="264">same size, opposite side, 1 s apart</text>
+        <text class="crp6bS" x="526" y="280">reported volume +10 units</text>
+        <text class="crp6bS" x="526" y="296">washer's net position: 0</text>
+
+        <text class="crp6bL" x="30" y="372">Nine prints, 137.44 units of reported volume: 27.44 honest, 110 wash</text>
+        <text class="crp6bS" x="742" y="366">+50</text>
+        <text class="crp6bS" x="742" y="386">-50</text>
+        <text class="crp6bS" x="30" y="394">Each pair adds twice its size to volume and leaves the washer where it started.</text>
+
+        <text class="crp6bN" x="30" y="424">Volume is a sum of sizes, so it cannot tell a trade that moved risk from one that did not.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - two planted pairs in seventy seconds of venue B: both legs of each pair count in reported volume, and each pair nets the washer's position to zero</figcaption>
+    </figure>
+
+    <div class="wk" id="crp6-plant">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">The constructed generator, running in this page. Pick a tape, a bot style and a wash share; the page plants the bot into that tape's partner venue (venue B, seed plus one) and reads the plant back from the wash flag. Everything is synthetic; nothing here is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="crp6-seed">Which constructed tape (venue B is its partner)</label>
+        <select class="sql-code" id="crp6-seed">
+          <option value="11">Tape A</option>
+          <option value="101">Tape B</option>
+          <option value="2024">Tape C</option>
+          <option value="7">Tape D</option>
+          <option value="55555">Tape E</option>
+        </select>
+        <label class="sql-label" for="crp6-style">What the wash bot does with sizes</label>
+        <select class="sql-code" id="crp6-style">
+          <option value="round">Round lots: 1, 2, 5, 10, 20, 50 or 100 units</option>
+          <option value="flat">Flat: unrounded four-digit sizes from one band, 2 to 20 units</option>
+          <option value="copy">Copy: samples the honest size distribution</option>
+        </select>
+        <label class="sql-label" for="crp6-share">Declared wash share of reported volume</label>
+        <select class="sql-code" id="crp6-share">
+          <option value="0">0 percent, honest</option>
+          <option value="10" selected>10 percent</option>
+          <option value="30">30 percent</option>
+          <option value="50">50 percent</option>
+          <option value="70">70 percent</option>
+        </select>
+        <div id="crp6-out"></div>
+        <p class="sql-note" id="crp6-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="crp6-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>w is a share of reported volume, not of trades<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>If honest volume is H and the bot adds wash volume W, the venue reports H + W, and the wash share is W / (H + W). Set that equal to w and solve: W = H × w / (1 - w). So at 10 percent the bot adds wash worth a ninth of honest volume, at 50 percent it adds as much as the honest traders did, and at 70 percent it adds more than twice as much. The generator keeps adding pairs until wash volume reaches that target; nothing else stops it.</p>
+        <p>Venue B, round-lot bot, the honest tape fixed at 3,000 trades and 105,370.65 units:</p>
+        <div class="sql-tablewrap"><table class="sql-table">
+          <thead><tr><th>Declared w</th><th>Trades (pairs)</th><th>Reported volume, units</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>3,000 (0)</td><td>105,370.65</td></tr>
+            <tr><td>10 percent</td><td>3,848 (424)</td><td>117,086.65</td></tr>
+            <tr><td>30 percent</td><td>6,418 (1,709)</td><td>150,530.65</td></tr>
+            <tr><td>50 percent</td><td>10,708 (3,854)</td><td>210,742.65</td></tr>
+            <tr><td>70 percent</td><td>21,312 (9,156)</td><td>351,304.65</td></tr>
+          </tbody>
+        </table></div>
+        <p>Read the trade column against the declared share. At 70 percent of volume, 18,312 of the 21,312 trades are wash and only 3,000 are honest: the share of trades runs far ahead of the share of volume, because a round-lot bot's average size and an honest trader's are not the same. Say "share of reported volume" every time; a reader who hears "70 percent wash" and pictures 70 percent of trades has the wrong tape in mind.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Why a pair nets to zero and still counts twice<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Look at the first bracket in the figure. At 00:01:36 the washer sells 50 units; at 00:01:37 it buys 50 units. Its position after the second leg is exactly where it was before the first. No risk moved to anyone, and on this engine the price does not move either: wash prints are stamped at the current price and only honest prints step it. Yet the reported volume counter added 100 units, because volume is a sum of sizes and it has no column for intent.</p>
+        <p>That is the whole economics of a wash trade in one line: double the size in volume, zero in position. It is also why the planted structure is a property of pairs, not of single prints. A single 50-unit sell is indistinguishable from an honest one; it is the twin, same size, opposite side, seconds away, that makes it wash. The engine checks every wash trade has its twin; the widget above counts the ones that do not, and the count is 0 on every tape, style and share it offers.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Three styles, three habits<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Round.</strong> Every size is one of seven lots, 1, 2, 5, 10, 20, 50 or 100 units. The naive bot. It pushes roundness and clustering up and keeps first digits on 1, 2 and 5, which is why session 4 found the first-digit test the last to see it.</li>
+          <li><strong>Flat.</strong> Unrounded four-digit sizes drawn from one band, 2 to 20 units. Too few round sizes, the direction the published study found on unregulated venues. Session 5's two-sided tests exist for this bot.</li>
+          <li><strong>Copy.</strong> Samples the honest size distribution. Its sizes are the honest habit, so every size-based detector is blind to it by construction; only the pair structure gives it away. Planting it is not cruelty to the detectors; it is the declared limit of what they can see.</li>
+        </ul>
+        <p>Switch the widget between styles at the same share and watch the first five pairs: round lots, then four-digit sizes like nobody types, then sizes that look exactly like the honest column. On the copy bot the achieved share can land noticeably above the declared one, because a copied size can be very large and the loop only stops after the pair that crosses the target. The widget prints the achieved share for that reason.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>The checks that keep the plant honest<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A generator that does not do what its declaration says produces a bench that measures the bug. The engine runs six properties on every page load and the widget footer reports them. Two are about the plant itself: "reported volume equals honest plus wash, share within one lot of target", which catches a wash loop that stops early or double counts, and "every wash trade has an opposite-side twin within 4 seconds", which catches a pair generator that forgets to flip the side. Each of the six names the fault it exists to catch.</p>
+        <p>A check is only worth something if it can fail. Two faults were reintroduced in node to confirm the right property fails: the twin-side fault, under which the opposite-side twin property fails, and a one-sided roundness test, under which "a bot with too few round sizes still fires the roundness test" fails while the other five pass. The other properties each name the fault they are there for. Session 10 runs all six beside the bench.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Integers, so every check is exact<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Sizes are stored as integers in micro-units, 1,000,000 to one unit, as Harrowgate has stored them since session 1. That turns the volume identity from "close enough" into an equality: reported volume is honest plus wash to the last micro-unit, and an assertion with no tolerance either holds or names a bug. A float sum over twenty thousand prints can disagree with itself in the last digit depending on the order you add, and a check that needs a tolerance is a check you can talk yourself past.</p>
+        <p>The share is the one place a tolerance is honest. Pairs come in whole sizes, so the bot cannot stop exactly on the target; it stops on the first pair that reaches it. The overshoot is at most one pair, which for the round bot is within one lot. Write the tolerance as that bound, not as a round number you picked.</p>
+        <p>The tape is also a stream in time order, and in production it arrives late and out of order; the mechanics of that live in <a href="https://phoebefu6.github.io/learn-streaming-data-with-phoebe/">learn-streaming-data-with-phoebe</a>. Here the generator sorts by time once and is done.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>Build a declared tape and lock the label away</h2>
+      <span class="tag build">15 min hands on</span>
+    </div>
+    <p class="lede">Six steps with numpy and pandas. You generate an honest tape the way the engine does, plant matched pairs to a declared share, assert the two properties, and split the result into a published tape and a label file. Your random draws will differ from the engine's, so your numbers will differ; the comments quote only the constructed bench's figures for comparison. Run it in a scratch folder, never where the outputs could land in a repository.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Honest sizes, typed like a person, in integer micro-units</h4>
+        <p>Log-normal with a wide spread, then rounded to one, two or three significant digits. The rounding is integer arithmetic, so a size is never 999.9999 of anything.</p>
+        <div class="prompt-box good"><span class="label">python · one honest size</span>import numpy as np, pandas as pd
+MICRO = 1_000_000                                  # micro-units: 0.831 units is 831000
+rng = np.random.default_rng(12)                    # any seed; your numbers will differ from the page
+
+def round_sig(raw_micro: int, sig: int) -&gt; int:
+    """Round a positive integer to sig significant digits, integers only."""
+    raw_micro = max(int(raw_micro), 1)
+    shift = len(str(raw_micro)) - sig              # how many trailing digits to drop
+    if shift &lt;= 0:
+        return raw_micro
+    q = 10 ** shift
+    return (raw_micro + q // 2) // q * q
+
+def honest_size() -&gt; int:
+    raw = int(np.exp(1.6 + 1.9 * rng.standard_normal()) * MICRO)
+    r = rng.random()
+    sig = 1 if r &lt; 0.25 else 2 if r &lt; 0.70 else 3     # 25 percent one digit, 45 two, the rest three
+    return round_sig(raw, sig)</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>The honest tape, and its volume, fixed before any wash exists</h4>
+        <p>Record honest volume now. Planting must never change it, and step 4 checks that it did not.</p>
+        <div class="prompt-box good"><span class="label">python · 3,000 honest prints</span>N, DAY = 3000, 86_400
+honest = pd.DataFrame({
+    "t": rng.integers(0, DAY, N),
+    "side": rng.choice(["buy", "sell"], N),
+    "size_u": [honest_size() for _ in range(N)],
+})
+honest["wash"] = 0
+honest_vol = int(honest["size_u"].sum())
+print(N, "honest trades,", honest_vol / MICRO, "units")
+# constructed venue B: 3,000 trades, 105,370.65 units</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Plant matched pairs until wash reaches w / (1 - w) of honest volume</h4>
+        <p>Each pair is two rows: same size, opposite side, 1 to 4 seconds apart, both flagged. The loop stops on the first pair that reaches the target.</p>
+        <div class="prompt-box good"><span class="label">python · the declared plant</span>LOTS = [1, 2, 5, 10, 20, 50, 100]
+
+def wash_size(style: str) -&gt; int:
+    if style == "round":
+        return int(rng.choice(LOTS)) * MICRO             # one habit: seven round lots
+    if style == "flat":
+        return round_sig(int((2 + 18 * rng.random()) * MICRO), 4)   # four digits, 2 to 20 units
+    return honest_size()                                 # copy: the honest habit itself
+
+def plant(w: float, style: str) -&gt; pd.DataFrame:
+    target = honest_vol * w / (1 - w)                    # so that wash / reported == w
+    rows, wash_vol = [], 0
+    while wash_vol &lt; target:
+        t, size = int(rng.integers(0, DAY)), wash_size(style)
+        first = str(rng.choice(["buy", "sell"]))
+        second = "sell" if first == "buy" else "buy"
+        gap = int(rng.integers(1, 5))                    # 1 to 4 seconds
+        rows += [(t, first, size, 1), (t + gap, second, size, 1)]
+        wash_vol += 2 * size
+    wash = pd.DataFrame(rows, columns=["t", "side", "size_u", "wash"])
+    return pd.concat([honest, wash]).sort_values("t", kind="stable").reset_index(drop=True)
+
+W, STYLE = 0.10, "round"                                 # the declaration, written before any detector runs
+tape = plant(W, STYLE)
+print(len(tape), "trades,", int(tape["wash"].sum()) // 2, "pairs")
+# constructed venue B at 10 percent: 3,848 trades, 424 pairs</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Assert the volume identity and the share</h4>
+        <p>No tolerance on the identity, because the sizes are integers. On the share, the only honest tolerance is the largest pair, because the loop can overshoot by at most one.</p>
+        <div class="prompt-box good"><span class="label">python · reported is honest plus wash</span>is_wash = tape["wash"] == 1
+honest_part = int(tape.loc[~is_wash, "size_u"].sum())
+wash_part = int(tape.loc[is_wash, "size_u"].sum())
+reported = int(tape["size_u"].sum())
+assert reported == honest_part + wash_part          # exact
+assert honest_part == honest_vol                    # planting never touched an honest row
+biggest_pair = 2 * int(tape.loc[is_wash, "size_u"].max())
+share = wash_part / reported
+assert -1e-12 &lt;= share - W &lt;= biggest_pair / reported   # overshoot at most one pair
+print(honest_part / MICRO, "+", wash_part / MICRO, "=", reported / MICRO, round(share, 4))
+# constructed: 105,370.65 honest, 117,086.65 reported</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Assert every wash trade has its twin, and the washer nets to zero</h4>
+        <p>This is the check that fails if the pair generator forgets to flip the side. Prove it to yourself: change <code>second</code> to equal <code>first</code> in step 3 and run again.</p>
+        <div class="prompt-box good"><span class="label">python · the twin property</span>legs = tape[is_wash]
+unmatched = 0
+for _, r in legs.iterrows():
+    twins = legs[(legs["size_u"] == r["size_u"]) &amp; (legs["side"] != r["side"])
+                 &amp; ((legs["t"] - r["t"]).abs() &lt;= 4)]
+    unmatched += int(twins.empty)
+assert unmatched == 0, f"{unmatched} wash trades have no opposite-side twin"
+
+signed = np.where(legs["side"] == "buy", 1, -1) * legs["size_u"]
+assert int(signed.sum()) == 0                       # the washer ends where it started
+print("every wash trade has its twin; net position 0")
+# constructed bench: 0 unmatched on every tape, style and share</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Split the published tape from the declared label</h4>
+        <p>The detector gets a file with no wash column. The label goes to the harness folder with a trade id to join on, and nothing in the detector code is allowed to open that folder.</p>
+        <div class="prompt-box good"><span class="label">python · two files, one of them secret</span>from pathlib import Path
+harness = Path("harness"); harness.mkdir(exist_ok=True)
+tape["trade_id"] = tape.index
+tape[["trade_id", "t", "side", "size_u"]].to_csv("venue_b_tape.csv", index=False)   # what a detector reads
+tape[["trade_id", "wash"]].to_csv(harness / "declared_labels.csv", index=False)      # the answer key
+(harness / "declaration.txt").write_text(f"w={W} style={STYLE} pairs={int(is_wash.sum()) // 2}\n")
+assert "wash" not in pd.read_csv("venue_b_tape.csv").columns</div>
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> Write the declaration before you run a detector. Store sizes as integers so the volume identity is an equality. Assert the twin property, and break it once on purpose to see it fail. Keep the label in the harness and out of every file a detector can read. And say "share of reported volume", never just "70 percent wash".</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">A colleague plants a bot "at 70 percent" on venue B and is surprised the tape has 21,312 trades, of which only 3,000 are honest. What does the 70 percent mean?</p>
+      <div class="qopt">A · 70 percent of the trades on the tape are wash</div>
+      <div class="qopt">B · Wash volume is 70 percent of reported volume, so the bot adds wash worth w / (1 - w) of honest volume, here more than twice the honest volume</div>
+      <div class="qopt">C · Wash volume is 70 percent of honest volume</div>
+      <q class="qwhy">w is a share of reported volume. Wash reaching 70 percent of the total means wash is 0.7 / 0.3 times honest volume. The share of trades is a different and larger number here, because the round-lot bot's sizes are not the honest traders' sizes; quoting one as the other misdescribes the tape.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">The washer sells 50 units at 00:01:36 and buys 50 units at 00:01:37. What did that pair do?</p>
+      <div class="qopt">A · Added 50 units to reported volume, because the two legs cancel</div>
+      <div class="qopt">B · Moved the washer's position by 50 units in the direction of the second leg</div>
+      <div class="qopt">C · Added 100 units to reported volume and left the washer's position exactly where it started</div>
+      <q class="qwhy">Volume sums the size of every print, so both legs count. Position is buys minus sells, and the pair is one of each at the same size, so it nets to zero. Double in volume, zero in position: that is what makes it wash, and why the twin, not the single print, is the planted structure.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">Why measure a wash detector on a synthetic tape with a declared structure rather than on real venues?</p>
+      <div class="qopt">A · Because no labelled public ground truth for wash trades exists, and published estimates are models with their authors' own bounds; only a planted, declared structure gives a known answer to count hits and false alarms against</div>
+      <div class="qopt">B · Because synthetic tapes are larger, so the detector's statistics are more stable</div>
+      <div class="qopt">C · Because real venues forbid running detectors on their published trades</div>
+      <q class="qwhy">A detection rate and a false-positive rate both need a known label in the denominator. On a real tape nobody outside the washer has one. A planted bench supplies it, at the price of testing only the bots you planted, which is why the copy bot is planted too.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 7</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">About forty minutes, with the build-along code.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Write a declaration for a bench of your own</h4>
+        <p>Five honest seeds, three styles, five shares, the pair rule and the gap, on one page. Then generate the tapes and run steps 4 and 5 on every one; the count of failing assertions should be zero.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Break it twice, on purpose</h4>
+        <p>Make the second leg the same side as the first and watch step 5 fail. Then make the loop stop one pair early and watch the share assertion fail. Bring both error messages to session 7, where the label file finally gets opened, by the harness and nobody else.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Why the tape must be synthetic</span><span class="note">No labelled public ground truth; Cong et al.'s estimates are models with their own lower and upper bounds, read at source.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The disagreement over how much wash</span><span class="note">77.5 percent academic against 95 percent industry (reported), different denominators, samples, windows and methods; not resolved.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The declared structure</span><span class="note">Matched pairs 1 to 4 seconds apart; w as a share of reported volume; wash added to w / (1 - w) of honest volume.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Three bot styles</span><span class="note">Round lots, a flat unrounded band, and a copy of the honest habit as the declared limit.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The checks on the plant</span><span class="note">Volume identity and opposite-side twin, live on venue B: 3,848 trades, 424 pairs, 117,086.65 reported at 10 percent.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Build-along</span><span class="note">Integer micro-unit generator, asserted identity and twins, a label file that stays in the harness.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Measuring the detector</span><span class="note">Named tonight. Session 7 opens the label: calibration, false positives and the detection floor.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">The bench</span><span class="note">Named tonight. Session 10 runs the ladder, the anti-lever and the break button live.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">General detectors</span><span class="note">Z-scores, isolation forests and control charts live in <a href="https://phoebefu6.github.io/learn-anomaly-detection-with-phoebe/">learn-anomaly-detection-with-phoebe</a>.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">A detector that reads the pairs</span><span class="note">Not built; the bench's three detectors read sizes only, which is why the copy bot is invisible to them.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Anything to do with buying, selling or holding</span><span class="note">Out of scope. No real price, asset or venue appears and nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>Planting a wash trader <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>Why plant.</strong> No labelled ground truth exists for real wash trades. A detection rate needs a known answer; only a planted tape has one.</div>
+      <div class="cheat-item"><strong>Declare first.</strong> Share, style, seeds, pair rule and gap, written before any detector runs. Every widget says synthetic.</div>
+      <div class="cheat-item"><strong>A pair.</strong> Same size, opposite side, 1 to 4 seconds apart. Twice its size in volume, zero in position.</div>
+      <div class="cheat-item"><strong>w.</strong> Wash divided by reported volume. Add pairs until wash reaches w / (1 - w) of honest volume.</div>
+      <div class="cheat-item"><strong>Venue B, round, 10 percent.</strong> 3,848 trades, 424 pairs, 105,370.65 honest, 117,086.65 reported.</div>
+      <div class="cheat-item"><strong>Three styles.</strong> Round lots (too round), flat band (too few round), copy (the honest habit, invisible to size tests).</div>
+      <div class="cheat-item"><strong>Two checks.</strong> Reported equals honest plus wash, exactly, in integer micro-units. Every wash trade has an opposite-side twin within 4 seconds.</div>
+      <div class="cheat-item"><strong>The label.</strong> Lives in the test harness. Never in a file a detector can read.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Practitioner session 7, measuring the detector. The label file gets opened by the harness: a firing line calibrated on 40 honest venues, 3 of 200 fresh honest venues flagged at k = 2 (1.5 percent), a round-lot bot caught from 2 percent of reported volume and a flat bot from 4, and the copy bot, which is never caught.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Practitioner session 6 of 10 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="p5-round-sizes-and-clustered-sizes.html">← Prev: Practitioner session 5 · Round sizes and clustered sizes</a>
+        <a href="p7-measuring-the-detector.html">Next: Practitioner session 7 · Measuring the detector →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var seedSel = document.getElementById("crp6-seed");
+  var styleSel = document.getElementById("crp6-style");
+  var shareSel = document.getElementById("crp6-share");
+  var out = document.getElementById("crp6-out");
+  var verdict = document.getElementById("crp6-verdict");
+  var self = document.getElementById("crp6-self");
+
+  function comma(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+  function units(micro) {
+    var s = CM.fmtUnits(micro), parts = s.split(".");
+    return comma(parts[0]) + (parts.length > 1 ? "." + parts[1] : "");
+  }
+  function hms(t) {
+    var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+    return [h, m, s].map(function (x) { return (x < 10 ? "0" : "") + x; }).join(":");
+  }
+  function side(s) { return s === 0 ? "buy" : "sell"; }
+
+  /* read the plant back from the wash flag: pair each wash leg with the next unused leg of the
+     same size and opposite side within 4 seconds */
+  function findPairs(tape) {
+    var ws = tape.trades.filter(function (t) { return t.wash; });
+    var used = new Array(ws.length), pairs = [], i, j;
+    for (i = 0; i < ws.length; i++) {
+      if (used[i]) continue;
+      for (j = i + 1; j < ws.length && ws[j].t - ws[i].t <= 4; j++) {
+        if (!used[j] && ws[j].size === ws[i].size && ws[j].side !== ws[i].side) {
+          used[i] = used[j] = true;
+          pairs.push([ws[i], ws[j]]);
+          break;
+        }
+      }
+    }
+    var unmatched = 0;
+    for (i = 0; i < ws.length; i++) if (!used[i]) unmatched++;
+    return { legs: ws.length, pairs: pairs, unmatched: unmatched };
+  }
+
+  function render() {
+    var base = Number(seedSel.value);
+    var seedB = base + 1;
+    var w = Number(shareSel.value) / 100;
+    var style = styleSel.value;
+    var name = seedSel.options[seedSel.selectedIndex].text;
+    var tape = CM.makeTape({ seed: seedB, washShare: w, washStyle: style });
+    var found = findPairs(tape);
+    var achieved = tape.reportedVol ? tape.washVol / tape.reportedVol : 0;
+    var i;
+
+    var html = '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>Reading</th><th>Value</th><th>How to read it</th></tr></thead><tbody>';
+    html += "<tr><td>Venue</td><td>B, seed " + seedB + "</td><td>the partner of " + name + ", constructed</td></tr>";
+    html += "<tr><td>Trades on the tape</td><td>" + comma(tape.trades.length) + "</td><td>" + comma(tape.honest) + " honest + " + comma(2 * tape.pairs) + " wash legs</td></tr>";
+    html += "<tr><td>Wash pairs planted</td><td>" + comma(tape.pairs) + "</td><td>same size, opposite side, 1 to 4 s apart</td></tr>";
+    html += "<tr><td>Honest volume, units</td><td>" + units(tape.honestVol) + "</td><td>fixed before any wash exists</td></tr>";
+    html += "<tr><td>Wash volume, units</td><td>" + units(tape.washVol) + "</td><td>target " + (w ? "w / (1 - w) of honest" : "none") + "</td></tr>";
+    html += "<tr><td>Reported volume, units</td><td><b>" + units(tape.reportedVol) + "</b></td><td>honest + wash, " + (tape.reportedVol === tape.honestVol + tape.washVol ? "exact" : "MISMATCH") + "</td></tr>";
+    html += "<tr><td>Achieved wash share</td><td>" + (achieved * 100).toFixed(2) + " percent</td><td>declared " + (w * 100) + " percent of reported volume</td></tr>";
+    html += "<tr><td>Wash legs with no twin</td><td><b" + (found.unmatched ? ' class="crp6-bad"' : "") + ">" + found.unmatched + "</b></td><td>must be 0; read back from the wash flag</td></tr>";
+    html += "</tbody></table></div>";
+
+    if (found.pairs.length) {
+      html += '<p class="crp6-sub">The first five wash pairs, found by filtering the wash flag (a column only the builder has):</p>';
+      html += '<div class="sql-tablewrap"><table class="sql-table"><thead><tr><th>Pair</th><th>First leg</th><th>Second leg</th><th>Size, units</th><th>Seconds apart</th><th>Net position</th></tr></thead><tbody>';
+      for (i = 0; i < Math.min(5, found.pairs.length); i++) {
+        var a = found.pairs[i][0], b = found.pairs[i][1];
+        var net = (a.side === 0 ? a.size : -a.size) + (b.side === 0 ? b.size : -b.size);
+        html += "<tr><td>" + (i + 1) + "</td><td>" + hms(a.t) + " " + side(a.side) + "</td><td>" + hms(b.t) + " " + side(b.side) + "</td><td>" + units(a.size) + "</td><td>" + (b.t - a.t) + "</td><td>" + units(net) + "</td></tr>";
+      }
+      html += "</tbody></table></div>";
+    } else {
+      html += '<p class="crp6-sub">No wash pairs: the declared share is 0, so the wash flag is 0 on every row.</p>';
+    }
+    out.innerHTML = html;
+
+    var msg;
+    if (w === 0) {
+      msg = "Venue B with no bot: " + comma(tape.honest) + " honest trades and " + units(tape.honestVol) + " units, the honest tape every rung is built on. Pick a share to plant pairs into it; the honest rows will not change.";
+    } else {
+      msg = "Declared " + (w * 100) + " percent, " + style + " style: " + comma(tape.pairs) + " pairs lift reported volume from " + units(tape.honestVol) + " to " + units(tape.reportedVol) + " units, and "
+        + (found.unmatched === 0 ? "every wash leg has its opposite-side twin." : found.unmatched + " wash legs have no twin, so the plant is not what was declared.");
+      if (style === "round") msg += " Every wash size is one of seven round lots.";
+      else if (style === "flat") msg += " Every wash size is an unrounded four-digit number between 2 and 20 units, a habit people rarely type.";
+      else msg += " The wash sizes are drawn from the honest habit, so the size column alone cannot tell them apart; only the pairs remain.";
+    }
+    verdict.textContent = msg;
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, including reported volume equalling honest plus wash and every wash trade having an opposite-side twin within 4 seconds, so the counts above are the counts any correct run gives. The tapes are constructed; nothing here is a real market."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  seedSel.addEventListener("change", render);
+  styleSel.addEventListener("change", render);
+  shareSel.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #crp6-plant .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 26rem; }
+  #crp6-plant table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #crp6-plant .crp6-bad { color: #991B1B; }
+  #crp6-plant .crp6-sub { font-size: .85rem; color: var(--muted); margin: .8rem 0 0; }
+</style>
+</body>
+</html>

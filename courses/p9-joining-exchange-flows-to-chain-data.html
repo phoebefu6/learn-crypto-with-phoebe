@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Practitioner session 9 of 10. An exchange tape knows accounts, the chain knows addresses, and the only bridge between them is a label someone published. Harrowgate's constructed label lists and flow table, joined in the page: 75.1 percent coverage, 10.4 percent of labelled flow in conflict, and a cross-check that disagrees with no washer at all.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Joining exchange flows to chain data - learn crypto with phoebe">
+<meta property="og:description" content="Practitioner session 9 of 10. A venue label is a reported attribute, not a verified identity, and a join on it inherits every error it carries. Agreement is weak evidence; disagreement is strong evidence that something is wrong, not yet of what.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/p9-joining-exchange-flows-to-chain-data.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Joining exchange flows to chain data - learn crypto with phoebe">
+<meta name="twitter:description" content="No washer, and venue B still reads 3.04 flow per 100 units of volume against A's 5.23. With the true labels both read 5.00. The gap is the label table.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Practitioner session 9 · Joining exchange flows to chain data - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Practitioner session 9 of 10</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Practitioner session 9 of 10</div>
+    <h1>Joining exchange flows to <span class="accent">chain data</span></h1>
+    <p class="sub">Sooner or later somebody asks whether a venue's reported volume squares with what moved in and out of it on the chain. It sounds like a join. It is a join with no key. The venue knows which account owns which deposit address and never publishes it; the tape has no account column at all; the chain has addresses and no names. The only bridge is a label table that a third party compiled and published, with its own sources, its own age and its own mistakes. Tonight you join through that bridge on Harrowgate's constructed tables, measure how much of the flow actually lands and how much of what lands is contested, and learn what a flow cross-check can prove: when it agrees, very little; when it disagrees, that something is wrong, though not yet what.</p>
+    <div class="chip-row">
+      <span class="chip level">🔧 Practitioner track</span>
+      <span class="chip audience">Data engineers who own the join</span>
+      <span class="chip audience">Analysts who sign off a venue table</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-17 · The key that does not exist</span>
+      <span class="a3" style="flex:3">17-30 · Labels are reported</span>
+      <span class="a4" style="flex:4">30-45 · Cross-check build-along</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate is asked to check the volume table against the chain</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm. It publishes a venue volume table, and after session 7 it knows that the tape's own sizes can only take a detector so far: a washer that copies honest sizes is invisible to every size test. So a reviewer asks for a second, independent line of evidence. Wash trades are pairs that start and end inside one venue, and nothing about them needs a transfer on the chain. Real trading, over time, does pull deposits in and send withdrawals out. If a venue's reported volume is mostly real, its flows on the chain should keep some kind of pace with it. The request lands as one line: join venue flows to chain data, compare against reported volume, report. Every table in this page is constructed and printed in full; nothing describes a real venue, address or chain.</p>
+
+    <div class="legend">
+      <span class="pill">Live = worked through in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> A drawing of why the join has no key and where the only bridge sits. The habit of reading a label as a reported attribute with a source, a date and a basis, never as an identity. Two numbers to compute on every such join, coverage and mismatch, and the third number only constructed data can show you. A flow cross-check run live in the page against the engine's reported volume, where venue B disagrees with venue A with no washer at all. And the caveat line a reviewer should refuse to sign without.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Why the obvious join is the dangerous one<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Every join a data engineer has written before had a key both sides agreed on: a customer id, an order number, a timestamp and a symbol. Two tables that share a key can still disagree, but at least they disagree about the same thing. Here the two sides describe different things in different vocabularies. The venue's tape speaks in prints and, internally, in accounts. The chain speaks in addresses and transfers. Nothing on either side names anything on the other.</p>
+        <p>So the join is really two joins: flows to a label table on the address, and the label table to a venue on the name. The second hop is cheap. The first is where every error enters, because the label table is somebody else's opinion about who controls an address, written down at some point in the past, for reasons you may or may not be able to see.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Harrowgate's first attempt joined the day's flows to the most recent label list it could find, summed by venue, and divided by reported volume. Venue B came out well below venue A, and a draft note began "B's volume appears inflated". Nobody had asked how much of B's flow the label list covered. The answer, worked through tonight, is that the whole gap came from the labels. Harrowgate is constructed; reading a coverage gap as a finding about the venue is a common way to accuse the wrong thing.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Account.</strong> The venue's own record of a customer. Known to the venue, never on the public tape.</li>
+          <li><strong>Address.</strong> An identifier on the chain that transfers go to and come from. Public, and on its own it says nothing about who controls it.</li>
+          <li><strong>Label.</strong> A published claim that an address belongs to a named venue. It has a publisher, a date and a basis: the venue said so, someone observed a deposit, or someone inferred it from a transfer.</li>
+          <li><strong>Label list.</strong> A table of labels from one publisher. Two lists can share labels because one copied the other, which makes their agreement worth less than it looks.</li>
+          <li><strong>Gross flow.</strong> Inflow plus outflow at an address over the window, in units of the asset. On the constructed day, 10,850 units across 12 addresses.</li>
+          <li><strong>Coverage.</strong> The share of gross flow that lands on a usable label under a stated policy.</li>
+          <li><strong>Mismatch.</strong> The share of labelled flow where two lists name different venues for the same address.</li>
+          <li><strong>Flow ratio.</strong> Gross flow joined to a venue per 100 units of the venue's reported volume. A consistency test, not a measure of anything on its own.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers the missing join key</span>
+      <h2>The join key that does not exist</h2>
+      <span class="tag concept">14 min live</span>
+    </div>
+    <p class="lede">Put the two sources side by side and look for a column they share. The venue side has a public tape with four columns, clock, side, size and price, and a private ledger that maps its accounts to the addresses it uses. The chain side has addresses and transfers. The only thing that touches both is a table someone else published, mapping some addresses to some venue names. That table is the bridge, and it is the weakest thing in the picture.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 414" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three hand-drawn panels. Left: venue A's side, a private ledger mapping accounts to addresses drawn hatched with a padlock because it is never published, and below it the public tape with prints at t=12 and t=33 and no account column. Middle, in the warm colour: a published label table with rows a01 venue A by venue disclosure, a02 and a04 venue A by observed deposit, a07 claimed by both venues because two lists differ, and a10 venue A inferred and wrong; a12 is on no list because the venue moved to a new address. Right: the chain side, twelve address circles a01 to a12, solid where a usable label joined, dashed where none did, shaded for a10 which joined to the wrong venue; 8 of 12 joined, 75.1 percent of gross flow.">
+        <defs>
+          <filter id="crp9aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="47" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp9aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp9aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp9aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp9aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp9aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp9aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp9aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp9aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp9aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp9aH" x="30" y="30">VENUE A'S SIDE</text>
+        <text class="crp9aH" x="310" y="30">THE BRIDGE: A PUBLISHED LABEL TABLE</text>
+        <text class="crp9aH" x="600" y="30">THE CHAIN SIDE</text>
+
+        <g filter="url(#crp9aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- private ledger, hatched: never published -->
+          <rect x="30" y="46" width="250" height="128" rx="6" transform="rotate(-0.4 155 110)" fill="#FFFFFF"/>
+          <rect x="44" y="80" width="222" height="50" rx="4" transform="rotate(0.5 155 105)" fill="url(#crp9aHc)"/>
+          <!-- doodle anchor: a padlock on the ledger -->
+          <rect x="143" y="101" width="24" height="18" rx="3" transform="rotate(-3 155 110)" fill="#FFFFFF"/>
+          <path d="M148 101 L148 95 C148 87 162 87 162 95 L162 101" stroke="#5B2A86"/>
+
+          <!-- public tape -->
+          <rect x="30" y="192" width="250" height="118" rx="6" transform="rotate(0.4 155 251)" fill="#FFFFFF"/>
+
+          <!-- the bridge -->
+          <rect x="310" y="46" width="260" height="264" rx="8" transform="rotate(-0.3 440 178)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+
+          <!-- chain side -->
+          <rect x="600" y="46" width="260" height="264" rx="8" transform="rotate(0.3 730 178)" fill="#F4EFF9"/>
+          <circle cx="640" cy="84" r="15" fill="#FFFFFF"/>
+          <circle cx="700" cy="84" r="15" fill="#FFFFFF"/>
+          <circle cx="760" cy="84" r="15" fill="#FFFFFF"/>
+          <circle cx="820" cy="84" r="15" fill="#FFFFFF"/>
+          <circle cx="640" cy="134" r="15" fill="#FFFFFF" stroke-dasharray="4 4"/>
+          <circle cx="700" cy="134" r="15" fill="#FFFFFF"/>
+          <circle cx="760" cy="134" r="15" fill="#FFFFFF" stroke-dasharray="4 4"/>
+          <circle cx="820" cy="134" r="15" fill="#FFFFFF"/>
+          <circle cx="640" cy="184" r="15" fill="#FFFFFF"/>
+          <circle cx="700" cy="184" r="15" fill="#D3C3E6" stroke="#5B2A86"/>
+          <circle cx="760" cy="184" r="15" fill="#FFFFFF" stroke-dasharray="4 4"/>
+          <circle cx="820" cy="184" r="15" fill="#FFFFFF" stroke-dasharray="4 4"/>
+
+          <!-- the two hops -->
+          <path d="M284 180 L306 180" marker-end="url(#crp9aAr)"/>
+          <path d="M574 120 L596 120" stroke="#B7791F" marker-end="url(#crp9aAr)"/>
+          <path d="M574 200 L596 200" stroke="#B7791F" stroke-dasharray="4 4" marker-end="url(#crp9aAr)"/>
+        </g>
+
+        <text class="crp9aL" x="44" y="68">The venue's own ledger</text>
+        <text class="crp9aS" x="44" y="156">account to address, never published</text>
+
+        <text class="crp9aL" x="44" y="214">The public tape</text>
+        <text class="crp9aA" x="44" y="236">t, side, size, price</text>
+        <text class="crp9aS" x="44" y="256">t=12 buy 0.223 at 99.998</text>
+        <text class="crp9aS" x="44" y="274">t=33 sell 0.3 at 99.995</text>
+        <text class="crp9aB" x="44" y="296">no account column, ever</text>
+
+        <text class="crp9aA" x="324" y="72">address · venue · basis</text>
+        <text class="crp9aS" x="324" y="96">a01 · A · venue disclosure</text>
+        <text class="crp9aS" x="324" y="118">a02 · A · observed deposit</text>
+        <text class="crp9aS" x="324" y="140">a04 · A · observed deposit</text>
+        <text class="crp9aS" x="324" y="162">a07 · A or B · two lists differ</text>
+        <text class="crp9aB" x="324" y="184">a10 · A · inferred, and wrong</text>
+        <text class="crp9aS" x="324" y="214">published by a third party, with</text>
+        <text class="crp9aS" x="324" y="232">a date and a basis you cannot check</text>
+        <text class="crp9aB" x="324" y="262">a12 is on no list at all:</text>
+        <text class="crp9aS" x="324" y="280">venue B moved to a new address</text>
+
+        <text class="crp9aS" x="640" y="88" text-anchor="middle">a01</text>
+        <text class="crp9aS" x="700" y="88" text-anchor="middle">a02</text>
+        <text class="crp9aS" x="760" y="88" text-anchor="middle">a03</text>
+        <text class="crp9aS" x="820" y="88" text-anchor="middle">a04</text>
+        <text class="crp9aS" x="640" y="138" text-anchor="middle">a05</text>
+        <text class="crp9aS" x="700" y="138" text-anchor="middle">a06</text>
+        <text class="crp9aS" x="760" y="138" text-anchor="middle">a07</text>
+        <text class="crp9aS" x="820" y="138" text-anchor="middle">a08</text>
+        <text class="crp9aS" x="640" y="188" text-anchor="middle">a09</text>
+        <text class="crp9aS" x="700" y="188" text-anchor="middle">a10</text>
+        <text class="crp9aS" x="760" y="188" text-anchor="middle">a11</text>
+        <text class="crp9aS" x="820" y="188" text-anchor="middle">a12</text>
+        <text class="crp9aS" x="612" y="228">solid: joined to a usable label</text>
+        <text class="crp9aS" x="612" y="246">dashed: no usable label</text>
+        <text class="crp9aS" x="612" y="264">shaded: joined, and wrong</text>
+        <text class="crp9aB" x="612" y="290">8 of 12 joined; 75.1 percent of flow</text>
+
+        <text class="crp9aL" x="30" y="340">Accounts stay inside the venue.</text>
+        <text class="crp9aS" x="30" y="358">You see its name and its prints.</text>
+        <text class="crp9aL" x="310" y="340">The only bridge, and the weak link.</text>
+        <text class="crp9aS" x="310" y="358">Every joined row inherits its errors.</text>
+        <text class="crp9aL" x="600" y="340">Addresses and flows, no names.</text>
+        <text class="crp9aS" x="600" y="358">Grouping them is learn-web3's job.</text>
+
+        <text class="crp9aN" x="30" y="392">No column on one side matches a column on the other. Every joined row went through someone's label.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the venue knows the mapping and keeps it; the chain shows addresses and no names; the label table in the middle is the only bridge, and the join is only as good as it is</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Two ledgers, no shared column<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Read Figure A left to right. On the venue's side there are two tables. The public tape is the one sessions 1 to 8 have been reading: Tape A's first prints at second 12 and second 33, four columns, and no account column. That is not an omission that a better feed would fix. A venue does not publish who traded, and the tape is anonymous by design. The second table, the ledger that says which of the venue's accounts deposit to which address, exists and is never published at all.</p>
+        <p>On the chain side, every transfer is public, and the twelve constructed addresses each have an inflow and an outflow for the day. None of them carries a name. Grouping addresses that are probably controlled by one party is a discipline of its own with its own error bounds, and it lives in <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/courses/p3-addresses-are-not-people.html">learn-web3-with-phoebe, practitioner session 3, "Addresses are not people"</a>. Tonight takes the chain side as given and asks only what happens when you attach venue names to it.</p>
+        <p>So the join is flows to labels on the address, then labels to a venue on the name. The second hop is a string match. The first hop carries every assumption in the result.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>What the venue knows that you do not<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The venue can answer the question exactly. It knows every deposit address it has handed out, which ones it has retired, which ones it moved to last quarter, and which large transfers were its own housekeeping between its own addresses rather than anybody's trading. None of that is available to Harrowgate, and none of it will be, because a venue that publishes its full address list publishes a map of its customers' money.</p>
+        <p>That asymmetry decides what kind of evidence a flow cross-check can ever be. It is an outsider's consistency test on a self-reported number, built through a third party's partial and dated opinion of the venue's addresses. It can make a self-reported volume look more or less plausible. It cannot reconcile, because the ledger it would reconcile against is the one you cannot see.</p>
+        <p>Address <strong>a12</strong> in Figure A is the everyday case. Venue B started using it after the older label list was published, and the newer list never picked it up. Its flow is real, it is B's, and no join on the published labels will ever give it to B.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where the chain-side table comes from<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The flow table in this page is constructed: one row per address for one day, an inflow and an outflow in units of the asset. A real one is built from chain records by an indexer, and it has properties a market-data engineer is not used to. Recent rows can be replaced after the fact, so a flow table built too close to the head of the chain can change under you, and a join that ran on Monday can stop reproducing on Tuesday. How that happens and how a warehouse should be built to survive it is <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/courses/p6-reorgs-hit-your-warehouse.html">learn-web3-with-phoebe, practitioner session 6, "Reorgs hit your warehouse"</a>.</p>
+        <p>The mechanics underneath, what a chain is and how a transfer becomes final, are in <a href="https://phoebefu6.github.io/learn-blockchain-with-phoebe/">learn-blockchain-with-phoebe</a> and are a prerequisite for doing this for real rather than something re-taught here. For tonight the only rule needed is the one from session 8, carried across: store which version of the chain-side table your join used, or the join cannot be redone.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers labels, coverage and mismatch</span>
+      <h2>Labels are reported, not verified</h2>
+      <span class="tag concept">13 min live</span>
+    </div>
+    <p class="lede">Harrowgate found two published label lists. List 1 is 420 days old and has seven labels. List 2 is 30 days old and also has seven, but four of them say plainly that they were copied from list 1. Every label carries a basis: the venue disclosed it, someone observed a deposit, or someone inferred it from a transfer. The widget joins the constructed flow table through these lists under a policy you choose, then runs the cross-check against the reported volume that the engine generates for venue A and its partner venue B.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 458" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn label lists side by side. List 1, published 420 days ago: a01, a02, a03 venue A; a06, a07, a08 venue B; a10 venue A inferred from a transfer. List 2, published 30 days ago: a01, a02, a06 and a10 copied from list 1, a04 venue A and a09 venue B by observed deposit, a07 venue A inferred from a transfer. Arrows between the lists mark the four copies, the a10 copy in the warm colour; a dashed line marks a07 where the lists disagree. Below, what a join sees: the a07 conflict is visible and can be set aside, while the a10 error appears on both lists because one copied the other, so agreement between copies is one witness counted twice.">
+        <defs>
+          <filter id="crp9bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="53" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp9bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp9bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp9bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp9bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp9bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp9bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp9bV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp9bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp9bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp9bH" x="30" y="28">TWO PUBLISHED LABEL LISTS, AND WHERE EACH LABEL CAME FROM</text>
+
+        <g filter="url(#crp9bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- doodle anchor: two stacked sheets, a copy -->
+          <path d="M822 16 L846 16 L846 44 L822 44 Z" fill="#FFFFFF"/>
+          <path d="M828 16 L828 10 L852 10 L852 38 L846 38" stroke="#9C7FBF"/>
+
+          <rect x="30" y="46" width="330" height="230" rx="8" transform="rotate(-0.4 195 161)" fill="#FFFFFF"/>
+          <rect x="520" y="46" width="340" height="230" rx="8" transform="rotate(0.4 690 161)" fill="#F4EFF9"/>
+
+          <!-- copies from list 1 into list 2 -->
+          <path d="M366 90 L514 90" stroke="#9C7FBF" stroke-width="1.6" marker-end="url(#crp9bAr)"/>
+          <path d="M366 112 L514 112" stroke="#9C7FBF" stroke-width="1.6" marker-end="url(#crp9bAr)"/>
+          <path d="M366 156 L514 156" stroke="#9C7FBF" stroke-width="1.6" marker-end="url(#crp9bAr)"/>
+          <path d="M366 222 L514 222" stroke="#B7791F" stroke-width="2.6" marker-end="url(#crp9bAr)"/>
+          <!-- the disagreement -->
+          <path d="M366 178 L514 178" stroke="#5B2A86" stroke-width="1.6" stroke-dasharray="5 5"/>
+
+          <rect x="30" y="296" width="830" height="112" rx="8" transform="rotate(0.2 445 352)" fill="#FFFFFF"/>
+        </g>
+
+        <text class="crp9bL" x="44" y="68">List 1, published 420 days ago</text>
+        <text class="crp9bS" x="44" y="94">a01 · A · venue disclosure</text>
+        <text class="crp9bS" x="44" y="116">a02 · A · observed deposit</text>
+        <text class="crp9bS" x="44" y="138">a03 · A · observed deposit</text>
+        <text class="crp9bS" x="44" y="160">a06 · B · venue disclosure</text>
+        <text class="crp9bS" x="44" y="182">a07 · B · observed deposit</text>
+        <text class="crp9bS" x="44" y="204">a08 · B · observed deposit</text>
+        <text class="crp9bB" x="44" y="226">a10 · A · inferred from a transfer</text>
+        <text class="crp9bS" x="44" y="256">stale: written before a12 existed</text>
+
+        <text class="crp9bL" x="534" y="68">List 2, published 30 days ago</text>
+        <text class="crp9bS" x="534" y="94">a01 · A · copied from list 1</text>
+        <text class="crp9bS" x="534" y="116">a02 · A · copied from list 1</text>
+        <text class="crp9bS" x="534" y="138">a04 · A · observed deposit</text>
+        <text class="crp9bS" x="534" y="160">a06 · B · copied from list 1</text>
+        <text class="crp9bS" x="534" y="182">a07 · A · inferred from a transfer</text>
+        <text class="crp9bS" x="534" y="204">a09 · B · observed deposit</text>
+        <text class="crp9bB" x="534" y="226">a10 · A · copied from list 1</text>
+        <text class="crp9bS" x="534" y="256">newer, but four of seven labels are copies</text>
+
+        <text class="crp9bA" x="420" y="138">copied</text>
+        <text class="crp9bA" x="414" y="204">disagree</text>
+
+        <text class="crp9bL" x="44" y="320">What a join sees</text>
+        <text class="crp9bS" x="44" y="344">a07: the lists disagree, so the conflict is visible and the address can be set aside on purpose.</text>
+        <text class="crp9bS" x="44" y="364">a10: the lists agree, because one copied the other. The error is invisible to any join on these lists.</text>
+        <text class="crp9bB" x="44" y="390">Agreement between copies is one witness counted twice. Both inferred labels here are wrong.</text>
+
+        <text class="crp9bN" x="30" y="438">List disagreement only measures the errors two sources did not share. A copied error never shows up.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - a conflict between two lists is a visible error; a label one list copied from the other is an invisible one, and it looks like confirmation</figcaption>
+    </figure>
+
+    <div class="wk" id="crp9-join">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">A constructed flow table and two constructed label lists, printed in full and joined in this page, checked against reported volume from the engine running here (venue A is Tape A, venue B its partner tape). Pick a label policy and how much of venue B's volume is wash. Nothing here is a real venue, address or chain.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="crp9-policy">Which labels the join may use</label>
+        <select class="sql-code" id="crp9-policy">
+          <option value="l1">List 1 only (420 days old)</option>
+          <option value="l2">List 2 only (30 days old)</option>
+          <option value="either" selected>Either list, conflicts set aside</option>
+          <option value="both">Only where both lists agree</option>
+        </select>
+        <label class="sql-label" for="crp9-wash">Wash share of venue B's reported volume</label>
+        <select class="sql-code" id="crp9-wash">
+          <option value="0" selected>0 percent, no washer</option>
+          <option value="0.1">10 percent</option>
+          <option value="0.3">30 percent</option>
+          <option value="0.5">50 percent</option>
+          <option value="0.7">70 percent</option>
+        </select>
+        <div id="crp9-out"></div>
+        <p class="sql-note" id="crp9-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="crp9-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Read the join at the default<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Start with either list, conflicts set aside, and no washer. The flow table has 12 addresses and <strong>10,850</strong> units of gross flow. Read the status column. Eight addresses join to a usable label, carrying <strong>75.1 percent</strong> of the gross flow. Three have no label on either list: a05 and a12 are venue addresses nobody labelled, and a11 is not a venue at all, so for a11 "no label" is the right answer. Coverage under 100 percent is therefore not automatically a defect. It is a number you report, because you cannot tell from the join which of the unlabelled addresses should have had a label.</p>
+        <p>Then the mismatch line: <strong>10.4 percent</strong> of the labelled flow sits on an address where the two lists name different venues. That is a07, and setting it aside is a decision the policy states. Mismatch is the one error a join can see for itself.</p>
+        <p>Then the line only constructed data can print. Of the flow that joined, <strong>5.5 percent</strong> is joined to the wrong venue: a10, a private address that both lists call venue A. List 1 inferred it from a transfer; list 2 copied list 1. No real join can compute this line, because a real join has no declared truth column. It is here so you can see that the error a join cannot measure is not zero, and that it sits exactly where the lists agree.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Change the policy and watch the error move<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Switch to list 2 only, the newer list. Coverage is <strong>74.7 percent</strong>, but the share of joined flow on the wrong venue jumps to <strong>17.3 percent</strong>, because list 2 adds its own inferred label for a07 and gets it wrong as well as carrying the copied a10. Newer is not better when the new labels are inferred.</p>
+        <p>Now switch to only where both lists agree. It feels like the strict, careful policy. Coverage falls to <strong>56.7 percent</strong>, and the wrong-venue share <em>rises</em> to <strong>7.3 percent</strong>, against 5.5 under either list. Requiring agreement throws away every correct label that only one list had observed, and keeps the wrong one that agrees because it was copied. Agreement between sources that are not independent is not corroboration; it is one source counted twice.</p>
+        <p>The professional norm follows directly: read the basis column before the venue column. A label from a disclosure or an observed deposit is evidence. A label inferred from a transfer is a hypothesis. A copied label adds nothing to the label it copied, and a policy that counts it as a second vote is weighting one publisher twice.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>One venue, many addresses, and why you do not borrow a fix<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A venue uses many addresses and changes them over time, which is why a label list goes stale even when every label in it was right on the day it was published. List 1 is 420 days old and has never heard of a12. The tempting fix is to grow the label set by grouping unlabelled addresses with labelled ones that seem to be controlled by the same party. That is address clustering, and it brings its own error bounds that you would then be joining through. How a clustering is built, and how to report one you cannot validate, is in <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/courses/p3-addresses-are-not-people.html">learn-web3-with-phoebe session p3</a> and <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/courses/p4-measuring-the-clustering.html">session p4</a>. Use its result as it reports it, with its bounds; do not re-derive it inside a market-data job.</p>
+        <p>The deeper point is that a venue label is a reported attribute of an address, not a resolved identity. Deciding that two records refer to the same real-world entity is entity resolution, with its own vocabulary of match evidence and clerical review, taught in <a href="https://phoebefu6.github.io/learn-entity-resolution-with-phoebe/">learn-entity-resolution-with-phoebe</a>. A published label list has done some version of that work out of your sight, which is exactly why you keep its publisher, date and basis on every joined row.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>One camp joins only through labels with direct evidence, a venue's own disclosure or an observed deposit, and reports low coverage honestly. On this view an inferred label is a lead to investigate, never an input to a published number, and a flow ratio built on 57 percent of the flow is better than one built on 90 percent of guesses.</p>
+        <p>The other camp points out that a cross-check with low coverage is nearly useless, because the unlabelled flow dominates every ratio, and that inferred labels and clustering are how the field gets coverage at all. On this view you use the broad label set, carry the basis on every row, and report the result two ways, with and without the inferred labels, so a reader sees how much rests on them.</p>
+        <p>Both camps keep the basis and the publication date per row, and both report coverage. The disagreement is about which policy produces the headline number, and the widget shows why it matters: on these tables the policy moves the wrong-venue share between 5.5 and 17.3 percent.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>What a cross-check can prove, built in pandas</h2>
+      <span class="tag build">15 min hands on</span>
+    </div>
+    <p class="lede">The cross-check compares two things that should move together if a venue's volume is real: gross flow joined to the venue, and the venue's reported volume. A wash pair is a buy and a sell between accounts on the same venue, and it needs no transfer anywhere, so a washer raises reported volume and leaves the flow untouched. That is the whole idea. The figure below draws it, and also draws what the test cannot tell apart.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 446" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Left: venue B's first wash pair at 10 percent, a sell of 50 units at t=96 and a buy of 50 units at t=97 inside the venue, same size, opposite side, looping back on itself; reported volume rises by 100 units, while the chain side below shows no transfer in or out and flows rise by 0. Right, two boxes: if the flow ratios agree, that fits real volume with complete labels, a washer who also cycles coins on the chain, or a wrong label that adds the missing flow, so it is weak evidence; if they disagree, at least one of real volume, complete labels or similar turnover fails, which is strong evidence of a fault but not of which one. Bottom: at the widget default with no washer, venue A reads 5.23 and venue B 3.04 flow per 100 units, while with the declared-truth labels both read 5.00, so the whole gap is the label table.">
+        <defs>
+          <filter id="crp9cSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="59" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp9cHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp9cAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp9cH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp9cL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp9cS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp9cB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp9cV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp9cA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp9cN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp9cH" x="30" y="28">WHY A WASHER MOVES REPORTED VOLUME AND NOT FLOWS</text>
+
+        <g filter="url(#crp9cSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- doodle anchor: a magnifier -->
+          <circle cx="836" cy="22" r="9"/>
+          <path d="M843 29 L852 38" stroke="#5B2A86"/>
+
+          <rect x="30" y="46" width="400" height="228" rx="8" transform="rotate(-0.3 230 160)" fill="#FFFFFF"/>
+          <rect x="50" y="82" width="230" height="100" rx="6" transform="rotate(0.6 165 132)" fill="#F4EFF9"/>
+          <!-- the pair loops back on itself -->
+          <path d="M194 104 C232 104 232 134 198 134" stroke="#5B2A86" marker-end="url(#crp9cAr)"/>
+          <!-- the chain side, untouched -->
+          <path d="M50 214 L410 214" stroke="#9C7FBF"/>
+          <circle cx="170" cy="214" r="8" fill="#FFFFFF"/>
+
+          <rect x="450" y="46" width="410" height="116" rx="8" transform="rotate(0.4 655 104)" fill="#FFFFFF"/>
+          <rect x="450" y="172" width="410" height="102" rx="8" transform="rotate(-0.4 655 223)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+
+          <rect x="30" y="294" width="830" height="104" rx="8" transform="rotate(0.2 445 346)" fill="#F4EFF9"/>
+        </g>
+
+        <text class="crp9cL" x="44" y="68">Venue B, its first wash pair at 10 percent</text>
+        <text class="crp9cS" x="64" y="112">t=96 sell 50 units</text>
+        <text class="crp9cS" x="64" y="138">t=97 buy 50 units</text>
+        <text class="crp9cB" x="64" y="170">same size, opposite side</text>
+        <text class="crp9cS" x="296" y="110">reported volume</text>
+        <text class="crp9cV" x="296" y="136">+100 units</text>
+        <text class="crp9cS" x="50" y="246">chain side: no transfer in or out</text>
+        <text class="crp9cB" x="296" y="246">flows +0 units</text>
+
+        <text class="crp9cL" x="464" y="68">If the flow ratios agree</text>
+        <text class="crp9cS" x="464" y="90">consistent with real volume and complete labels,</text>
+        <text class="crp9cS" x="464" y="108">and with a washer who also cycles coins on chain,</text>
+        <text class="crp9cS" x="464" y="126">or with a wrong label that adds the missing flow.</text>
+        <text class="crp9cB" x="464" y="150">Weak evidence: many worlds fit it.</text>
+
+        <text class="crp9cL" x="464" y="194">If the flow ratios disagree</text>
+        <text class="crp9cS" x="464" y="216">at least one fails: the volume is real, the labels</text>
+        <text class="crp9cS" x="464" y="234">are complete, or the venues turn over alike.</text>
+        <text class="crp9cB" x="464" y="260">Strong evidence of a fault; not yet which one.</text>
+
+        <text class="crp9cL" x="44" y="318">Widget default: either-list labels, venue B with no washer</text>
+        <text class="crp9cV" x="44" y="352">5.23</text>
+        <text class="crp9cS" x="96" y="352">Venue A, flow per 100 units</text>
+        <text class="crp9cV" x="290" y="352">3.04</text>
+        <text class="crp9cS" x="342" y="352">Venue B, no washer at all</text>
+        <text class="crp9cV" x="540" y="352">5.00</text>
+        <text class="crp9cS" x="592" y="352">both, with declared-truth labels</text>
+        <text class="crp9cS" x="44" y="380">The gap is the label table: a12 unlabelled, a07 set aside, a10 wrongly counted for A.</text>
+
+        <text class="crp9cN" x="30" y="424">Read a disagreement only after coverage: an unlabelled address lowers a ratio just as a washer does.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - a wash pair adds reported volume and moves nothing on the chain, which is why the test can see it; a missing label lowers the same ratio, which is why the test cannot tell you which one it saw</figcaption>
+    </figure>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Agreement is weak, disagreement is strong<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Go back to the widget, keep either-list labels, and move venue B's wash share. With the declared-truth labels, which only a constructed world has, venue B reads <strong>5.00</strong> flow per 100 units with no washer, <strong>3.50</strong> at 30 percent wash and <strong>2.50</strong> at 50 percent, against A's 5.00 throughout. The washer pulls B's ratio down in proportion, exactly as Figure C says it should, because every wash unit is reported volume with no flow behind it.</p>
+        <p>Now read the published-label row at zero wash: B at <strong>3.04</strong> against A at <strong>5.23</strong>, so B reads <strong>0.58</strong> of A with no washer at all. With perfect labels, a washer at 30 percent only takes B to 0.70 of A. The label table alone makes an honest venue look worse than a 30 percent washer. And A's 5.23 is above its true 5.00 because a10, a private address, was counted as A's. A's ratio "agrees" with expectations partly by accident.</p>
+        <p>That is the asymmetry. <strong>When the ratios agree</strong>, many different worlds fit: real volume with good labels, or a washer who also cycles coins through their own deposit addresses to manufacture flow, or a wrong label adding exactly the flow that was missing. Agreement rules out very little, so it is weak evidence that the volume is real. <strong>When they disagree</strong>, the world in which the volume is real, the labels are complete and the venues turn over alike is ruled out. That is strong evidence that something is wrong. It is not evidence of what, and the first two things to check are the two you can measure: coverage and mismatch.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Cong, Li, Tang and Yang, "Crypto Wash Trading" (NBER working paper w30783, read at source), estimated wash trading from the tape's trade records alone, with three tests on trade sizes, and stated the results with explicit bounds: the Benford-based estimates as "somewhat lower bounds", and, if authentic algorithmic trading inflates unrounded volume, their estimates as closer to upper bounds. They write that "we cannot assert that our estimates are the gold standard". A flow cross-check is a second, independent line of evidence beside tests like theirs. It deserves the same treatment: a stated method, a stated coverage and a stated direction of error.</p>
+        </div>
+      </div>
+    </details>
+
+    <p>Six steps with pandas, on three CSVs: <code>labels.csv</code> with one row per address per list (address, list, venue, basis, published_days_ago), <code>flows.csv</code> with one row per address (address, inflow, outflow), and <code>volume.csv</code> with each venue's reported volume in units. Built from the constructed tables in the widget, every printed value below is exact and matches the widget at its default; nothing in these tables is random. Run the code in a scratch folder, never where the outputs could land in a repository.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Load both sides and assert their grain</h4>
+        <p>One row per address in the flow table, one row per address per list in the label table. The flow table came from the chain side at some version; write that version down before anything else.</p>
+        <div class="prompt-box good"><span class="label">python · two tables, two grains</span>import pandas as pd
+labels = pd.read_csv("labels.csv")   # address, list, venue, basis, published_days_ago
+flows  = pd.read_csv("flows.csv")    # address, inflow, outflow (units, one day, chain side)
+assert flows["address"].is_unique
+assert not labels.duplicated(["address", "list"]).any()
+flows["gross"] = flows["inflow"] + flows["outflow"]
+print(len(flows), "addresses,", flows["gross"].sum(), "units of gross flow")   # 12, 10850</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Put the lists side by side and find what they disagree on and what they copied</h4>
+        <p>One row per address with each list's venue in its own column. A conflict is two lists naming different venues. A copy is a label whose basis says it came from another list, and it is not a second witness.</p>
+        <div class="prompt-box good"><span class="label">python · conflicts and copies</span>wide = labels.pivot(index="address", columns="list", values="venue")   # list_1, list_2
+both = wide["list_1"].notna() &amp; wide["list_2"].notna()
+wide["conflict"] = both &amp; (wide["list_1"] != wide["list_2"])
+copies = labels["basis"].str.startswith("copied")
+print(int(wide["conflict"].sum()), "address where the lists disagree")    # 1, a07
+print(int(copies.sum()), "labels that are copies of another list")        # 4</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>State the policy, then left-join so no flow disappears</h4>
+        <p>The policy is a decision, written in the code before the join runs. A left join keeps every flow row exactly once; an inner join would drop the unlabelled flow and make coverage look like 100 percent.</p>
+        <div class="prompt-box good"><span class="label">python · the join</span>POLICY = "either list, conflicts set aside"          # written down, not discovered
+wide["venue"] = wide["list_1"].fillna(wide["list_2"]).where(~wide["conflict"])
+j = flows.merge(wide[["venue", "conflict"]], left_on="address", right_index=True,
+                how="left", validate="one_to_one")
+j["conflict"] = j["conflict"].eq(True)                # unlabelled rows are not conflicts
+assert len(j) == len(flows)                           # every flow, once</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Compute coverage and mismatch, weighted by flow</h4>
+        <p>Weight by gross flow, not by address count: one busy unlabelled address matters more than five quiet ones. Print the address count beside it so a reader sees both.</p>
+        <div class="prompt-box good"><span class="label">python · coverage and mismatch</span>labelled = j["address"].isin(wide.index)            # some list names it
+joined   = j["venue"].notna()                         # a usable label landed
+coverage = j.loc[joined, "gross"].sum() / j["gross"].sum()
+mismatch = j.loc[j["conflict"], "gross"].sum() / j.loc[labelled, "gross"].sum()
+print(f"coverage {coverage:.1%} of gross flow, {joined.sum()} of {len(j)} addresses")   # 75.1%, 8 of 12
+print(f"mismatch {mismatch:.1%} of labelled flow carries conflicting labels")         # 10.4%</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Run the cross-check against reported volume</h4>
+        <p>Gross flow joined to each venue per 100 units of that venue's reported volume. Compare venues to each other, never to a magic number: there is no published "right" ratio, and the constructed tables make the two venues turn over alike by declaration.</p>
+        <div class="prompt-box good"><span class="label">python · flow per 100 units</span>vol = pd.read_csv("volume.csv").set_index("venue")["reported_units"]   # each venue's own report
+per_venue = j.groupby("venue")["gross"].sum()
+ratio = 100 * per_venue / vol
+print(ratio.round(2))                                   # A 5.23, B 3.04
+print(round(ratio["B"] / ratio["A"], 2), "B against A")  # 0.58, with no washer at all</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Write the caveat line a reviewer should demand</h4>
+        <p>Generated from the numbers, so it cannot drift from them, and printed beside every ratio the job publishes. It names the labels, the policy, the coverage, the mismatch, and what a low ratio can and cannot mean.</p>
+        <div class="prompt-box good"><span class="label">python · the caveat</span>caveat = (f"Flows joined to venues through two published label lists ({POLICY}). "
+          f"{coverage:.1%} of gross flow landed on a usable label; {mismatch:.1%} of labelled "
+          f"flow carries conflicting labels; copied labels were not counted as confirmation. "
+          f"A low ratio says the volume or the labels are wrong, not which.")
+print(caveat)</div>
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> When two sources share no key, find the table that bridges them and ask who published it, when, and on what basis. When a join lands, report how much did not. When two label sources agree, ask whether one copied the other. When a cross-check agrees, say how little that rules out; when it disagrees, check coverage and mismatch before you name a venue.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">Why can Harrowgate not join a venue's tape to chain records on a shared key?</p>
+      <div class="qopt">A · It can, on the timestamp: a print and a transfer at the same second are the same event</div>
+      <div class="qopt">B · Neither side carries the other's identifier: accounts stay in the venue's private ledger, the tape has no account column, and the chain has addresses with no names, so the only bridge is a published label</div>
+      <div class="qopt">C · It can, on the size: a trade of 50 units and a transfer of 50 units belong together</div>
+      <q class="qwhy">A trade on a venue moves nothing on the chain by itself, so neither time nor size links a print to a transfer. The venue knows which addresses are its own and does not publish that. Every joined row passes through a third party's label, and inherits its errors.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">Requiring both label lists to agree lowers coverage from 75.1 to 56.7 percent, and the share of joined flow on the wrong venue rises from 5.5 to 7.3 percent. Why does the stricter policy get worse?</p>
+      <div class="qopt">A · The stricter policy has fewer rows, so its percentages are noisier</div>
+      <div class="qopt">B · List 2 is newer, so requiring list 1 as well adds stale labels</div>
+      <div class="qopt">C · The wrong label for a10 is on both lists because list 2 copied it, so agreement keeps it, while correct labels that only one list observed are dropped</div>
+      <q class="qwhy">Agreement between sources counts as corroboration only when the sources are independent. Four of list 2's seven labels are copies of list 1, including the inferred and wrong a10. Requiring agreement keeps the copied error and discards a03, a04, a08 and a09, all correct.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">With either-list labels and no washer on venue B, B reads 3.04 flow per 100 units of reported volume against A's 5.23. What should the reviewer conclude?</p>
+      <div class="qopt">A · Something is wrong, either the volume or the labels, and coverage and mismatch must be checked before anyone names the venue; here the whole gap is the label table</div>
+      <div class="qopt">B · Venue B's reported volume is inflated by roughly 40 percent</div>
+      <div class="qopt">C · Nothing, because a ratio below A's is normal for a smaller venue</div>
+      <q class="qwhy">A disagreement rules out the world where the volume is real, the labels are complete and the venues turn over alike, but it does not say which of the three failed. On the constructed tables B has no washer; a12 is unlabelled, a07 is set aside and a10 is wrongly counted for A. With the declared-truth labels both venues read 5.00.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 10</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">About forty minutes, on any join your team runs through a mapping table somebody else maintains.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Find one bridged join and read its bridge</h4>
+        <p>Any job that joins two sources through a third table: a product mapping, a merchant category list, a vendor-supplied company match. For the bridge table, write down who publishes it, when it was last updated, and whether each row says how it was established. If no row does, that is the finding.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Compute coverage and write the caveat</h4>
+        <p>Re-run the join as a left join and compute the share of the left side, weighted by whatever the downstream number sums, that landed on the bridge. Then write the one-line caveat from step 6 for it. Session 10 puts every detector from sessions 4 to 7 on one bench, where the same habit applies: say what the test reads and what it cannot see.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The join key that does not exist</span><span class="note">Accounts in the venue's private ledger, an anonymous tape, addresses with no names; the published label as the only bridge.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Labels as reported attributes</span><span class="note">Publisher, date and basis on every label; staleness; one venue many addresses; copied labels as one witness counted twice.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Coverage and mismatch</span><span class="note">On the constructed tables at the default policy: 75.1 percent of 10,850 units of gross flow joined, 8 of 12 addresses; 10.4 percent of labelled flow in conflict.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The error a join cannot see</span><span class="note">5.5 percent of joined flow on the wrong venue, printable only because the data is constructed; 17.3 percent with list 2 alone, 7.3 percent when both lists must agree.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The flow cross-check</span><span class="note">Gross flow per 100 units of reported volume: A 5.23 and B 3.04 with no washer, both 5.00 with the declared-truth labels; agreement weak, disagreement strong.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The build-along and the caveat line</span><span class="note">Grain checks, conflicts and copies, a stated policy, a left join, flow-weighted coverage and mismatch, the ratio, and a caveat generated from the numbers.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Address clustering and its bounds</span><span class="note">Named tonight; taught in <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/courses/p3-addresses-are-not-people.html">learn-web3-with-phoebe p3</a> and <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/courses/p4-measuring-the-clustering.html">p4</a>.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Retraction in the chain-side table</span><span class="note">Named tonight; taught in <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/courses/p6-reorgs-hit-your-warehouse.html">learn-web3-with-phoebe p6</a>.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Labels versus resolved identity</span><span class="note">Named tonight; record linkage is taught in <a href="https://phoebefu6.github.io/learn-entity-resolution-with-phoebe/">learn-entity-resolution-with-phoebe</a>.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Chain mechanics</span><span class="note">A prerequisite for doing this for real, never re-taught; see <a href="https://phoebefu6.github.io/learn-blockchain-with-phoebe/">learn-blockchain-with-phoebe</a>.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Any real address, venue, chain or label publisher</span><span class="note">Out of scope. Every table is constructed, no real source is named, and nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>Joining exchange flows to chain data <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>No key.</strong> The tape has no accounts, the chain has no names, the venue keeps its address list. Every joined row goes through a published label.</div>
+      <div class="cheat-item"><strong>A label is reported.</strong> Keep publisher, date and basis on every joined row. Disclosure and observed deposits are evidence; inferred labels are hypotheses.</div>
+      <div class="cheat-item"><strong>Copies are not votes.</strong> Two lists that agree because one copied the other are one witness. "Both must agree" can raise the error.</div>
+      <div class="cheat-item"><strong>Left join, always.</strong> An inner join drops the unlabelled flow and reports 100 percent coverage of what is left.</div>
+      <div class="cheat-item"><strong>Coverage.</strong> Share of gross flow on a usable label, flow-weighted, with the address count beside it. 75.1 percent and 8 of 12 on the constructed tables.</div>
+      <div class="cheat-item"><strong>Mismatch.</strong> Share of labelled flow where lists name different venues. The only label error a join can see; 10.4 percent here.</div>
+      <div class="cheat-item"><strong>The cross-check.</strong> Flow per 100 units of reported volume, venue against venue. A washer lowers it; so does a missing label.</div>
+      <div class="cheat-item"><strong>The asymmetry.</strong> Agreement is weak evidence. Disagreement is strong evidence that something is wrong, not of what. Check coverage first.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Practitioner session 10, the tape bench. Everything from sessions 4 to 7 runs live on one bench: the ladder of wash shares, the anti-lever where venue B's weight by reported volume climbs to 78.8 percent at 70 percent wash, the break button, the copy bot no size test catches, and the 3 of 200 honest venues flagged at the default sensitivity.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Practitioner session 9 of 10 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="p8-depeg-events-in-the-tape.html">← Prev: Practitioner session 8 · Depeg events in the tape</a>
+        <a href="p10-the-tape-bench.html">Next: Practitioner session 10 · The tape bench →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var polSel = document.getElementById("crp9-policy");
+  var washSel = document.getElementById("crp9-wash");
+  var out = document.getElementById("crp9-out");
+  var verdict = document.getElementById("crp9-verdict");
+  var self = document.getElementById("crp9-self");
+
+  /* The constructed tables, printed in full by the widget. Gross flow is inflow plus outflow,
+     in units of the asset, for one constructed day. TRUTH is declared, and knowable only
+     because the data is constructed; no real join has this column. */
+  var FLOWS = [
+    ["a01", 1200, 900], ["a02", 800, 700], ["a03", 300, 200], ["a04", 250, 150],
+    ["a05", 150, 80], ["a06", 1000, 1100], ["a07", 500, 450], ["a08", 200, 300],
+    ["a09", 350, 250], ["a10", 450, 0], ["a11", 150, 250], ["a12", 600, 520]
+  ];
+  var TRUTH = { a01: "A", a02: "A", a03: "A", a04: "A", a05: "A", a06: "B", a07: "B", a08: "B", a09: "B", a12: "B" };
+  var L1 = { a01: "A", a02: "A", a03: "A", a06: "B", a07: "B", a08: "B", a10: "A" };
+  var L2 = { a01: "A", a02: "A", a04: "A", a06: "B", a07: "A", a09: "B", a10: "A" };
+  var POL = { l1: "List 1 only", l2: "List 2 only", either: "Either list, conflicts set aside", both: "Only where both lists agree" };
+
+  function comma(n) {
+    var p = String(n).split(".");
+    return p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (p[1] ? "." + p[1] : "");
+  }
+  function pct(x) { return (100 * x).toFixed(1) + " percent"; }
+  function units(micro) { return comma(CM.fmtUnits(micro)); }
+
+  function useLabel(a, p) {
+    var x = L1[a], y = L2[a];
+    if (p === "l1") return x || null;
+    if (p === "l2") return y || null;
+    if (p === "both") return (x && y && x === y) ? x : null;
+    if (x && y && x !== y) return null;
+    return x || y || null;
+  }
+
+  var A = CM.makeTape({ seed: 11 });
+  var tapesB = {};
+  function tapeB(w) {
+    if (!tapesB[w]) tapesB[w] = CM.makeTape({ seed: 12, washShare: w });
+    return tapesB[w];
+  }
+
+  function render() {
+    var p = polSel.value, w = Number(washSel.value);
+    var total = 0, joinedVol = 0, joinedN = 0, labelledVol = 0, conflictVol = 0, wrongVol = 0;
+    var by = { A: 0, B: 0 }, truthBy = { A: 0, B: 0 };
+    var rows = "";
+    FLOWS.forEach(function (f) {
+      var a = f[0], g = f[1] + f[2], v = useLabel(a, p), tr = TRUTH[a] || null;
+      var conflict = !!(L1[a] && L2[a] && L1[a] !== L2[a]);
+      total += g;
+      if (L1[a] || L2[a]) labelledVol += g;
+      if (conflict) conflictVol += g;
+      if (tr) truthBy[tr] += g;
+      var status;
+      if (v) {
+        joinedVol += g; joinedN++; by[v] += g;
+        if (v !== tr) { wrongVol += g; status = '<b class="crp9-bad">joined, wrong venue</b>'; }
+        else status = "joined";
+      } else if (conflict && p === "either") status = "conflict, set aside";
+      else if (L1[a] || L2[a]) status = "not used by this policy";
+      else status = "no label on either list";
+      rows += "<tr><td>" + a + "</td><td>" + comma(g) + "</td><td>" + (L1[a] || "-") + "</td><td>" + (L2[a] || "-") + "</td><td>" + (v || "-") + "</td><td>" + (tr || "none") + "</td><td>" + status + "</td></tr>";
+    });
+
+    var html = '<table class="sql-table"><thead><tr><th>Address</th><th>Gross flow (units)</th><th>List 1</th><th>List 2</th><th>Label used</th><th>Declared truth</th><th>Join status</th></tr></thead><tbody>' + rows + "</tbody></table>";
+
+    var coverage = joinedVol / total, mismatch = conflictVol / labelledVol, wrong = joinedVol ? wrongVol / joinedVol : 0;
+    html += '<table class="sql-table"><thead><tr><th>Join measure</th><th>Value</th><th>Can a real join compute it?</th></tr></thead><tbody>';
+    html += "<tr><td>Coverage, share of gross flow on a usable label</td><td><b>" + pct(coverage) + "</b> of " + comma(total) + " units; " + joinedN + " of " + FLOWS.length + " addresses</td><td>yes</td></tr>";
+    html += "<tr><td>Mismatch, share of labelled flow where the lists disagree</td><td><b>" + pct(mismatch) + "</b></td><td>yes</td></tr>";
+    html += '<tr><td>Joined flow on the wrong venue</td><td><b class="crp9-bad">' + pct(wrong) + "</b></td><td>no, only because the data is constructed</td></tr>";
+    html += "</tbody></table>";
+
+    var B = tapeB(w);
+    var volA = A.reportedVol / CM.MICRO, volB = B.reportedVol / CM.MICRO;
+    var rA = 100 * by.A / volA, rB = 100 * by.B / volB;
+    var tA = 100 * truthBy.A / volA, tB = 100 * truthBy.B / volB;
+    html += '<table class="sql-table"><thead><tr><th>Venue</th><th>Reported volume (engine)</th><th>Gross flow joined</th><th>Flow per 100 units</th><th>Same, declared-truth labels</th></tr></thead><tbody>';
+    html += "<tr><td>A (Tape A, honest)</td><td>" + units(A.reportedVol) + "</td><td>" + comma(by.A) + "</td><td>" + rA.toFixed(2) + "</td><td>" + tA.toFixed(2) + "</td></tr>";
+    html += "<tr><td>B (partner tape, " + Math.round(w * 100) + " percent wash)</td><td>" + units(B.reportedVol) + "</td><td>" + comma(by.B) + "</td><td>" + rB.toFixed(2) + "</td><td>" + tB.toFixed(2) + "</td></tr>";
+    html += '<tr><td>B against A</td><td></td><td></td><td><b class="crp9-bad">' + (rB / rA).toFixed(2) + "</b></td><td>" + (tB / tA).toFixed(2) + "</td></tr>";
+    html += "</tbody></table>";
+    out.innerHTML = html;
+
+    var msg = POL[p] + ", venue B at " + Math.round(w * 100) + " percent wash. " + pct(coverage) + " of gross flow landed on a usable label (" + joinedN + " of " + FLOWS.length
+      + " addresses); " + pct(mismatch) + " of labelled flow carries conflicting labels; " + pct(wrong) + " of joined flow is on the wrong venue, which only constructed data can show. "
+      + "B reads " + rB.toFixed(2) + " flow per 100 units against A's " + rA.toFixed(2) + ", B against A " + (rB / rA).toFixed(2) + "; with the declared-truth labels it would be " + (tB / tA).toFixed(2) + ". ";
+    msg += w === 0
+      ? "There is no washer, so every bit of that gap is the label table."
+      : "Part of the gap is the washer and part is the label table, and the ratio alone cannot say how much of each.";
+    verdict.textContent = msg;
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, so the reported volumes above are the volumes any correct run gives. The flow table and label lists are constructed and fixed; nothing here is a real venue, address or chain."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  polSel.addEventListener("change", render);
+  washSel.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #crp9-join .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 18rem; }
+  #crp9-join table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #crp9-join .wk-body { overflow-x: auto; }
+  #crp9-join .crp9-bad { color: var(--amber-ink-text); font-weight: 800; }
+</style>
+</body>
+</html>

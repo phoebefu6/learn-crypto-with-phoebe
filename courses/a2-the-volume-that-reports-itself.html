@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Leader session 2 of 6. On a conventional feed an operator counts the volume and an auditor stands behind it. On a crypto venue the venue counts its own, nobody checks, and a league table rewards the bigger number. Two published estimates of how much is wash, why they disagree, and what ranking by reported volume does to a washed venue.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="The volume that reports itself - learn crypto with phoebe">
+<meta property="og:description" content="Leader session 2 of 6. 77.5 percent and about 95 percent are two different measuring setups, not one fact. Rank by reported volume and a washed venue climbs. Not investment advice.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/a2-the-volume-that-reports-itself.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The volume that reports itself - learn crypto with phoebe">
+<meta name="twitter:description" content="Weight by reported volume and the washed venue's weight climbs from 52.7 to 78.8 percent on the constructed bench. Screen the sources and label who counted, then weight.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Leader session 2 · The volume that reports itself - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Leader session 2 of 6</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Leader session 2 of 6</div>
+    <h1>The volume that <span class="accent">reports itself</span></h1>
+    <p class="sub">On a conventional feed, volume is the quiet number nobody argues about. An operator counts every trade once, the trades land in one consolidated record, and somebody outside checks the count. On a crypto venue the venue counts its own trades, publishes the total itself, and nobody stands behind it. Then a league table sorts every venue by that number, so the venue that reports more is seen first. Tonight is what that does to a volume table: two published estimates of how much of the reported volume is wash, why they disagree, and a constructed two-venue bench in this page where you can watch a ranked table promote the venue a detector flags. Nothing here is investment advice, and nothing here is a real venue or a real price.</p>
+    <div class="chip-row">
+      <span class="chip level">🟠 Leader track</span>
+      <span class="chip audience">Anyone who ranks or weights sources by volume</span>
+      <span class="chip audience">Anyone who signs off a venue table</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:4">3-15 · Who counts the volume</span>
+      <span class="a3" style="flex:5">15-30 · Two estimates</span>
+      <span class="a4" style="flex:5">30-45 · Audit and Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate, and the venue volume table it has to publish</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm. After session 1 it publishes a daily reference level with the boundary written beside it. The second deliverable is a venue volume table: which venues trade the abstract asset, how much each one trades, and therefore how much weight each gets in the reference level. The first draft took an afternoon. It ranks venues by the volume each one publishes about itself, because that is the column every venue provides. Tonight is about why that column is a claim rather than a measurement, and what the finished table looks like instead.</p>
+
+    <div class="legend">
+      <span class="pill">Live = presented in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> The difference between counted volume and reported volume, drawn as two pipelines rather than asserted. Two published estimates of how much reported volume is wash, 77.5 percent and about 95 percent, with the setups that produced each, and the reason neither is "the" wash rate. A constructed bench in this page where a washed venue's weight climbs from 52.7 to 78.8 percent of the table while its honest share never moves. And a three-question audit for any volume table your team publishes: who counted each number, which column says so, and what the table does with a venue that reports more than it trades.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The first draft of Harrowgate's table<span class="mini">2 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The draft has four columns: venue, reported volume over 24 hours, rank, and weight in the reference level. Rank is reported volume sorted descending. Weight is each venue's reported volume divided by the total. Every step is the step a conventional market-data team would take, and on a conventional feed it would be correct, because the volume column would have been counted by an operator and checked by someone with no stake in it.</p>
+        <p>Here the volume column was typed in by the venues. Nobody at Harrowgate counted a trade. Nobody outside the venues reconciled anything. And the rank column, which the team thought of as a summary, is the very thing the venues compete on.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>The reviewer who caught the problem did not find a wrong number. She asked one question of each row: "who counted this?" Every answer was the venue itself. That question, asked of every number in a table, is the whole skill tonight. Harrowgate is constructed; the draft is the ordinary one.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Reported volume.</strong> The total a venue publishes about its own trading. A claim made by the party being measured. Tonight.</li>
+          <li><strong>Wash trade.</strong> A trade in which the same interest sits on both sides, so volume is printed and nothing changes hands in any economic sense. On the bench it is a buy and a sell of the same size a few seconds apart. Practitioner session 6 builds them.</li>
+          <li><strong>Wash share.</strong> The part of a venue's reported volume that is wash. Always a share of something, and the something is where estimates part company.</li>
+          <li><strong>League table.</strong> A public ranking of venues by reported volume. The thing that turns the volume number into a target.</li>
+          <li><strong>Weight.</strong> How much one venue's price counts in a reference level. Weighting by volume is standard practice and correct when the volume is real.</li>
+          <li><strong>Screen.</strong> The rule that decides which venues may contribute at all, before any weighting happens. Where the public index rulebooks do their real work.</li>
+          <li><strong>Provenance.</strong> Who produced a number, how, and with what stake in it. The column a volume table usually lacks.</li>
+          <li><strong>Denominator.</strong> What a percentage is a percentage of. Two wash estimates with different denominators are answers to different questions.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers who counts the volume</span>
+      <h2>Who counts the volume</h2>
+      <span class="tag concept">12 min live</span>
+    </div>
+    <p class="lede">Volume on a conventional feed is a byproduct of somebody else's job. An operator matches the trades, so it counts them; the trades from every venue land in one consolidated record, so a total is a sum rather than a negotiation; and an auditor stands behind the count with nothing to gain from a bigger one. Take those three away and put a league table where the auditor was, and the same arithmetic produces a number with a completely different meaning.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 410" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn pipelines side by side. Left, a conventional feed: a trade prints, the operator counts it under one rulebook, it lands in one consolidated record of every venue's trades, and an auditor stands behind the count, with a stamp beside the auditor and a note that nobody in this chain earns more from a bigger number. Right, a self-reported feed: a trade prints, the venue counts it, the venue publishes its own number, a league table sorts venues by it, a higher rank follows, more attention and flow follow, and that flow returns to the venue; the five arrows of this loop are drawn in the warm contrast colour, labelled the loop pays for size, with a note that the counter is also the one being ranked.">
+        <defs>
+          <filter id="cra2aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="31" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="cra2aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="cra2aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .cra2aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .cra2aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .cra2aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .cra2aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .cra2aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .cra2aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .cra2aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="cra2aH" x="30" y="26">CONVENTIONAL FEED: COUNTED, THEN CHECKED</text>
+        <text class="cra2aH" x="450" y="26">SELF-REPORTED: THE COUNTER IS RANKED</text>
+
+        <g filter="url(#cra2aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- divider between the two pipelines -->
+          <path d="M430 40 L430 350" stroke="#CFC5DA"/>
+
+          <!-- left pipeline -->
+          <rect x="60" y="44" width="300" height="44" rx="8" transform="rotate(-0.5 210 66)" fill="#FFFFFF"/>
+          <rect x="60" y="116" width="300" height="52" rx="8" transform="rotate(0.4 210 142)" fill="#FFFFFF"/>
+          <rect x="60" y="204" width="300" height="52" rx="8" transform="rotate(-0.4 210 230)" fill="#F4EFF9"/>
+          <rect x="60" y="292" width="300" height="52" rx="8" transform="rotate(0.5 210 318)" fill="#FFFFFF"/>
+          <path d="M210 90 L210 112" marker-end="url(#cra2aAr)"/>
+          <path d="M210 170 L210 200" marker-end="url(#cra2aAr)"/>
+          <path d="M210 258 L210 288" marker-end="url(#cra2aAr)"/>
+          <!-- doodle: the auditor's stamp -->
+          <circle cx="395" cy="318" r="16"/>
+          <path d="M387 318 L393 324 L404 311"/>
+
+          <!-- right pipeline -->
+          <rect x="460" y="44" width="170" height="44" rx="8" transform="rotate(0.6 545 66)" fill="#FFFFFF"/>
+          <rect x="460" y="116" width="170" height="52" rx="8" transform="rotate(-0.5 545 142)" fill="#FFFFFF"/>
+          <rect x="670" y="116" width="170" height="52" rx="8" transform="rotate(0.5 755 142)" fill="#F4EFF9"/>
+          <rect x="670" y="204" width="170" height="52" rx="8" transform="rotate(-0.4 755 230)" fill="#FFFFFF"/>
+          <rect x="670" y="292" width="170" height="52" rx="8" transform="rotate(0.4 755 318)" fill="#FFFFFF"/>
+          <rect x="460" y="292" width="170" height="52" rx="8" transform="rotate(-0.6 545 318)" fill="#FFFFFF"/>
+          <path d="M545 90 L545 112" marker-end="url(#cra2aAr)"/>
+          <!-- the loop, in marigold -->
+          <path d="M632 142 L666 142" stroke="#B7791F" stroke-width="2.6" marker-end="url(#cra2aAr)"/>
+          <path d="M755 170 L755 200" stroke="#B7791F" stroke-width="2.6" marker-end="url(#cra2aAr)"/>
+          <path d="M755 258 L755 288" stroke="#B7791F" stroke-width="2.6" marker-end="url(#cra2aAr)"/>
+          <path d="M668 318 L634 318" stroke="#B7791F" stroke-width="2.6" marker-end="url(#cra2aAr)"/>
+          <path d="M545 290 L545 172" stroke="#B7791F" stroke-width="2.6" marker-end="url(#cra2aAr)"/>
+        </g>
+
+        <text class="cra2aL" x="74" y="62">1 · A trade prints</text>
+        <text class="cra2aS" x="74" y="78">a buyer, a seller, one size, one price</text>
+        <text class="cra2aL" x="74" y="136">2 · The operator counts it</text>
+        <text class="cra2aS" x="74" y="154">one count per trade, under one rulebook</text>
+        <text class="cra2aL" x="74" y="224">3 · One consolidated record</text>
+        <text class="cra2aS" x="74" y="242">every venue's trades in one tape</text>
+        <text class="cra2aL" x="74" y="312">4 · An auditor stands behind it</text>
+        <text class="cra2aS" x="74" y="330">someone outside checks the count</text>
+
+        <text class="cra2aL" x="474" y="62">A trade prints</text>
+        <text class="cra2aS" x="474" y="78">real, or a matched pair</text>
+        <text class="cra2aL" x="474" y="136">The venue counts it</text>
+        <text class="cra2aS" x="474" y="154">no rulebook but its own</text>
+        <text class="cra2aL" x="684" y="136">Its own number</text>
+        <text class="cra2aS" x="684" y="154">published as volume</text>
+        <text class="cra2aL" x="684" y="224">A league table</text>
+        <text class="cra2aS" x="684" y="242">sorts venues by it</text>
+        <text class="cra2aL" x="684" y="312">A higher rank</text>
+        <text class="cra2aS" x="684" y="330">the bigger number wins</text>
+        <text class="cra2aL" x="474" y="312">More attention</text>
+        <text class="cra2aS" x="474" y="330">more listings, more flow</text>
+        <text class="cra2aB" x="558" y="226">the loop</text>
+        <text class="cra2aS" x="558" y="242">pays for size</text>
+
+        <text class="cra2aS" x="60" y="372">Nobody in this chain earns more from a bigger number.</text>
+        <text class="cra2aS" x="460" y="372">Here the counter is also the one being ranked.</text>
+
+        <text class="cra2aN" x="30" y="396">Same trade, same arithmetic. What changed is who counts, who checks, and who is paid for a bigger count.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - on the left the count is a byproduct of somebody else's job; on the right the count is the thing being competed for, and the loop closes back on the counter</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>What an audited count quietly comes with<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Look at the left pipeline as a list of services. The operator counts each trade once, because it matched the trade and has the record. The consolidated record means a market-wide total is a sum that anybody can recompute. And the auditor, or an examiner, or simply a counterparty with its own books, is a second party whose job is to notice if the count is wrong. None of those people is paid more if the number is bigger. That last property is the one a data team never writes down, because on a conventional feed it is never in doubt.</p>
+        <p>Now the right pipeline. The venue matches its own trades and counts them, which is fine. Then it publishes the total itself, with no consolidated record to reconcile against and no auditor behind it. Then something outside the venue sorts every venue by that total and shows the sorted list to the people deciding where to trade. The count has become the venue's entry in a contest, and the venue is the only party that counts it.</p>
+        <p>The arithmetic in Harrowgate's draft table is identical on both sides of the figure. The meaning of the volume column is not. On the left it is a measurement. On the right it is a claim made by the party being measured, about the thing it is ranked on.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>The league table is the incentive<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A wash trade adds a buy and a sell of the same size, seconds apart, with the same interest on both sides. It moves nothing anywhere, it costs the washer close to nothing on a venue it controls, and it adds its size twice to the reported total. On a feed with an auditor, a pattern like that is something a second party would look for. On a feed without one, the only check is whether somebody downstream runs a test.</p>
+        <p>The loop drawn in marigold is why the number drifts upward rather than sitting still. A higher rank means the venue is listed first, which brings attention and flow, which is what the venue is in business for. So the reported volume is not a neutral measurement that happens to be unaudited. It is a target, and a number that is also a target behaves like one. The published study in Part 2 put a figure on the reward: on the ranking data it used, 70 percent wash in total reported volume moved a venue up 46 positions.</p>
+        <p>None of this needs anybody to be a villain. It needs only a number that the measured party produces, that nobody checks, and that pays the measured party when it is larger. Any data leader who has run a sales league table built on self-reported pipeline has seen the same shape.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>One camp holds that self-reported volume from an unaudited venue is not data at all. If the measured party produces the number and is paid for a bigger one, no test can restore it to the status of a measurement, and a serious table should use something else: only venues that answer to an independent supervisor, or a quantity the venue cannot inflate cheaply.</p>
+        <p>The other camp holds that the honest part of the number is still information, that the crude fakes leave fingerprints in the trade sizes, and that a screened, tested, labelled volume column is better than no column. The forensic tests in practitioner sessions 4 to 7 come from this camp, and their honest limit, a washer that copies honest trade sizes and is invisible to every size-based test, is the strongest argument the first camp has.</p>
+        <p>Both camps agree on the thing that matters tonight: a volume number without its provenance is not finished. The disagreement is about what to do once the provenance is written down, and the person across the table will belong to one camp or the other. General detection methods, beyond the forensic ones specific to a self-reported tape, live in <a href="https://phoebefu6.github.io/learn-anomaly-detection-with-phoebe/">learn-anomaly-detection-with-phoebe</a>.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers the two estimates and the rank trap</span>
+      <h2>Two estimates, one disagreement</h2>
+      <span class="tag concept">15 min live</span>
+    </div>
+    <p class="lede">Ask how much of the reported volume on crypto venues is wash and two numbers come back. A peer-reviewed academic study estimated 77.5 percent on average across unregulated venues in 2019. An industry presentation the same year reported about 95 percent of one aggregator's figure for one asset. A reader who sees both assumes one is wrong. Neither is. They are answers from two different measuring setups, and the honest move is to keep both, each with its setup written beside it.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 398" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn measuring setups, one above the other, each with four stations left to right. Setup 1, the academic study: what was counted is a grid of 26 unregulated venues with 3 regulated venues set apart as the benchmark; the window is a hatched bar for 9 July to 3 November 2019, about four months; wash was found as unrounded volume above the regulated venues' ratio; the denominator box, in the warm contrast colour, reads 77.5 percent of unregulated venues' volume, average, median 79.1. Setup 2, the industry presentation: a nine by nine grid of 81 venues on one aggregator for one asset, 10 of them dark for real volume; the window is a sliver of four days drawn against a dashed outline of the four months above; wash was found from trade-size histograms, volume patterns and spread behaviour, not peer reviewed; the denominator box reads about 95 percent of one aggregator's volume for one asset, reported. A note says neither number is the wash rate.">
+        <defs>
+          <filter id="cra2bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="47" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="cra2bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="cra2bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .cra2bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .cra2bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .cra2bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .cra2bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .cra2bV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .cra2bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .cra2bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="cra2bH" x="30" y="30">SETUP 1 · CONG, LI, TANG AND YANG · ACADEMIC · READ AT SOURCE</text>
+        <text class="cra2bH" x="30" y="196">SETUP 2 · FUSARO AND HOUGAN · INDUSTRY · REPORTED</text>
+
+        <g filter="url(#cra2bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- setup 1 stations -->
+          <rect x="30" y="44" width="230" height="122" rx="8" transform="rotate(-0.4 145 105)" fill="#FFFFFF"/>
+          <rect x="280" y="44" width="200" height="122" rx="8" transform="rotate(0.4 380 105)" fill="#FFFFFF"/>
+          <rect x="500" y="44" width="190" height="122" rx="8" transform="rotate(-0.3 595 105)" fill="#F4EFF9"/>
+          <rect x="710" y="44" width="140" height="122" rx="8" transform="rotate(0.5 780 105)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <path d="M262 105 L276 105" marker-end="url(#cra2bAr)"/>
+          <path d="M482 105 L496 105" marker-end="url(#cra2bAr)"/>
+          <path d="M692 105 L706 105" marker-end="url(#cra2bAr)"/>
+          <!-- 26 unregulated venues -->
+          <path stroke-width="1.2" fill="#FFFFFF" d="M44 74 h7 v7 h-7 Z M54 74 h7 v7 h-7 Z M64 74 h7 v7 h-7 Z M74 74 h7 v7 h-7 Z M84 74 h7 v7 h-7 Z M94 74 h7 v7 h-7 Z M104 74 h7 v7 h-7 Z M114 74 h7 v7 h-7 Z M124 74 h7 v7 h-7 Z M44 84 h7 v7 h-7 Z M54 84 h7 v7 h-7 Z M64 84 h7 v7 h-7 Z M74 84 h7 v7 h-7 Z M84 84 h7 v7 h-7 Z M94 84 h7 v7 h-7 Z M104 84 h7 v7 h-7 Z M114 84 h7 v7 h-7 Z M124 84 h7 v7 h-7 Z M44 94 h7 v7 h-7 Z M54 94 h7 v7 h-7 Z M64 94 h7 v7 h-7 Z M74 94 h7 v7 h-7 Z M84 94 h7 v7 h-7 Z M94 94 h7 v7 h-7 Z M104 94 h7 v7 h-7 Z M114 94 h7 v7 h-7 Z"/>
+          <!-- 3 regulated venues, the benchmark -->
+          <path stroke-width="1.2" fill="#9C7FBF" d="M160 74 h7 v7 h-7 Z M170 74 h7 v7 h-7 Z M180 74 h7 v7 h-7 Z"/>
+          <!-- the window: about four months -->
+          <rect x="294" y="74" width="170" height="16" rx="3" fill="url(#cra2bHc)"/>
+
+          <!-- setup 2 stations -->
+          <rect x="30" y="210" width="230" height="122" rx="8" transform="rotate(0.4 145 271)" fill="#FFFFFF"/>
+          <rect x="280" y="210" width="200" height="122" rx="8" transform="rotate(-0.4 380 271)" fill="#FFFFFF"/>
+          <rect x="500" y="210" width="190" height="122" rx="8" transform="rotate(0.3 595 271)" fill="#F4EFF9"/>
+          <rect x="710" y="210" width="140" height="122" rx="8" transform="rotate(-0.5 780 271)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <path d="M262 271 L276 271" marker-end="url(#cra2bAr)"/>
+          <path d="M482 271 L496 271" marker-end="url(#cra2bAr)"/>
+          <path d="M692 271 L706 271" marker-end="url(#cra2bAr)"/>
+          <!-- 81 venues, 10 with real volume -->
+          <path stroke-width="1.1" fill="#5B2A86" d="M44 240 h6 v6 h-6 Z M52 240 h6 v6 h-6 Z M60 240 h6 v6 h-6 Z M68 240 h6 v6 h-6 Z M76 240 h6 v6 h-6 Z M84 240 h6 v6 h-6 Z M92 240 h6 v6 h-6 Z M100 240 h6 v6 h-6 Z M108 240 h6 v6 h-6 Z M44 248 h6 v6 h-6 Z"/>
+          <path stroke-width="1.1" fill="#FFFFFF" d="M52 248 h6 v6 h-6 Z M60 248 h6 v6 h-6 Z M68 248 h6 v6 h-6 Z M76 248 h6 v6 h-6 Z M84 248 h6 v6 h-6 Z M92 248 h6 v6 h-6 Z M100 248 h6 v6 h-6 Z M108 248 h6 v6 h-6 Z M44 256 h6 v6 h-6 Z M52 256 h6 v6 h-6 Z M60 256 h6 v6 h-6 Z M68 256 h6 v6 h-6 Z M76 256 h6 v6 h-6 Z M84 256 h6 v6 h-6 Z M92 256 h6 v6 h-6 Z M100 256 h6 v6 h-6 Z M108 256 h6 v6 h-6 Z M44 264 h6 v6 h-6 Z M52 264 h6 v6 h-6 Z M60 264 h6 v6 h-6 Z M68 264 h6 v6 h-6 Z M76 264 h6 v6 h-6 Z M84 264 h6 v6 h-6 Z M92 264 h6 v6 h-6 Z M100 264 h6 v6 h-6 Z M108 264 h6 v6 h-6 Z M44 272 h6 v6 h-6 Z M52 272 h6 v6 h-6 Z M60 272 h6 v6 h-6 Z M68 272 h6 v6 h-6 Z M76 272 h6 v6 h-6 Z M84 272 h6 v6 h-6 Z M92 272 h6 v6 h-6 Z M100 272 h6 v6 h-6 Z M108 272 h6 v6 h-6 Z M44 280 h6 v6 h-6 Z M52 280 h6 v6 h-6 Z M60 280 h6 v6 h-6 Z M68 280 h6 v6 h-6 Z M76 280 h6 v6 h-6 Z M84 280 h6 v6 h-6 Z M92 280 h6 v6 h-6 Z M100 280 h6 v6 h-6 Z M108 280 h6 v6 h-6 Z M44 288 h6 v6 h-6 Z M52 288 h6 v6 h-6 Z M60 288 h6 v6 h-6 Z M68 288 h6 v6 h-6 Z M76 288 h6 v6 h-6 Z M84 288 h6 v6 h-6 Z M92 288 h6 v6 h-6 Z M100 288 h6 v6 h-6 Z M108 288 h6 v6 h-6 Z M44 296 h6 v6 h-6 Z M52 296 h6 v6 h-6 Z M60 296 h6 v6 h-6 Z M68 296 h6 v6 h-6 Z M76 296 h6 v6 h-6 Z M84 296 h6 v6 h-6 Z M92 296 h6 v6 h-6 Z M100 296 h6 v6 h-6 Z M108 296 h6 v6 h-6 Z M44 304 h6 v6 h-6 Z M52 304 h6 v6 h-6 Z M60 304 h6 v6 h-6 Z M68 304 h6 v6 h-6 Z M76 304 h6 v6 h-6 Z M84 304 h6 v6 h-6 Z M92 304 h6 v6 h-6 Z M100 304 h6 v6 h-6 Z M108 304 h6 v6 h-6 Z"/>
+          <!-- the window: four days, against the four months above -->
+          <rect x="294" y="240" width="170" height="16" rx="3" stroke="#CFC5DA" stroke-dasharray="5 5"/>
+          <rect x="294" y="240" width="6" height="16" rx="1" fill="url(#cra2bHc)"/>
+
+          <!-- doodle: a tape measure -->
+          <circle cx="834" cy="190" r="9"/>
+          <path d="M843 190 L862 190 M849 186 L849 190 M855 186 L855 190 M861 186 L861 190"/>
+        </g>
+
+        <text class="cra2bA" x="44" y="64">WHAT WAS COUNTED</text>
+        <text class="cra2bS" x="44" y="120">26 unregulated venues, left;</text>
+        <text class="cra2bS" x="44" y="136">3 regulated, right, set the norm</text>
+        <text class="cra2bS" x="44" y="152">four pairs, tick data, 2019</text>
+
+        <text class="cra2bA" x="294" y="64">OVER HOW LONG</text>
+        <text class="cra2bS" x="294" y="116">9 July to 3 November 2019</text>
+        <text class="cra2bS" x="294" y="132">about four months</text>
+        <text class="cra2bS" x="294" y="148">venues may have adapted since</text>
+
+        <text class="cra2bA" x="514" y="64">HOW WASH WAS FOUND</text>
+        <text class="cra2bS" x="514" y="84">round versus unrounded sizes;</text>
+        <text class="cra2bS" x="514" y="100">unrounded volume above the</text>
+        <text class="cra2bS" x="514" y="116">regulated venues' ratio</text>
+        <text class="cra2bS" x="514" y="132">counts as wash</text>
+        <text class="cra2bS" x="514" y="148">peer-reviewed, with bounds</text>
+
+        <text class="cra2bB" x="724" y="64">SHARE OF WHAT</text>
+        <text class="cra2bS" x="724" y="84">of unregulated</text>
+        <text class="cra2bS" x="724" y="100">venues' volume</text>
+        <text class="cra2bV" x="724" y="128">77.5%</text>
+        <text class="cra2bS" x="724" y="148">average; median 79.1</text>
+
+        <text class="cra2bA" x="44" y="230">WHAT WAS COUNTED</text>
+        <text class="cra2bS" x="130" y="254">81 venues on one</text>
+        <text class="cra2bS" x="130" y="270">aggregator, one</text>
+        <text class="cra2bS" x="130" y="286">asset; 10 dark ones</text>
+        <text class="cra2bS" x="130" y="302">had real volume</text>
+
+        <text class="cra2bA" x="294" y="230">OVER HOW LONG</text>
+        <text class="cra2bS" x="294" y="282">four days, March 2019</text>
+        <text class="cra2bS" x="294" y="298">dashed: the four months above</text>
+        <text class="cra2bS" x="294" y="314">a snapshot, not a season</text>
+
+        <text class="cra2bA" x="514" y="230">HOW WASH WAS FOUND</text>
+        <text class="cra2bS" x="514" y="250">trade-size histograms,</text>
+        <text class="cra2bS" x="514" y="266">volume patterns and</text>
+        <text class="cra2bS" x="514" y="282">spread behaviour</text>
+        <text class="cra2bS" x="514" y="298">an industry method,</text>
+        <text class="cra2bS" x="514" y="314">not peer reviewed</text>
+
+        <text class="cra2bB" x="724" y="230">SHARE OF WHAT</text>
+        <text class="cra2bS" x="724" y="250">of one aggregator's</text>
+        <text class="cra2bS" x="724" y="266">volume, one asset</text>
+        <text class="cra2bV" x="724" y="294">about 95%</text>
+        <text class="cra2bS" x="724" y="314">reported</text>
+
+        <text class="cra2bN" x="30" y="362">Different venues, windows, methods and denominators: neither number is the wash rate.</text>
+        <text class="cra2bN" x="30" y="380">The study calls the two "the same order of magnitude". Keep both, each with its setup.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - read each estimate left to right as a setup: what was counted, over how long, how wash was recognised, and what the percentage is a percentage of</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Setup 1: the academic estimate, and its own bounds<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Cong, Li, Tang and Yang, "Crypto Wash Trading", NBER working paper w30783, read at source; the published version appeared in Management Science in 2023 (reported). They studied 29 venues from 9 July to 3 November 2019: 3 regulated, and 26 unregulated, split by web traffic into 10 Tier-1 and 16 Tier-2. They ran three forensic tests on trade sizes, including the first-digit law and clustering at round sizes, and found the direction that surprises people: the regulated venues showed the clustering at round sizes that human traders produce, and many unregulated venues showed too little of it.</p>
+        <p>Their quantification uses exactly that. A ratio of unrounded to round volume is estimated on the regulated venues; any unrounded volume on an unregulated venue above what that ratio predicts is counted as wash. The result: an average of <strong>77.5 percent</strong> of unregulated venues' volume, median <strong>79.1 percent</strong>, above <strong>53.4 percent</strong> for Tier-1 and <strong>81.7 percent</strong> for Tier-2, and about <strong>61 percent</strong> even after controlling for venue characteristics. On the ranking data they used, 70 percent wash moved a venue up 46 positions.</p>
+        <p>Read the bounds the authors put on it themselves. Their first-digit estimates are significantly lower and serve as rough lower bounds. If honest algorithmic trading produces unrounded sizes, the roundness estimate is closer to an upper bound. And venues may have adapted since the 2019 sample. Every figure above is the authors' estimate on their 2019 sample, with those bounds, and it travels with them.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Setup 2: the industry estimate, reported<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Fusaro and Hougan, an asset manager's presentation to the US securities regulator, March 2019. Reported rather than read at source, because the hosted document is image-only. As reported, it found that about <strong>95 percent</strong> of the volume a widely used aggregator showed for one asset was fake or non-economic. It looked at <strong>81</strong> venues over four days and found <strong>10</strong> with real volume, using trade-size histograms, volume patterns and spread behaviour. It is an industry presentation, not peer reviewed.</p>
+        <p>None of that makes it wrong. It makes it a different setup: a different list of venues, a window of four days rather than four months, a different method, and a percentage of a different total. Cong and his co-authors cite it and describe their own estimates as being in the same order of magnitude as the industry reports.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Why 77.5 and 95 do not contradict<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Put the two setups side by side, as in the figure, and the disagreement stops looking like a contradiction. The denominators differ: 77.5 percent is a share of unregulated venues' own volume, with the regulated venues near zero by construction of the method; about 95 percent is a share of one aggregator's total for one asset, across whatever venues it listed. The samples differ: 26 unregulated venues against 81. The windows differ: about four months against four days. The methods differ: a regression benchmarked on regulated venues against histograms and pattern reading.</p>
+        <p>So the question "which one is the wash rate?" has no answer, because there is no single quantity both are estimating. The professional sentence names both, each with its setup: "a 2019 academic study estimated 77.5 percent of unregulated venues' volume, bounded both ways by its authors; a 2019 industry presentation reported about 95 percent of one aggregator's figure for one asset." Averaging them would produce a third number that describes no setup at all. Picking one would throw away the reason they differ, which is the most useful thing either tells you.</p>
+      </div>
+    </details>
+
+    <div class="wk" id="cra2-rank">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">Two constructed venues running in this page: venue A honest, venue B with a round-lot washer added on top of the same honest trades. Pick a pair and a wash share and watch what a table ranked by reported volume does. Nothing here is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="cra2-pair">Which pair of constructed venues</label>
+        <select class="sql-code" id="cra2-pair">
+          <option value="11">Tape A (seeds 11 and 12)</option>
+          <option value="101">Tape B (seeds 101 and 102)</option>
+          <option value="2024">Tape C (seeds 2024 and 2025)</option>
+          <option value="7">Tape D (seeds 7 and 8)</option>
+          <option value="55555">Tape E (seeds 55555 and 55556)</option>
+        </select>
+        <label class="sql-label" for="cra2-share">Wash share of venue B's reported volume</label>
+        <select class="sql-code" id="cra2-share">
+          <option value="0">0 percent, no washer</option>
+          <option value="1">10 percent</option>
+          <option value="2">30 percent</option>
+          <option value="3">50 percent</option>
+          <option value="4">70 percent</option>
+        </select>
+        <div id="cra2-out"></div>
+        <p class="sql-note" id="cra2-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="cra2-self">...</div>
+    </div>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>What ranking by reported volume does to a washed venue<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Start on Tape A with no washer. Venue B's honest weight is <strong>52.7 percent</strong> of the pair and its weight by reported volume is the same, because every reported unit is a real one. Now add the washer. B's honest weight stays at 52.7 percent on every rung, since the washer adds trades on top of the same honest tape. Its weight by reported volume climbs: <strong>55.3</strong> at 10 percent wash, <strong>61.4</strong> at 30, <strong>69.0</strong> at 50 and <strong>78.8 percent</strong> at 70. Every point above 52.7 is wash being counted as if it measured anything.</p>
+        <p>On Tape A the rank never moves, because B was already the larger honest venue; only the weight does. Switch pairs to see the rank move. On Tapes B and C the washed venue goes from rank 2 to rank 1 at 10 percent wash; on Tapes D and E it takes rank 1 at 30 percent. At 70 percent wash its weight is 76.3, 75.3, 73.5 and 73.1 percent on those four pairs, against honest weights of 49.1, 47.7, 45.4 and 44.9.</p>
+        <p>Read the last row of the panel too. On every pair, every rung from 10 percent up is flagged by the detectors, three of three, and the honest rung never fires. The table ranked by reported volume promotes exactly the venue the detectors flag. How those detectors work, and their limits, is practitioner sessions 4 to 7.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The honest nuance: weighting is right when the volume is real<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The tempting lesson is "never weight by volume". It is the wrong lesson. Volume weighting is standard practice in every public index rulebook read here, and it is correct when the volume is real: a venue where more genuine trading happens should count for more in a reference level. On the bench, at 0 percent wash, weighting by reported volume gives exactly the honest weight. The trouble is not the weight. It is weighting a number nobody has checked.</p>
+        <p>So the rulebooks do their work earlier. One public index rulebook screens venues quarterly on criteria including regulation by an independent government body, KYC/AML controls, trading policies, five years of operation, absence from sanction lists and reliable trade feeds, plus a liquidity floor; its listed exclusion actions include fraud and market manipulation. Only venues that survive the screen contribute, and then their volume is weighted. Screen first, label provenance, then weight what survives. Practitioner session 3 builds the methods; session 3 on this track reconciles venues into a level.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>Audit your own volume table</h2>
+      <span class="tag build">15 min hands on</span>
+    </div>
+    <p class="lede">No code. Six steps on a table your own team publishes or relies on, said out loud in the room. Any table that ranks, weights or filters sources by a number the sources report about themselves will do: venues, vendors, branches, sales regions. The questions are the same ones Harrowgate's reviewer asked.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Pick a table that sorts by a reported number</h4>
+        <p>A league table, a weighting scheme, a "top ten sources" list. Write down the number it sorts or weights by, and what decision downstream changes when the order changes.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Ask of every row: who counted this?</h4>
+        <p>Three possible answers: we counted it ourselves from records; an operator counted it and someone outside checks; the source counted it about itself. Mark each row. Most teams find the third answer in more rows than they expected.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Find the column that says so</h4>
+        <p>If the table has no column for provenance, a reader cannot tell a measurement from a claim, and neither could you a year from now. The fix is a column, not a footnote: "reported by the venue, unaudited" in the same row as the number.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Follow a venue that reports more than it trades</h4>
+        <p>Pretend one row is 70 percent wash. Trace what the table does with it: its rank, its weight, the attention it gets downstream. On the bench, Tape A's washed venue went from 52.7 to 78.8 percent of the table. If your table would do the same, the table is part of the loop in Part 1.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Write the screen before the weight</h4>
+        <p>What rule decides which sources may contribute at all? Name it in one sentence, the way one public index rulebook names regulation, trading policies, years of operation and a liquidity floor. If there is no rule, every source that publishes a number is in, which is the rule the washer would choose.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Commit to the word</h4>
+        <p>Session 1 promised a word for beside the volume figure, and it is not "audited". It is "reported", with by whom: "24-hour volume as reported by the venue". Write it on the table in front of you. A number with that word beside it can be weighted honestly; a number without it is waiting to be misread.</p>
+      </div></div>
+    </div>
+
+    <div class="callout example">
+      <span class="ex-pill">Real world</span>
+      <p>Harrowgate's second draft changed three things and no arithmetic. The volume column was renamed "24-hour volume as reported by the venue". A new column said which venues passed the team's written screen, and only those contributed to the reference level. And a third column carried the result of the size tests from the practitioner track, as a flag for review rather than an automatic exclusion, because a test that fires on 1.5 percent of honest venues on the bench is a reason to look, not a verdict. Harrowgate is constructed; the three changes are the standard ones.</p>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> When a table ranks or weights anything by a number, ask who counted it before you ask whether it is large. A count produced by the party being ranked is a claim, and the table is only finished when the claim is labelled as one.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">A board paper quotes 77.5 percent wash; a colleague's slide says about 95 percent. Why do these not contradict each other?</p>
+      <div class="qopt">A · They do: the industry figure is not peer reviewed, so it should be discarded</div>
+      <div class="qopt">B · The true wash rate is the average of the two, so the report should quote that</div>
+      <div class="qopt">C · They come from different setups: different venues, windows, methods and denominators, so neither is "the" wash rate</div>
+      <q class="qwhy">77.5 percent is the academic average share of unregulated venues' volume over about four months of 2019; about 95 percent is a reported share of one aggregator's figure for one asset over four days. Different questions, different answers. Averaging them describes no setup, and discarding one throws away the reason they differ.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">On the constructed bench, venue B carries a round-lot washer at 70 percent of its reported volume. What does a table ranked and weighted by reported volume do with it?</p>
+      <div class="qopt">A · Raises its weight from its honest 52.7 percent to 78.8 percent, while the detectors flag it three of three</div>
+      <div class="qopt">B · Nothing, because wash trades buy and sell the same size and cancel out of the volume</div>
+      <div class="qopt">C · Lowers its weight, because the detectors remove flagged volume before the ranking</div>
+      <q class="qwhy">A wash pair adds its size twice to reported volume; it does not cancel. The ranking reads only the reported column, so every unit of wash raises the weight. The detectors flag the venue, but a table that sorts by reported volume never asks them.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">What is the honest response for a team that weights venues by volume?</p>
+      <div class="qopt">A · Stop weighting by volume and give every venue an equal weight</div>
+      <div class="qopt">B · Screen which venues may contribute, label who counted each number, and keep weighting the volume that survives the screen</div>
+      <div class="qopt">C · Discount every venue's reported volume by 77.5 percent</div>
+      <q class="qwhy">Weighting by volume is correct when the volume is real, which is why the public rulebooks keep it and screen venues first. Equal weights give a washed venue the same say as an honest one, and a blanket discount applies a 2019 estimate about a different set of venues to yours.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 3</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">Twenty minutes, on the table you audited and on the sentence you wrote.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Add the provenance column</h4>
+        <p>On one real table, add a column that says who counted each number, in plain words. Show it to one person who reads the table and ask whether any row surprised them.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Bring one number that appears in two places</h4>
+        <p>Any figure your team publishes that also appears in another team's report or another source, with a different value. Session 3 is about one asset with many prices at once, and the question it asks is which of the two is "the" number, and why that question has no answer.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Self-reported volume</span><span class="note">Counted versus reported, drawn as two pipelines, with the league table loop that makes the number a target.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The disagreement</span><span class="note">77.5 percent (Cong, Li, Tang and Yang, read at source, bounded both ways) against about 95 percent (Fusaro and Hougan, reported). Different denominators, samples, windows and methods.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The rank trap</span><span class="note">On the constructed bench, B's weight by reported volume climbs from 52.7 to 78.8 percent while its honest weight stays at 52.7; the washed venue takes rank 1 on every other pair.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The honest nuance</span><span class="note">Volume weighting is right when the volume is real; the rulebooks screen venues first and keep the weights.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The finished volume column</span><span class="note">"As reported by the venue", with a screen and a provenance column. Harrowgate's second draft, constructed.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">The detectors</span><span class="note">Shown as a verdict tonight. Practitioner sessions 4 to 7 build the first-digit, roundness and clustering tests, calibrate them and measure their false positives.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Many venues, many prices</span><span class="note">Named tonight. Session 3 reconciles four venues four ways and gets four levels.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Exchange flows joined to chain data</span><span class="note">Practitioner session 9, which hands the chain side to <a href="https://phoebefu6.github.io/learn-web3-with-phoebe/">learn-web3-with-phoebe</a>.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Anything to do with buying, selling or holding</span><span class="note">Out of scope by design. Nothing here is investment advice and no real venue or price appears.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>The volume that reports itself <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>The one sentence.</strong> On a conventional feed volume is counted and checked. On a crypto venue it is reported by the party being ranked on it.</div>
+      <div class="cheat-item"><strong>The loop.</strong> Venue counts, league table sorts, rank brings attention and flow, flow pays the venue. A number in that loop is a target.</div>
+      <div class="cheat-item"><strong>The academic estimate.</strong> 77.5 percent average, median 79.1, of unregulated venues' volume; 26 unregulated venues, 9 July to 3 November 2019; lower and upper bounds stated by its authors.</div>
+      <div class="cheat-item"><strong>The industry estimate.</strong> About 95 percent of one aggregator's figure for one asset; 81 venues, four days, 10 with real volume. Reported, not peer reviewed.</div>
+      <div class="cheat-item"><strong>Why both stand.</strong> Different denominators, samples, windows and methods. Neither is the wash rate; keep both, each with its setup.</div>
+      <div class="cheat-item"><strong>The rank trap.</strong> Weight by reported volume and the washed venue climbs from 52.7 to 78.8 percent on the bench while its honest share never moves.</div>
+      <div class="cheat-item"><strong>The nuance.</strong> Weighting by volume is right when the volume is real. Screen the sources first, then weight what survives.</div>
+      <div class="cheat-item"><strong>The word.</strong> "Reported", with by whom, beside every volume figure. A table without a provenance column is not finished.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Leader session 3, one asset, many prices. There is no consolidated tape, so four venues give four last prints at the same moment, some of them stale. Four defensible ways to reconcile them give four levels, and the choice of method is a decision the report has to state.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Leader session 2 of 6 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="a1-there-is-no-close-price.html">← Prev: Leader session 1 · There is no close price</a>
+        <a href="a3-one-asset-many-prices.html">Next: Leader session 3 · One asset, many prices →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var pairSel = document.getElementById("cra2-pair");
+  var shareSel = document.getElementById("cra2-share");
+  var out = document.getElementById("cra2-out");
+  var verdict = document.getElementById("cra2-verdict");
+  var self = document.getElementById("cra2-self");
+  var NAMES = { "11": "Tape A", "101": "Tape B", "2024": "Tape C", "7": "Tape D", "55555": "Tape E" };
+
+  function pct(x) { return (x * 100).toFixed(1) + "%"; }
+  function rankOf(w) { return w > 0.5 ? 1 : 2; }
+
+  /* the honest band, once, before any washed tape exists; each pair's ladder is cached */
+  var cal = CM.calibrate();
+  var cache = {};
+  function ladderFor(s) {
+    if (!cache[s]) cache[s] = CM.ladder({ seedA: s, seedB: s + 1, k: 2, cal: cal });
+    return cache[s];
+  }
+
+  function render() {
+    var s = Number(pairSel.value), i = Number(shareSel.value);
+    var L = ladderFor(s), r = L.rows[i];
+    var honestRank = rankOf(r.weightHonest);
+    var verdictTxt = r.flagged ? '<b class="cra2-fire">flagged</b>, ' + r.count + " of 3 fired" : "honest, " + r.count + " of 3 fired";
+
+    var html = '<table class="sql-table"><thead><tr><th>Venue B, ' + NAMES[String(s)] + ", " + Math.round(r.share * 100) + " percent wash</th><th>Value</th></tr></thead><tbody>";
+    html += "<tr><td>Honest weight in the pair</td><td><b>" + pct(r.weightHonest) + "</b></td></tr>";
+    html += "<tr><td>Weight by reported volume</td><td><b" + (r.share > 0 ? ' class="cra2-fire"' : "") + ">" + pct(r.weightByReported) + "</b></td></tr>";
+    html += "<tr><td>Rank by reported volume</td><td><b>" + r.rankByReported + " of 2</b> (honest rank " + honestRank + ")</td></tr>";
+    html += "<tr><td>Detector verdict, two of three at k = " + L.k + "</td><td>" + verdictTxt + "</td></tr>";
+    html += "</tbody></table>";
+
+    html += '<table class="sql-table"><thead><tr><th>Wash share</th><th>Honest weight</th><th>Weight by reported</th><th>Rank by reported</th><th>Verdict</th></tr></thead><tbody>';
+    L.rows.forEach(function (row, j) {
+      var b0 = j === i ? "<b>" : "", b1 = j === i ? "</b>" : "";
+      html += "<tr" + (j === i ? ' class="cra2-now"' : "") + "><td>" + b0 + Math.round(row.share * 100) + " percent" + b1 + "</td><td>" + pct(row.weightHonest) + "</td><td>" + b0 + pct(row.weightByReported) + b1 + "</td><td>" + row.rankByReported + "</td><td>" + (row.flagged ? '<span class="cra2-fire">flagged</span>' : "honest") + "</td></tr>";
+    });
+    html += "</tbody></table>";
+    out.innerHTML = html;
+
+    var msg;
+    if (r.share === 0) {
+      msg = "No washer on venue B. Its honest weight and its weight by reported volume are the same, " + pct(r.weightHonest)
+        + ", and the detectors fire " + r.count + " of 3. When the volume is real, weighting by it is the right thing to do.";
+    } else {
+      msg = "At " + Math.round(r.share * 100) + " percent wash, venue B's honest weight is still " + pct(r.weightHonest)
+        + "; by reported volume it is " + pct(r.weightByReported) + ", rank " + r.rankByReported + " of 2. The detectors fire "
+        + r.count + " of 3" + (r.flagged ? " and flag it, so the table promotes the venue the detectors flag." : ".");
+      if (honestRank === 2 && r.rankByReported === 1) msg += " The washer moved B from rank 2 to rank 1 without one more honest trade.";
+      else if (honestRank === 1) msg += " B was already the larger honest venue, so its rank cannot move; its weight did.";
+      else msg += " Not enough yet to overtake venue A, but the weight is already moving.";
+    }
+    verdict.textContent = msg;
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, so the weights above are the weights any correct run gives. The honest band was measured on 40 honest venues before any washed tape existed. The venues are constructed; nothing here is a real market or a price of anything."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  pairSel.addEventListener("change", render);
+  shareSel.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #cra2-rank .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 18rem; }
+  #cra2-rank table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #cra2-rank .cra2-fire { color: var(--amber-ink-text); }
+  #cra2-rank tr.cra2-now td { background: var(--indigo-50); }
+</style>
+</body>
+</html>

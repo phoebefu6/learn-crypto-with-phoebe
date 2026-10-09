@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Practitioner session 8 of 10. Restating a tape into a reference unit is a time join between two series on two clocks. Harrowgate's constructed depeg, the as-of join that matches each print to the unit's latest level, the hour the quoted tape hides, and the three tables that let a restatement be redone.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="Depeg events in the tape - learn crypto with phoebe">
+<meta property="og:description" content="Practitioner session 8 of 10. On a constructed 6 percent depeg the quoted tape never moves more than 0.046 percent in an hour. Restated print by print through an as-of join, the same tape falls 3.96 percent in hour 10.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/p8-depeg-events-in-the-tape.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Depeg events in the tape - learn crypto with phoebe">
+<meta name="twitter:description" content="Each print takes the latest unit level at or before it, within a tolerance. Store the level it used, or the restatement can never be redone.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Practitioner session 8 · Depeg events in the tape - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Practitioner session 8 of 10</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Practitioner session 8 of 10</div>
+    <h1>Depeg events in the <span class="accent">tape</span></h1>
+    <p class="sub">Every print on the tape is quoted in a unit, and on this kind of feed that unit is itself a traded thing designed to sit at 1.000 against a reference. Restating a day's tape into the reference is therefore not a conversion factor applied at the end. It is a join between two time series that keep their own clocks: the prints, and the unit's own level. Tonight you build that join the way a data engineer has to, as-of and backward with a tolerance, in integers, on Harrowgate's constructed tape. Then you watch a constructed depeg do something the quoted tape cannot show: at a 6 percent depth the quoted tape never moves more than 0.046 percent in an hour, and the restated tape falls 3.96 percent in one. Nothing here is a real unit, a real asset or a price of anything.</p>
+    <div class="chip-row">
+      <span class="chip level">🔧 Practitioner track</span>
+      <span class="chip audience">Data engineers who own the restatement job</span>
+      <span class="chip audience">Analysts who report in a reference unit</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-17 · The as-of join</span>
+      <span class="a3" style="flex:3">17-30 · The hidden hour and the schema</span>
+      <span class="a4" style="flex:4">30-45 · Build-along and Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Harrowgate has to restate yesterday, and the unit slipped</h2>
+    </div>
+    <p class="lede">Harrowgate is a constructed data team at a fund-administration firm. Its daily reference level is published in a reference unit, while every venue it reads quotes in a different unit, one designed to track the reference at 1.000. Yesterday that unit slipped for most of the day. The request on the team's desk is short: restate the whole day's tape into the reference unit, show the hour it moved, and make sure the same answer can be produced again next year if an auditor asks. Leader session 4 explains why the restated number is the one the reader needs. Tonight is how it is built, and what has to be kept so it can be built again.</p>
+
+    <div class="legend">
+      <span class="pill">Live = worked through in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> The restatement rule written as integer arithmetic, so that a rerun gives the same tick. The reason the join between prints and unit levels is as-of and backward rather than exact-time, drawn print by print, with what happens when the unit feed goes quiet. A constructed depeg run in this page as an hourly table in both units, where the hour the quoted tape hides is printed in plain sight. A storage schema of three tables with the as-of key and an out-of-band flag. And a pandas build-along with a test that the restatement never touches the quoted series.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Why a depeg is a storage problem first<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A depeg looks like a market event and arrives as a data event. The venue's tape keeps printing in the quoting unit, at prices that barely move, because the asset did not move against the unit. What moved was the unit, and the unit's level is not on the tape at all. It comes from a second source, on its own clock, at its own grain. Every restated number is therefore the product of two observations made at two different moments, and the question "which unit level did this print use?" has an answer only if somebody stored it.</p>
+        <p>That is why the engineering here is mostly about time and storage rather than arithmetic. The multiplication is one line. Deciding which level each print meets, what happens when the right level has not arrived, and what has to be kept so the multiplication can be redone with a corrected level, is the job.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>Harrowgate's first restatement used one figure for the whole day, the unit's daily average, because that was the number its reference feed published. On the constructed depeg, a 10:00 print and a 16:00 print were put on the same ruler when the ruler had moved between them by several percent. The restated day was smooth, plausible and wrong in every hour that mattered. Harrowgate is constructed; restating at the wrong grain is a common way to get a calm-looking wrong answer.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The words that keep coming back<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Quoting unit.</strong> What the venue's prices are expressed in. Here a traded thing designed to sit at 1.000 against the reference.</li>
+          <li><strong>Reference unit.</strong> What the report is stated in, and what the reader settles in.</li>
+          <li><strong>Unit level.</strong> The quoting unit's value in the reference, as an integer in millionths. One level per minute on the constructed path, stamped at the start of the minute.</li>
+          <li><strong>Restate.</strong> Multiply a quoted price by the unit level that applied at that print's moment, and round in a stated way.</li>
+          <li><strong>As-of join.</strong> Match each row of one series to the latest row of another at or before it. Also called a backward or point-in-time join.</li>
+          <li><strong>Tolerance.</strong> How old a matched unit level may be before it is refused. A decision, written down, set from the unit series' own grain.</li>
+          <li><strong>Band.</strong> How far from 1.000 the unit may sit before the report says so. Wider than the unit's ordinary jitter, which is a thousandth on the constructed path.</li>
+          <li><strong>Depth.</strong> How far the constructed unit falls during the declared depeg: 0, 3, 6 or 12 percent in the widget.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers the restatement rule and the as-of join</span>
+      <h2>Restating a tape is a time join</h2>
+      <span class="tag concept">14 min live</span>
+    </div>
+    <p class="lede">Every print is quoted in the unit. The restated price is the quoted price times the unit's level at that print's moment. That sentence hides two decisions: what "at that moment" means when the unit series has its own clock, and how the product is rounded back into ticks. Get either wrong and the restated tape is still a tidy column of numbers, which is what makes this kind of error survive review.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn timelines of the constructed Tape A from 11:58 to 12:03. Above, eleven prints on the venue's clock as dots. Below, the quoting unit's level as one box per minute, stamped at the start of each minute, with the 12:01 box drawn empty as if that level never arrived. An arrow runs from every print down to the latest unit level at or before it. The 12:00:39 print, quoted 100.009, joins the 12:00 level and restates to 94.025 reference units at a 6 percent depeg. The one print inside 12:01 is drawn in the warm colour: with the 12:01 level missing, its backward join reaches 12:00, past the tolerance, so it gets a null and a stale flag rather than the old level.">
+        <defs>
+          <filter id="crp8aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="41" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp8aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp8aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp8aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp8aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp8aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp8aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp8aV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp8aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp8aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp8aH" x="30" y="26">PRINTS ON THE VENUE'S CLOCK, TAPE A, 11:58 TO 12:03</text>
+
+        <g filter="url(#crp8aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- doodle anchor: a small clock -->
+          <circle cx="836" cy="28" r="12" fill="#FFFFFF"/>
+          <path d="M836 28 L836 20 M836 28 L842 31" stroke="#5B2A86"/>
+
+          <!-- upper axis: prints, x = 60 + 2.6 x seconds after 11:58 -->
+          <path d="M60 96 L840 96"/>
+          <path d="M60 88 L60 104 M216 88 L216 104 M372 88 L372 104 M528 88 L528 104 M684 88 L684 104 M840 88 L840 104" stroke="#9C7FBF"/>
+          <path d="M473 60 L473 86" stroke="#5B2A86" stroke-width="1.4" stroke-dasharray="3 4"/>
+
+          <!-- as-of arrows: each print to the latest level at or before it -->
+          <path d="M141 104 L62 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+          <path d="M164 104 L64 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+          <path d="M190 104 L66 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+          <path d="M351 104 L218 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+          <path d="M473 104 L376 234" stroke-width="2.2" marker-end="url(#crp8aAr)"/>
+          <path d="M502 104 L380 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+          <path d="M518 104 L384 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+          <path d="M596 104 L370 234" stroke="#B7791F" stroke-width="2.2" stroke-dasharray="6 5" marker-end="url(#crp8aAr)"/>
+          <path d="M718 104 L686 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+          <path d="M772 104 L688 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+          <path d="M804 104 L690 234" stroke="#9C7FBF" stroke-width="1.4" marker-end="url(#crp8aAr)"/>
+
+          <!-- the prints -->
+          <circle cx="141" cy="96" r="5" fill="#5B2A86"/>
+          <circle cx="164" cy="96" r="5" fill="#5B2A86"/>
+          <circle cx="190" cy="96" r="5" fill="#5B2A86"/>
+          <circle cx="351" cy="96" r="5" fill="#5B2A86"/>
+          <circle cx="473" cy="96" r="7" fill="#3A1A58"/>
+          <circle cx="502" cy="96" r="5" fill="#5B2A86"/>
+          <circle cx="518" cy="96" r="5" fill="#5B2A86"/>
+          <circle cx="596" cy="96" r="8" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.6"/>
+          <circle cx="718" cy="96" r="5" fill="#5B2A86"/>
+          <circle cx="772" cy="96" r="5" fill="#5B2A86"/>
+          <circle cx="804" cy="96" r="5" fill="#5B2A86"/>
+
+          <!-- lower axis: unit levels, one per minute -->
+          <path d="M60 250 L840 250" stroke="#9C7FBF"/>
+          <rect x="45" y="239" width="30" height="22" rx="3" transform="rotate(-2 60 250)" fill="#FFFFFF"/>
+          <rect x="45" y="239" width="30" height="22" rx="3" transform="rotate(-2 60 250)" fill="url(#crp8aHc)"/>
+          <rect x="201" y="239" width="30" height="22" rx="3" transform="rotate(1.5 216 250)" fill="#FFFFFF"/>
+          <rect x="201" y="239" width="30" height="22" rx="3" transform="rotate(1.5 216 250)" fill="url(#crp8aHc)"/>
+          <rect x="357" y="239" width="30" height="22" rx="3" transform="rotate(-1 372 250)" fill="#FFFFFF" stroke-width="2.4"/>
+          <rect x="357" y="239" width="30" height="22" rx="3" transform="rotate(-1 372 250)" fill="url(#crp8aHc)" stroke-width="2.4"/>
+          <rect x="513" y="239" width="30" height="22" rx="3" transform="rotate(2 528 250)" fill="#FBF3E2" stroke="#B7791F" stroke-dasharray="5 4"/>
+          <rect x="669" y="239" width="30" height="22" rx="3" transform="rotate(-1.5 684 250)" fill="#FFFFFF"/>
+          <rect x="669" y="239" width="30" height="22" rx="3" transform="rotate(-1.5 684 250)" fill="url(#crp8aHc)"/>
+          <rect x="825" y="239" width="30" height="22" rx="3" transform="rotate(1 840 250)" fill="#FFFFFF"/>
+          <rect x="825" y="239" width="30" height="22" rx="3" transform="rotate(1 840 250)" fill="url(#crp8aHc)"/>
+
+          <!-- the two worked cases -->
+          <rect x="30" y="340" width="400" height="70" rx="8" transform="rotate(-0.4 230 375)" fill="#FFFFFF"/>
+          <rect x="450" y="340" width="410" height="70" rx="8" transform="rotate(0.4 655 375)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+        </g>
+
+        <text class="crp8aA" x="410" y="52">the 12:00:39 print, quoted 100.009</text>
+        <text class="crp8aS" x="47" y="76">11:58</text>
+        <text class="crp8aS" x="203" y="76">11:59</text>
+        <text class="crp8aS" x="359" y="76">12:00</text>
+        <text class="crp8aS" x="515" y="76">12:01</text>
+        <text class="crp8aS" x="671" y="76">12:02</text>
+        <text class="crp8aS" x="827" y="76">12:03</text>
+
+        <text class="crp8aS" x="47" y="282">11:58</text>
+        <text class="crp8aS" x="203" y="282">11:59</text>
+        <text class="crp8aS" x="359" y="282">12:00</text>
+        <text class="crp8aS" x="515" y="282">12:01</text>
+        <text class="crp8aS" x="671" y="282">12:02</text>
+        <text class="crp8aS" x="827" y="282">12:03</text>
+        <text class="crp8aB" x="483" y="300">no level arrived</text>
+
+        <text class="crp8aH" x="30" y="326">UNIT LEVELS, ONE PER MINUTE, DRAWN AS IF 12:01 NEVER ARRIVED</text>
+
+        <text class="crp8aL" x="44" y="362">As-of join, direction backward</text>
+        <text class="crp8aS" x="44" y="380">each print takes the latest unit level at or before its own time</text>
+        <text class="crp8aA" x="44" y="398">6 percent depeg: 100.009 quoted x u(12:00) = 94.025 reference</text>
+
+        <text class="crp8aB" x="464" y="362">If the 12:01 level never arrived</text>
+        <text class="crp8aS" x="464" y="380">the 12:01 print reaches back to 12:00, past the tolerance</text>
+        <text class="crp8aS" x="464" y="398">so it gets a null and a stale flag, never the old level silently</text>
+
+        <text class="crp8aN" x="30" y="434">Two clocks, one rule: each print takes the latest unit level at or before it, within a tolerance.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - no print ever lands exactly on a unit stamp, so the join is to the latest level before it; when that level is too old, the honest answer is a null with a flag</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The rule, in integers<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The engine running in this page holds every quoted price as an integer number of ticks (100,009 ticks reads as 100.009) and every unit level as an integer number of millionths of the reference (a level of exactly 1.000 is 1,000,000). The restated price is computed as <code>floor(px × level / 1,000,000 + 0.5)</code>: multiply, divide back into ticks, round half up. In integer-only form that is <code>(px × level + 500,000) // 1,000,000</code>, and the two agree for every positive price.</p>
+        <p>Three reasons to insist on this form. A rerun next year gives the same tick, on any machine, in any language, because nothing passed through a float. The rounding rule is stated, so a restated tick that differs by one from someone else's has an explanation rather than a mystery. And the product fits comfortably in a 64-bit integer: a price around 100,000 ticks times a level around 1,000,000 is around 10<sup>11</sup>.</p>
+        <p>Which level is "the" level for a print? On the constructed path the unit has one level per minute, stamped at the start of the minute, and a print at second <em>t</em> uses the level of minute <em>floor(t / 60)</em>. That is an as-of join written as integer division: the latest stamp at or before the print. It works here because the constructed unit series has a level for every minute. A real unit feed will not be that tidy, and the general form of the join has to say what happens when it is not.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Why as-of, and why backward<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p><strong>An exact-time join returns almost nothing.</strong> The unit series ticks on its own clock, at minute starts; the prints arrive on the venue's clock, at whatever second a trade happened. The 12:00:39 print has no unit level stamped 12:00:39. Joined on equal timestamps, almost every print on the tape would get a null, and the job would either fail loudly or, worse, drop the unmatched rows and restate the handful left.</p>
+        <p><strong>A nearest-time join reads the future.</strong> Matching each print to the closest unit stamp in either direction sends a 12:00:39 print to the 12:01 level, a value that did not exist when the trade happened. In a calm hour the difference is a thousandth. On a depeg hour, when the unit is falling every minute, it systematically restates the morning with the afternoon's ruler. A backtest built that way has looked ahead, and nothing in the output says so.</p>
+        <p><strong>Backward as-of is the only one of the three that uses information available at the print.</strong> Each print takes the latest unit level at or before its own time, and only if that level is younger than a tolerance. The direction is not a style choice; it is the statement that the restatement used what was known at the moment the trade happened.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>When the unit feed goes quiet<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Figure A draws the 12:01 level as missing. The engine's path has every minute, so this is the drawing of a fault, not of the constructed run. With the level missing, a plain backward join quietly reaches past 12:01 to 12:00 and restates the 12:01 print with a level from the minute before. On a calm day nobody would ever see it. On a depeg morning a stale level is exactly wrong in the direction the unit is moving.</p>
+        <p>A tolerance turns that silence into a decision. Set it from the unit series' own grain: on a series stamped every minute, a print can be at most 59 seconds after the latest stamp, so anything older than about a minute means a level is missing, not late. Rows past the tolerance get a null restated price and a stale flag. Some teams then fill them deliberately with the older level and a second flag that says so; others leave them null. Either is defensible when it is written down. Filling silently is not.</p>
+        <div class="callout example">
+          <span class="ex-pill">Real world</span>
+          <p>One public index rulebook, read at source and left unnamed, faces the same question for its own inputs: a partition whose data could not be retrieved in time is excluded and the remaining weights are adjusted, and when there are no trades in the whole window, "the price is not published". It does not carry an old number forward and present it as current. The restatement job inherits the same professional norm for the same reason.</p>
+        </div>
+        <p>What counts as "late" versus "missing" on a live feed, and how a job decides that a slice has fully arrived, is a watermark question. The stream mechanics are taught in <a href="https://phoebefu6.github.io/learn-streaming-data-with-phoebe/">learn-streaming-data-with-phoebe</a>; here the point is the policy.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers the depeg hour and the storage schema</span>
+      <h2>The hour the quoted tape hides</h2>
+      <span class="tag concept">13 min live</span>
+    </div>
+    <p class="lede">The constructed unit path is declared, not discovered. On every tape it sits at 1.000 give or take a thousandth of jitter. From minute 600, 10:00, it falls linearly over 90 minutes to its depth, holds there for 120 minutes, and recovers linearly over 240, back at 1.000 by 17:30. The widget restates the whole day through the rule above, then reads the last print of every hour in both units. Nothing is smoothed and no print is dropped. The quoted column and the restated column are the same 3,000 prints.</p>
+
+    <div class="wk" id="crp8-restate">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">A constructed one-day tape and a constructed quoting unit, both running in this page. Pick a tape and a depeg depth; every print is restated through its own minute's unit level and the last print of each hour is read in both units. Nothing here is a real market, a real unit or a price of anything.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="crp8-seed">Which constructed tape</label>
+        <select class="sql-code" id="crp8-seed">
+          <option value="11">Tape A</option>
+          <option value="101">Tape B</option>
+          <option value="2024">Tape C</option>
+          <option value="7">Tape D</option>
+          <option value="55555">Tape E</option>
+        </select>
+        <label class="sql-label" for="crp8-depth">How far the quoting unit falls from 10:00</label>
+        <select class="sql-code" id="crp8-depth">
+          <option value="0">0 percent, no depeg</option>
+          <option value="0.03">3 percent</option>
+          <option value="0.06" selected>6 percent</option>
+          <option value="0.12">12 percent</option>
+        </select>
+        <div id="crp8-out"></div>
+        <p class="sql-note" id="crp8-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="crp8-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Read the hourly table at 6 percent<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Start on Tape A at a 6 percent depth. Run your eye down the "last quoted" column first. It wanders around 100.000 all day, and the summary line under the table names its largest hour-over-hour move: <strong>-0.046 percent, at hour 4</strong>, six hours before anything happens to the unit. That is ordinary trading noise on the constructed tape.</p>
+        <p>Now the "restated move" column. Flat until 09:00, then the shaded rows begin. The largest move of the day is <strong>-3.96 percent, at hour 10</strong>, the hour the unit is falling, and the unit bottoms at <strong>0.939016</strong>. The recovery hours are visible too, as a run of positive moves after the hold. None of that is in the quoted column, because none of it happened to the asset against the unit.</p>
+        <p>Then find the first print at or after noon, which the summary line prints in full. It lands at <strong>12:00:39</strong>, quoted at <strong>100.009</strong>, and restates to <strong>94.025</strong> reference units. That single row is Figure A's worked case, now computed rather than drawn: the print, the unit level of its own minute, and the integer product.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Move the depth, then set it to zero<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Switch the depth to 3 and then to 12 percent. The unit bottoms at 0.969016 and 0.879016, and the restated tape's worst hour becomes <strong>-1.99 percent</strong> and <strong>-7.89 percent</strong>, both at hour 10. The quoted summary does not change at all: -0.046 percent at hour 4 at every depth. <strong>The quoted tape never moves more than 0.046 percent in an hour at any depth, because the move is in the unit.</strong> A monitor on the quoted tape is not broken on a depeg day; it is measuring correctly against a ruler that is moving with it.</p>
+        <p>Now set the depth to 0. There is no depeg, the unit never leaves its thousandth and bottoms at 0.999000, and still the restated tape's worst hour is <strong>-0.155 percent</strong>, at hour 21, against -0.046 quoted. The noon print restates to 100.025 rather than 100.009, purely from the jitter. Restating adds the unit's own noise to every number, so a band and any alert threshold on the restated tape have to sit wider than that noise, or they fire on an ordinary evening.</p>
+        <p>Switch tapes and the quoted figures change, because every constructed tape has its own noise. The shape does not: the quoted summary is identical at every depth on the same tape, and the restated summary follows the depth into hour 10.</p>
+      </div>
+    </details>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 504" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A hand-drawn storage schema of three tables. Top left, prints_quoted, observed and append only: trade_id as primary key, venue_ts on the venue's clock, side, size_micro, px_ticks as quoted, quote_unit, received_ts. Top right, unit_levels, observed per minute: unit and level_ts as the key, level_micro, source, method, received_ts. Between them, in the warm colour, the as-of join, backward: the latest level_ts at or before venue_ts, same unit, age within the tolerance, and a null with a stale flag when too old. An arrow runs down to the derived restated_view, one row per print: trade_id as a foreign key, px_ticks copied and never changed, level_ts_used highlighted as the kept as-of match, level_micro_used, level_age_s, px_ref_ticks by integer rounding, a unit_out_of_band flag, and rule_version.">
+        <defs>
+          <filter id="crp8bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="43" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp8bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp8bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp8bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp8bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp8bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp8bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp8bV { font: 800 16px Inter, sans-serif; fill: #3A1A58; }
+          .crp8bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp8bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp8bH" x="30" y="26">THREE TABLES: TWO OBSERVED, ONE DERIVED BY AN AS-OF JOIN</text>
+
+        <g filter="url(#crp8bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- prints_quoted -->
+          <rect x="30" y="44" width="260" height="28" rx="4" transform="rotate(-0.4 160 58)" fill="#F4EFF9"/>
+          <rect x="30" y="72" width="260" height="154" rx="4" transform="rotate(0.3 160 149)" fill="#FFFFFF"/>
+          <path d="M34 94 L286 94 M34 116 L286 116 M34 138 L286 138 M34 160 L286 160 M34 182 L286 182 M34 204 L286 204" stroke="#CFC5DA" stroke-width="1.2"/>
+
+          <!-- unit_levels -->
+          <rect x="590" y="44" width="260" height="28" rx="4" transform="rotate(0.4 720 58)" fill="#F4EFF9"/>
+          <rect x="590" y="72" width="260" height="132" rx="4" transform="rotate(-0.3 720 138)" fill="url(#crp8bHc)"/>
+          <path d="M594 94 L846 94 M594 116 L846 116 M594 138 L846 138 M594 160 L846 160 M594 182 L846 182" stroke="#CFC5DA" stroke-width="1.2"/>
+
+          <!-- the as-of join -->
+          <rect x="330" y="92" width="220" height="88" rx="8" transform="rotate(-0.6 440 136)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <path d="M292 105 L326 116" stroke="#B7791F" marker-end="url(#crp8bAr)"/>
+          <path d="M588 105 L554 116" stroke="#B7791F" marker-end="url(#crp8bAr)"/>
+          <path d="M440 182 L440 258" marker-end="url(#crp8bAr)"/>
+
+          <!-- doodle anchor: the ruler that moves -->
+          <rect x="640" y="222" width="170" height="18" rx="2" transform="rotate(-2 725 231)" fill="#FFFFFF"/>
+          <path d="M658 223 L658 231 M676 222 L676 228 M694 222 L694 231 M712 221 L712 227 M730 221 L730 230 M748 220 L748 226 M766 220 L766 229 M784 219 L784 225" stroke="#5B2A86" stroke-width="1.4"/>
+
+          <!-- restated_view -->
+          <rect x="170" y="262" width="540" height="28" rx="4" transform="rotate(0.3 440 276)" fill="#F4EFF9"/>
+          <rect x="170" y="290" width="540" height="176" rx="4" transform="rotate(-0.2 440 378)" fill="#FFFFFF"/>
+          <rect x="173" y="334" width="534" height="22" rx="2" fill="#FBF3E2" stroke="#B7791F" stroke-width="2"/>
+          <rect x="173" y="422" width="534" height="22" rx="2" fill="#F4EFF9" stroke="none"/>
+          <path d="M174 312 L706 312 M174 378 L706 378 M174 400 L706 400 M174 422 L706 422 M174 444 L706 444" stroke="#CFC5DA" stroke-width="1.2"/>
+        </g>
+
+        <text class="crp8bH" x="42" y="63">prints_quoted</text>
+        <text class="crp8bS" x="170" y="63">append only</text>
+        <text class="crp8bL" x="42" y="87">trade_id</text><text class="crp8bS" x="170" y="87">PK</text>
+        <text class="crp8bL" x="42" y="109">venue_ts</text><text class="crp8bS" x="170" y="109">venue's clock</text>
+        <text class="crp8bL" x="42" y="131">side</text><text class="crp8bS" x="170" y="131">aggressor</text>
+        <text class="crp8bL" x="42" y="153">size_micro</text><text class="crp8bS" x="170" y="153">integer</text>
+        <text class="crp8bL" x="42" y="175">px_ticks</text><text class="crp8bS" x="170" y="175">integer, as quoted</text>
+        <text class="crp8bL" x="42" y="197">quote_unit</text><text class="crp8bS" x="170" y="197">which ruler</text>
+        <text class="crp8bL" x="42" y="219">received_ts</text><text class="crp8bS" x="170" y="219">your clock</text>
+
+        <text class="crp8bH" x="602" y="63">unit_levels</text>
+        <text class="crp8bS" x="726" y="63">observed, per minute</text>
+        <text class="crp8bL" x="602" y="87">unit</text><text class="crp8bS" x="726" y="87">PK</text>
+        <text class="crp8bL" x="602" y="109">level_ts</text><text class="crp8bS" x="726" y="109">PK, minute start</text>
+        <text class="crp8bL" x="602" y="131">level_micro</text><text class="crp8bS" x="726" y="131">integer</text>
+        <text class="crp8bL" x="602" y="153">source</text><text class="crp8bS" x="726" y="153">where it came from</text>
+        <text class="crp8bL" x="602" y="175">method</text><text class="crp8bS" x="726" y="175">how it was reconciled</text>
+        <text class="crp8bL" x="602" y="197">received_ts</text><text class="crp8bS" x="726" y="197">your clock</text>
+
+        <text class="crp8bB" x="344" y="114">AS-OF JOIN, BACKWARD</text>
+        <text class="crp8bS" x="344" y="132">latest level_ts &lt;= venue_ts</text>
+        <text class="crp8bS" x="344" y="150">same unit, age within tolerance</text>
+        <text class="crp8bS" x="344" y="168">too old: null and a stale flag</text>
+        <text class="crp8bA" x="452" y="226">writes one row per print</text>
+
+        <text class="crp8bH" x="184" y="281">restated_view</text>
+        <text class="crp8bS" x="380" y="281">derived, rebuildable at any time</text>
+        <text class="crp8bL" x="184" y="305">trade_id</text><text class="crp8bS" x="380" y="305">FK to prints_quoted</text>
+        <text class="crp8bL" x="184" y="327">px_ticks</text><text class="crp8bS" x="380" y="327">copied from the print, never changed</text>
+        <text class="crp8bL" x="184" y="349">level_ts_used</text><text class="crp8bB" x="380" y="349">the as-of match, kept</text>
+        <text class="crp8bL" x="184" y="371">level_micro_used</text><text class="crp8bS" x="380" y="371">the ruler that was applied</text>
+        <text class="crp8bL" x="184" y="393">level_age_s</text><text class="crp8bS" x="380" y="393">venue_ts minus level_ts_used</text>
+        <text class="crp8bL" x="184" y="415">px_ref_ticks</text><text class="crp8bS" x="380" y="415">(px_ticks x level_micro + 500,000) // 1,000,000</text>
+        <text class="crp8bL" x="184" y="437">unit_out_of_band</text><text class="crp8bS" x="380" y="437">flag: level outside the written band</text>
+        <text class="crp8bL" x="184" y="459">rule_version</text><text class="crp8bS" x="380" y="459">tolerance, band and rounding used</text>
+
+        <text class="crp8bS" x="30" y="330">The two tables above</text>
+        <text class="crp8bS" x="30" y="346">are observations:</text>
+        <text class="crp8bS" x="30" y="362">append only, kept</text>
+        <text class="crp8bS" x="30" y="378">forever.</text>
+
+        <text class="crp8bS" x="722" y="330">rule_version names the</text>
+        <text class="crp8bS" x="722" y="346">tolerance, band and</text>
+        <text class="crp8bS" x="722" y="362">rounding that built</text>
+        <text class="crp8bS" x="722" y="378">each row.</text>
+
+        <text class="crp8bN" x="30" y="490">Store the quoted print and the unit level as observed; the restated view is a rule applied to both.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - keep the two observed tables forever and the restated view is a rule you can rerun; keep only the restated view and nobody can ever check it</figcaption>
+    </figure>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>What to store so a restatement can be redone<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p><strong>The prints, as quoted.</strong> Append only, at print grain, with the quoting unit named on every row. The restatement must never write back into this table. If a test can detect a single changed quoted tick after a restatement run, the pipeline has a bug that will one day destroy the only observation.</p>
+        <p><strong>The unit levels, as observed.</strong> One row per unit per stamp, as integers, with where the level came from and how it was reconciled. The unit has its own venues and its own many prices, so its level is a reconciled number exactly like the asset's in session 3, and it can be corrected. A correction is a new row with a later receipt time, never an overwrite.</p>
+        <p><strong>The restated view, with its as-of key.</strong> For every print: the unit stamp it actually used, the level, the age of that level, the restated tick, the out-of-band flag and the rule version. The <code>level_ts_used</code> column is what makes the view auditable: an auditor can see exactly which ruler each print met, and a rerun with a corrected level can be diffed row by row against the original. The flag marks every row where the unit sat outside the band the team wrote down, wider than its ordinary jitter, so a reader of any downstream number can tell a depeg-hour row from an ordinary one.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Where serious people disagree<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>One camp materialises the restated view as a table, partitioned by day, because downstream jobs read it constantly and recomputing a join over every print on every read is wasteful. On this view the rule version and the unit stamp used are stored per row, and a correction to the unit's level triggers a rebuild of the affected days, recorded as a new version.</p>
+        <p>The other camp keeps restatement as a view that is computed at read time and never stored, on the grounds that a stored derived table is a second source of truth that will drift from its inputs the first time someone forgets a rebuild. On this view the only stored things are observations, and the cost of recomputing is the price of never being out of date.</p>
+        <p>Both camps keep the two observed tables forever and both can name the unit stamp each print used. The disagreement is about where the derived rows live, and it matters most when a unit level is corrected after a report has gone out: the first camp has to find and rebuild, the second has to explain why last month's report no longer reproduces from today's view.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · build-along</span>
+      <h2>Build the restatement, then prove it touched nothing it should not</h2>
+      <span class="tag build">15 min hands on</span>
+    </div>
+    <p class="lede">Six steps with pandas, on a tape as a CSV with columns t in seconds, side, size and px in integer ticks, plus the quoting unit's level as a second CSV with a minute-start time and the level as an integer in millionths. On the constructed Tape A at a 6 percent depth the widget's answers are a worst quoted hour of -0.046 percent at hour 4 and a worst restated hour of -3.96 percent at hour 10. Off the default seed, and on any tape of your own, your numbers will differ; the rule and the tests do not. Run the code in a scratch folder, never where the outputs could land in a repository.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Load both series on their own clocks</h4>
+        <p>Two files, two clocks. Convert both to timestamps, sort both, and keep a copy of the quoted prices to test against at the end.</p>
+        <div class="prompt-box good"><span class="label">python · two series</span>import pandas as pd
+MICRO = 1_000_000
+prints = pd.read_csv("tape.csv")           # t (seconds), side, size, px (integer ticks, quoted)
+units  = pd.read_csv("unit_levels.csv")    # minute_start (seconds), level_micro (integer)
+prints["ts"] = pd.to_datetime(prints["t"], unit="s")
+units["level_ts"] = pd.to_datetime(units["minute_start"], unit="s")
+prints = prints.sort_values("ts", kind="stable").reset_index(drop=True)
+units  = units.sort_values("level_ts").reset_index(drop=True)
+assert units["level_ts"].is_unique          # one level per stamp, or the join is ambiguous
+quoted_before = prints["px"].copy()         # the observation, kept for the test in step 6</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Join as-of, backward, with a tolerance</h4>
+        <p>Each print takes the latest unit level at or before it. The tolerance comes from the unit series' grain: stamped every minute, so a level older than that means one is missing. With several quoting units, add <code>by="unit"</code> so a print never meets another unit's level.</p>
+        <div class="prompt-box good"><span class="label">python · merge_asof</span>TOL = pd.Timedelta("60s")                  # the unit series stamps every minute
+j = pd.merge_asof(prints, units[["level_ts", "level_micro"]],
+                  left_on="ts", right_on="level_ts",
+                  direction="backward", tolerance=TOL)
+j["level_age_s"] = (j["ts"] - j["level_ts"]).dt.total_seconds()
+j["unit_stale"]  = j["level_micro"].isna()  # past the tolerance: no level, said so
+print(j["unit_stale"].sum(), "prints with no unit level inside the tolerance")
+print(j["level_age_s"].max(), "seconds, the oldest level any print used")</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Restate in integers, nulls where the join refused</h4>
+        <p>Nullable integers carry the refusal through the arithmetic: a stale row stays null instead of becoming a number that looks observed. The rounding is half up, stated once.</p>
+        <div class="prompt-box good"><span class="label">python · integer restatement</span>lvl = j["level_micro"].astype("Int64")
+j["px_ref"] = (j["px"].astype("Int64") * lvl + MICRO // 2) // MICRO
+noon = j[j["t"] &gt;= 43200].iloc[0]
+print(noon["ts"], noon["px"], noon["level_micro"], noon["px_ref"])   # the first print at or after noon</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Flag the unit when it leaves its band</h4>
+        <p>The band is a written-down decision, set wider than the unit's ordinary jitter of a thousandth. Put the value in the rule version so every row says which band judged it.</p>
+        <div class="prompt-box good"><span class="label">python · out-of-band flag</span>JITTER = MICRO // 1000                      # the constructed unit's ordinary noise
+BAND = 5 * JITTER                           # your decision; write it down, do not discover it
+j["unit_out_of_band"] = (lvl - MICRO).abs().gt(BAND).fillna(False)
+j["rule_version"] = f"asof-backward-{int(TOL.total_seconds())}s|band-{BAND}|half-up"
+print(j.loc[j["unit_out_of_band"], "ts"].agg(["min", "max"]))   # when the unit was out</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Hourly last print, in both units</h4>
+        <p>Take the last print row of each hour, then compute the hour-over-hour move in each unit. Avoid <code>resample().last()</code> here: it skips nulls column by column, so a stale last print would silently be replaced by an earlier one in the restated column only.</p>
+        <div class="prompt-box good"><span class="label">python · hourly moves</span>hour = j["ts"].dt.floor("h")
+last = j.groupby(hour).tail(1).set_index(hour[j.groupby(hour).tail(1).index])
+moves = last[["px", "px_ref"]].astype("float64").pct_change() * 100
+moves["band"] = last["unit_out_of_band"]
+print(moves.round(3))
+print("worst quoted hour:  ", moves["px"].abs().idxmax(), round(moves["px"].loc[moves["px"].abs().idxmax()], 3))
+print("worst restated hour:", moves["px_ref"].abs().idxmax(), round(moves["px_ref"].loc[moves["px_ref"].abs().idxmax()], 3))</div>
+      </div></div>
+      <div class="step"><div>
+        <h4>Test that the quoted series is unchanged, and that the view rebuilds</h4>
+        <p>Two assertions to keep in the job, not in a notebook. The first proves the restatement never wrote into the observation and never dropped or duplicated a print. The second proves the stored columns are enough to redo it.</p>
+        <div class="prompt-box good"><span class="label">python · the tests</span>assert len(j) == len(prints)                # merge_asof keeps every left row, exactly once
+pd.testing.assert_series_equal(j["px"], quoted_before, check_names=False)
+
+stored = j[["trade_id", "px", "level_ts", "level_micro", "px_ref", "rule_version"]] if "trade_id" in j else j
+redo = (stored["px"].astype("Int64") * stored["level_micro"].astype("Int64") + MICRO // 2) // MICRO
+pd.testing.assert_series_equal(redo, stored["px_ref"], check_names=False)
+print("quoted unchanged, restatement reproducible from what is stored")</div>
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>The habit to keep.</strong> When a number is restated, ask which unit level each row met and when that level was stamped. When a join is on time, ask which direction it looks and how far. When a derived table is stored, ask whether the observed tables beside it are enough to rebuild it, and whether a test proves the observation was not touched.</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">On the constructed 6 percent depeg, the quoted tape's worst hour is -0.046 percent while the restated tape's is -3.96 percent. Why does the quoted tape look calm?</p>
+      <div class="qopt">A · The venue stops printing during a depeg, so the quoted tape has fewer moves to show</div>
+      <div class="qopt">B · Hourly last prints smooth out the move, and minute bars would have shown it</div>
+      <div class="qopt">C · The prices are quoted in the unit that moved, so the asset barely moved against it; the move only appears once each print is multiplied by the unit's level</div>
+      <q class="qwhy">All 3,000 prints are still there and nothing is smoothed; the quoted and restated columns are the same prints. The quoted tape's -0.046 percent at hour 4 is ordinary noise from before the depeg and is identical at every depth. The move lives in the unit, which is a second series that is not on the tape.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">Why does the restatement join prints to unit levels as-of and backward, rather than on exactly equal timestamps?</p>
+      <div class="qopt">A · The two series run on different clocks, so almost no print shares a timestamp with a unit stamp; backward uses only the level known at the print, and a tolerance refuses levels that are too old</div>
+      <div class="qopt">B · An exact join is slower, and as-of is an optimisation that gives the same rows</div>
+      <div class="qopt">C · Backward and nearest give the same answer, so the direction is a matter of style</div>
+      <q class="qwhy">The 12:00:39 print has no unit level stamped 12:00:39; an exact join would leave almost every print unmatched. A nearest join would send it to the 12:01 level, a value that did not exist when it traded, which on a falling unit restates the morning with the afternoon's ruler. Backward as-of with a tolerance uses what was known, and says so when nothing recent enough was.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">An auditor asks Harrowgate to redo last year's depeg-day restatement with a corrected unit feed. What must have been stored for that to be possible?</p>
+      <div class="qopt">A · The restated prices only, since those are what the report used</div>
+      <div class="qopt">B · The quoted prints as published, the unit levels as observed with their source and stamps, and per restated row the unit stamp used, the level, the rule version and the flags</div>
+      <div class="qopt">C · The day's average unit level, so the whole tape can be multiplied by it again</div>
+      <q class="qwhy">Restated prices alone cannot be rechecked or rebuilt. A daily average puts a 10:00 print and a 16:00 print on the same ruler when the ruler moved between them. Keeping both observations, plus the as-of key and the rule version per row, lets a rerun with the corrected levels be diffed row by row against what was published.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">Before session 9</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">About forty minutes, on a join your own team already runs.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Find one time join and name its direction</h4>
+        <p>Any job that attaches a rate, a price, a status or a mapping to events by time. Write down whether it joins exactly, nearest or backward, what tolerance it uses, and what it does when nothing is recent enough. If the answer is "it fills from the last known value", find out whether anything records that it did.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Check that the key it used was kept</h4>
+        <p>For one derived number, try to name the exact row of the second series it was computed from. If you cannot, the derivation cannot be redone after a correction. Session 9 joins venue flows to chain records, where the same question about what was matched to what decides how much of the join can be trusted.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The restatement rule in integers</span><span class="note">Price in ticks times the unit's level in millionths, divided back and rounded half up; the rule the engine in this page runs.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The as-of join</span><span class="note">Backward, with a tolerance set from the unit series' grain; why exact-time returns almost nothing and nearest reads the future.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">A stale unit feed</span><span class="note">Past the tolerance: a null and a stale flag, or a deliberate fill with a second flag. Never a silent carry.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The hour the quoted tape hides</span><span class="note">On Tape A the quoted worst hour is -0.046 percent at every depth; restated it is -1.99, -3.96 and -7.89 percent at 3, 6 and 12 percent, all at hour 10. At zero depth, -0.155 from the jitter alone.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The storage schema</span><span class="note">Prints as quoted and unit levels as observed, kept forever; a restated view with the as-of key, level age, out-of-band flag and rule version.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The build-along and its tests</span><span class="note">merge_asof backward with a tolerance, integer restatement, hourly last print in both units, and tests that the quoted series is unchanged and the view rebuilds.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Stream mechanics behind the join</span><span class="note">Late versus missing data and watermarks, named tonight; taught in <a href="https://phoebefu6.github.io/learn-streaming-data-with-phoebe/">learn-streaming-data-with-phoebe</a>.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">The leader's four decisions</span><span class="note">Reference unit, storing both, the unit's own level, the band and flag. Leader session 4 is the view for the person who signs the restated number.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">Reconciling the unit's own level</span><span class="note">The unit has many prices too; the estimators and exclusion rules of session 3 apply to it unchanged.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Any real unit, depeg or price</span><span class="note">Out of scope. The unit path is constructed and declared, no real unit or event is named, and nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>Depeg events in the tape <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>The rule.</strong> px_ref = (px_ticks × level_micro + 500,000) // 1,000,000. Integers in, integers out, half up, stated once.</div>
+      <div class="cheat-item"><strong>The join.</strong> As-of, backward: each print takes the latest unit level at or before it. Never exact-time, never nearest.</div>
+      <div class="cheat-item"><strong>The tolerance.</strong> Set from the unit series' grain. Past it: null and a stale flag, or a deliberate fill with a second flag.</div>
+      <div class="cheat-item"><strong>The calm tape.</strong> Constructed 6 percent depeg: quoted worst hour -0.046 percent, restated -3.96 percent at hour 10. The move is in the unit.</div>
+      <div class="cheat-item"><strong>The jitter.</strong> At zero depth the restated worst hour is still -0.155 percent. Bands and alerts sit wider than the unit's noise.</div>
+      <div class="cheat-item"><strong>The two observations.</strong> Prints as quoted, unit levels as observed with source and method. Append only, kept forever.</div>
+      <div class="cheat-item"><strong>The as-of key.</strong> Store the unit stamp each print used, its age, the flag and the rule version. That is what makes a rerun diffable.</div>
+      <div class="cheat-item"><strong>The test.</strong> Row count unchanged, quoted series identical, restated column rebuilt from stored columns. In the job, not the notebook.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Practitioner session 9, joining exchange flows to chain data. Tonight both sides of the join were series you could trust to mean what they said. Session 9 joins a venue's reported flows to chain records, where a venue label is a reported attribute rather than a verified identity, measures how much of the join actually lands, and hands the chain side across to learn-web3-with-phoebe.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Practitioner session 8 of 10 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="p7-measuring-the-detector.html">← Prev: Practitioner session 7 · Measuring the detector</a>
+        <a href="p9-joining-exchange-flows-to-chain-data.html">Next: Practitioner session 9 · Joining exchange flows to chain data →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+  var seedSel = document.getElementById("crp8-seed");
+  var depthSel = document.getElementById("crp8-depth");
+  var out = document.getElementById("crp8-out");
+  var verdict = document.getElementById("crp8-verdict");
+  var self = document.getElementById("crp8-self");
+  var NAMES = { "11": "Tape A", "101": "Tape B", "2024": "Tape C", "7": "Tape D", "55555": "Tape E" };
+  var NOON = 43200;
+  var DEPEG_FROM = 10, DEPEG_TO = 17;   /* minute 600 to minute 1050: 10:00 to 17:30 */
+
+  function pctMove(x) {
+    var v = x * 100, d = Math.abs(v) >= 1 ? 2 : 3;
+    return (v >= 0 ? "+" : "") + v.toFixed(d) + "%";
+  }
+  function two(n) { return (n < 10 ? "0" : "") + n; }
+  function clock(t) { return two(Math.floor(t / 3600)) + ":" + two(Math.floor(t % 3600 / 60)) + ":" + two(t % 60); }
+  function px(t) { return (t / 1000).toFixed(3); }
+  function lvl(m) { return (m / CM.MICRO).toFixed(6); }
+  function depthTxt(d) { return Math.round(d * 100) + " percent"; }
+
+  var tapes = {};
+  function run(seed, depth) {
+    if (!tapes[seed]) tapes[seed] = CM.makeTape({ seed: seed });
+    var tape = tapes[seed];
+    var path = CM.unitPath({ seed: seed, depth: depth });
+    var restated = CM.restate(tape, path);
+    var ext = CM.hourlyExtremes(restated);
+    var low = Math.min.apply(null, path);
+    var noon = null, last = {}, order = [];
+    for (var i = 0; i < restated.length; i++) {
+      var r = restated[i];
+      if (noon === null && r.t >= NOON) noon = r;
+      var h = Math.floor(r.t / 3600);
+      if (!(h in last)) order.push(h);
+      last[h] = r;
+    }
+    function unitAt(t) { var m = Math.floor(t / 60); if (m >= path.length) m = path.length - 1; return path[m]; }
+    return { low: low, ext: ext, noon: noon, last: last, order: order, unitAt: unitAt };
+  }
+
+  function render() {
+    var s = Number(seedSel.value), d = Number(depthSel.value);
+    var r = run(s, d);
+
+    var html = '<table class="sql-table"><thead><tr><th>Hour</th><th>Last quoted</th><th>Unit level at that print</th><th>Last restated</th><th>Restated move</th></tr></thead><tbody>';
+    var prev = null;
+    r.order.forEach(function (h) {
+      var row = r.last[h];
+      var move = prev ? (row.pxRef - prev.pxRef) / prev.pxRef : null;
+      var dep = d > 0 && h >= DEPEG_FROM && h <= DEPEG_TO;
+      var worst = h === r.ext.restatedHour;
+      html += "<tr" + (dep ? ' class="crp8-dep"' : "") + "><td>" + two(h) + ":00</td><td>" + px(row.px) + "</td><td>" + lvl(r.unitAt(row.t)) + "</td><td>" + px(row.pxRef) + "</td><td>"
+        + (move === null ? "first hour" : (worst ? '<b class="crp8-worst">' + pctMove(move) + "</b>" : pctMove(move))) + "</td></tr>";
+      prev = row;
+    });
+    html += "</tbody></table>";
+    html += '<p class="crp8-key">' + (d > 0
+      ? "Shaded rows: the declared depeg window, 10:00 to 17:30. The bold move is the worst restated hour of the day."
+      : "No depeg at this depth, so no rows are shaded. The bold move is the worst restated hour of the day, from the unit's jitter alone.") + "</p>";
+    out.innerHTML = html;
+
+    var n = r.noon;
+    verdict.textContent = NAMES[String(s)] + ", " + depthTxt(d) + " depth. The unit bottoms at " + lvl(r.low)
+      + ". Worst quoted hour " + pctMove(r.ext.quoted) + " at hour " + r.ext.quotedHour
+      + "; worst restated hour " + pctMove(r.ext.restated) + " at hour " + r.ext.restatedHour
+      + ". First print at or after noon, " + (n ? clock(n.t) + ": " + px(n.px) + " quoted x " + lvl(r.unitAt(n.t)) + " = " + px(n.pxRef) + " reference" : "none")
+      + ". Same prints in both columns; only the ruler moved.";
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, so the figures above are the figures any correct run gives. The tape and the quoting unit are constructed; nothing here is a real market, a real unit or a price of anything."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  seedSel.addEventListener("change", render);
+  depthSel.addEventListener("change", render);
+  render();
+})();
+</script>
+<style>
+  #crp8-restate .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 18rem; }
+  #crp8-restate table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #crp8-restate .wk-body { overflow-x: auto; }
+  #crp8-restate tr.crp8-dep td { background: var(--amber-50); }
+  #crp8-restate .crp8-worst { color: var(--amber-ink-text); font-weight: 800; }
+  #crp8-restate .crp8-key { font-size: .8rem; color: var(--muted); margin: .2rem 0 .4rem; }
+</style>
+</body>
+</html>

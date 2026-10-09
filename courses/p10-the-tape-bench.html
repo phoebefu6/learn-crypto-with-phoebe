@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Practitioner session 10 of 10. Two venues, one planted wash trader, three forensic detectors calibrated on honest venues, every input under your hands. Move the wash share, change the bot, rank by reported volume, shuffle the sizes, and watch the verdict and the false-positive rate recompute.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="The tape bench - learn crypto with phoebe">
+<meta property="og:description" content="Practitioner session 10 of 10. A round-lot washer is flagged from 2 percent of reported volume while 1.5 percent of honest venues are flagged with it, and a bot that copies honest sizes is never seen at all.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/courses/p10-the-tape-bench.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The tape bench - learn crypto with phoebe">
+<meta name="twitter:description" content="Rank venues by reported volume and the washer's weight climbs to 78.8 percent. Shuffle the sizes and the detectors stop telling the venues apart.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Practitioner session 10 · The tape bench - learn crypto with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-crypto-with-phoebe</a> / Practitioner session 10 of 10</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Crypto with Phoebe · Practitioner session 10 of 10</div>
+    <h1>The tape <span class="accent">bench</span></h1>
+    <p class="sub">Nine sessions took the problem apart a piece at a time: the tape, the candles, the venues, the first-digit law, roundness and clustering, the planted washer, the calibration, the depeg and the join. This one puts all of it in front of you with every input exposed. Two constructed venues, one honest and one with a wash trader whose share of reported volume you set. Three detectors read the size column and nothing else, judged against a band measured on forty honest venues, with the false-positive rate on two hundred more printed beside the verdict. Then the two controls that make a bench honest: a lever that only ever makes the number worse, and a button that dissolves the structure the detectors depend on. Nothing here is a real market and nothing here is investment advice.</p>
+    <div class="chip-row">
+      <span class="chip level">🔴 Hardest</span>
+      <span class="chip audience">Anyone who will own a pipeline like this</span>
+      <span class="chip audience">Anyone who has to defend a volume table</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:4">3-20 · The detectors, live</span>
+      <span class="a3" style="flex:4">20-34 · The lever and the button</span>
+      <span class="a4" style="flex:3">34-45 · Write the brief and close</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Where this lands</h2>
+    </div>
+    <p class="lede">Session 1 read the tape as a table and session 2 built candles from it. Session 3 reconciled four venues into an index and found four levels. Sessions 4 and 5 implemented the three forensic tests from the published study of wash trading, and session 6 planted a washer whose structure is declared. Session 7 calibrated the detector on honest venues and found its floor and its blind spot. Session 8 restated a tape through a moving unit, and session 9 joined exchange flows to a chain whose labels are reported rather than verified. Everything below runs from the same engine, whose six properties are checked on load, including the one that only exists because a one-sided roundness test would have missed the bot the published study actually found.</p>
+
+    <div class="legend">
+      <span class="pill">Live = worked through in the 45 minutes</span>
+      <span class="pill">Self-study = the full depth, after class</span>
+      <span class="pill">🔍 Every diagram zooms</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with today.</strong> Three measured numbers you can quote from memory, each obtained by moving a control rather than by being told: the share of reported volume at which a naive washer is first flagged, the share of honest venues flagged with it, and the weight a washed venue reaches when a table is ranked by what venues say about themselves. A feel for which inputs move the verdict and which do nothing. And a short written brief for any self-reported number, in the form somebody else could check.</p>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>What the bench recomputes on every press<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>On load the engine generates forty honest tapes and measures the mean and spread of each detector on them; that is the calibration, and it never sees a washed tape. It then generates two hundred more honest tapes, never used for calibration, and counts how many of them the rule flags at the sensitivity you chose; that is the false-positive rate, and it is a measurement rather than a promise. Then, on every press, it generates venue A honest and venue B with the planted washer, runs the three detectors on each, judges them against the band, and prints the verdict beside the volumes.</p>
+        <p>The washer is declared, not hidden. It trades in matched pairs, a buy and a sell of the same size one to four seconds apart, until its volume reaches the share you set of the venue's reported total. The round bot cycles seven round lots. The flat bot draws unrounded four-digit sizes from one narrow band. The copy bot samples the honest size distribution, and it exists so that the page can say out loud what these detectors cannot see.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · the detectors</span>
+      <h2>Three detectors, one planted washer, a band measured on honest venues</h2>
+      <span class="tag build">17 min hands on</span>
+    </div>
+    <p class="lede">Four inputs. Change one at a time and predict the direction before you press. An input whose effect you cannot predict is one you do not yet understand, and finding that out here costs a minute rather than a quarter.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hand-drawn schematic of the bench. On the left, two tape piles: venue A honest, and venue B with a planted pair drawn inside it, a buy and a sell of the same round size seconds apart. Arrows carry only the size column into three detector boxes in the middle: first-digit deviation, round share, cluster share. On the right, a bracket labelled the honest band, measured on forty honest venues, mean plus or minus k spreads, and a verdict box reading two of three fire means flagged. A band underneath lists the ladder on seeds 11 and 12: at 0 percent none fire, at 10 percent three of three with round share 44.9, at 30 percent 67.0, at 50 percent 80.2, at 70 percent 90.1, and the honest false-positive rate at k equals 2 of 3 in 200.">
+        <defs>
+          <filter id="crp10aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="101" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp10aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp10aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp10aH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp10aL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp10aS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp10aB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp10aV { font: 800 14px Inter, sans-serif; fill: #3A1A58; }
+          .crp10aA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp10aN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp10aH" x="30" y="26">TWO VENUES</text>
+        <text class="crp10aH" x="330" y="26">THREE DETECTORS, READING ONLY THE SIZE COLUMN</text>
+        <text class="crp10aH" x="660" y="26">THE BAND, THEN THE VERDICT</text>
+
+        <g filter="url(#crp10aSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- venue A pile -->
+          <rect x="30" y="44" width="240" height="90" rx="6" transform="rotate(-0.5 150 89)" fill="url(#crp10aHc)"/>
+          <!-- venue B pile with a planted pair -->
+          <rect x="30" y="160" width="240" height="120" rx="6" transform="rotate(0.4 150 220)" fill="url(#crp10aHc)"/>
+          <rect x="52" y="196" width="196" height="24" rx="4" transform="rotate(-0.6 150 208)" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="52" y="232" width="196" height="24" rx="4" transform="rotate(0.5 150 244)" fill="#FBF3E2" stroke="#B7791F"/>
+          <path d="M254 208 C266 214 266 238 254 244" stroke="#B7791F"/>
+          <!-- size column arrows -->
+          <path d="M272 89 C300 89 310 140 334 140" marker-end="url(#crp10aAr)"/>
+          <path d="M272 220 C300 220 310 200 334 200" marker-end="url(#crp10aAr)"/>
+          <!-- three detector boxes -->
+          <rect x="340" y="44" width="280" height="68" rx="8" transform="rotate(-0.4 480 78)" fill="#FFFFFF"/>
+          <rect x="340" y="126" width="280" height="68" rx="8" transform="rotate(0.5 480 160)" fill="#FFFFFF"/>
+          <rect x="340" y="208" width="280" height="68" rx="8" transform="rotate(-0.3 480 242)" fill="#FFFFFF"/>
+          <!-- benford mini bars inside box 1 -->
+          <path d="M540 100 L540 68 M552 100 L552 80 M564 100 L564 86 M576 100 L576 90 M588 100 L588 92 M600 100 L600 94" stroke="#9C7FBF" stroke-width="5"/>
+          <!-- arrows to the band -->
+          <path d="M622 78 L648 78 M622 160 L648 160 M622 242 L648 242" marker-end="url(#crp10aAr)"/>
+          <!-- the band bracket -->
+          <path d="M660 52 L660 268 M660 52 L676 52 M660 268 L676 268" stroke="#5B2A86"/>
+          <rect x="672" y="100" width="188" height="56" rx="8" transform="rotate(0.4 766 128)" fill="#F4EFF9"/>
+          <!-- verdict -->
+          <path d="M766 160 L766 186" marker-end="url(#crp10aAr)"/>
+          <rect x="672" y="190" width="188" height="56" rx="8" transform="rotate(-0.5 766 218)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <!-- ladder band -->
+          <rect x="30" y="300" width="830" height="118" rx="10" transform="rotate(0.15 445 359)" fill="#F4EFF9"/>
+          <path d="M196 314 L196 386 M362 314 L362 386 M528 314 L528 386 M694 314 L694 386" stroke="#CFC5DA"/>
+        </g>
+
+        <text class="crp10aL" x="44" y="66">Venue A, honest</text>
+        <text class="crp10aS" x="44" y="84">3,000 prints, sizes typed</text>
+        <text class="crp10aS" x="44" y="100">by people: heavy tailed,</text>
+        <text class="crp10aS" x="44" y="116">often round, rarely twice</text>
+        <text class="crp10aL" x="44" y="182">Venue B, with the washer</text>
+        <text class="crp10aB" x="62" y="212">buy   10 units   t=4,017</text>
+        <text class="crp10aB" x="62" y="248">sell   10 units   t=4,019</text>
+        <text class="crp10aS" x="44" y="272">matched pairs until the share is met</text>
+
+        <text class="crp10aL" x="354" y="66">1 · First-digit deviation</text>
+        <text class="crp10aS" x="354" y="84">mean gap from Benford's</text>
+        <text class="crp10aS" x="354" y="100">nine shares; one sided</text>
+        <text class="crp10aL" x="354" y="148">2 · Round share</text>
+        <text class="crp10aS" x="354" y="166">sizes with one significant</text>
+        <text class="crp10aS" x="354" y="182">digit; two sided</text>
+        <text class="crp10aL" x="354" y="230">3 · Cluster share</text>
+        <text class="crp10aS" x="354" y="248">trades at the five most</text>
+        <text class="crp10aS" x="354" y="264">common sizes; two sided</text>
+
+        <text class="crp10aA" x="684" y="120">THE HONEST BAND</text>
+        <text class="crp10aS" x="684" y="136">mean and spread on 40 honest</text>
+        <text class="crp10aS" x="684" y="150">venues times k; no wash seen</text>
+        <text class="crp10aB" x="684" y="212">2 OF 3 FIRE: FLAGGED</text>
+        <text class="crp10aS" x="684" y="232">one firing alone is noise</text>
+
+        <text class="crp10aA" x="44" y="322">0 percent wash</text>
+        <text class="crp10aV" x="44" y="344">0 of 3 fire</text>
+        <text class="crp10aS" x="44" y="364">round 29.4 percent</text>
+        <text class="crp10aS" x="44" y="380">weight 52.7 percent</text>
+        <text class="crp10aA" x="210" y="322">10 percent</text>
+        <text class="crp10aV" x="210" y="344">3 of 3 fire</text>
+        <text class="crp10aS" x="210" y="364">round 44.9 percent</text>
+        <text class="crp10aS" x="210" y="380">weight 55.3 percent</text>
+        <text class="crp10aA" x="376" y="322">30 percent</text>
+        <text class="crp10aV" x="376" y="344">3 of 3 fire</text>
+        <text class="crp10aS" x="376" y="364">round 67.0 percent</text>
+        <text class="crp10aS" x="376" y="380">weight 61.4 percent</text>
+        <text class="crp10aA" x="542" y="322">50 percent</text>
+        <text class="crp10aV" x="542" y="344">3 of 3 fire</text>
+        <text class="crp10aS" x="542" y="364">round 80.2 percent</text>
+        <text class="crp10aS" x="542" y="380">weight 69.0 percent</text>
+        <text class="crp10aA" x="708" y="322">70 percent</text>
+        <text class="crp10aV" x="708" y="344">3 of 3 fire</text>
+        <text class="crp10aS" x="708" y="364">round 90.1 percent</text>
+        <text class="crp10aS" x="708" y="380">weight 78.8 percent</text>
+        <text class="crp10aB" x="44" y="404">Honest venues flagged at k=2: 3 of 200, 1.5 percent. Seeds 11 and 12, round bot, the honest band never sees a washed tape.</text>
+
+        <text class="crp10aN" x="30" y="452">The detectors read sizes and nothing else. That is their strength on a naive bot and the whole of their blind spot on a careful one.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the band is measured before any washed tape exists, so the verdict is calibrated against honest venues rather than against the thing it is looking for</figcaption>
+    </figure>
+
+    <div class="wk" id="crp10-bench">
+      <div class="wk-head">
+        <b>Live</b>
+        <span class="wk-hint">Two constructed venues, three detectors, the calibration and the false-positive sweep, all running in this page. The washer's structure is declared on the controls. Nothing is a real market.</span>
+      </div>
+      <div class="wk-body">
+        <label class="sql-label" for="crp10-pair">Which pair of constructed venues</label>
+        <select class="sql-code" id="crp10-pair">
+          <option value="11">Pair A (seeds 11 and 12)</option>
+          <option value="101">Pair B (101 and 102)</option>
+          <option value="2024">Pair C (2024 and 2025)</option>
+          <option value="7">Pair D (7 and 8)</option>
+          <option value="55555">Pair E (55555 and 55556)</option>
+        </select>
+        <label class="sql-label" for="crp10-share">Wash share of venue B's reported volume: <b id="crp10-share-val">30</b> percent</label>
+        <input class="sql-code" id="crp10-share" type="range" min="0" max="70" step="1" value="30">
+        <label class="sql-label" for="crp10-style">What the wash bot does with sizes</label>
+        <select class="sql-code" id="crp10-style">
+          <option value="round">Round bot: cycles seven round lots</option>
+          <option value="flat">Flat bot: unrounded sizes from one narrow band</option>
+          <option value="copy">Copy bot: samples the honest size distribution</option>
+        </select>
+        <label class="sql-label" for="crp10-k">Sensitivity k, in honest spreads</label>
+        <select class="sql-code" id="crp10-k">
+          <option value="2">k = 2</option>
+          <option value="2.5">k = 2.5</option>
+          <option value="3">k = 3</option>
+          <option value="4">k = 4</option>
+        </select>
+        <label class="sql-label" for="crp10-rank">Anti-lever: rank the venues by their reported volume</label>
+        <select class="sql-code" id="crp10-rank">
+          <option value="0">Off: list the venues as they are</option>
+          <option value="1">On: rank and weight by what each venue reports</option>
+        </select>
+        <div class="crp10-row">
+          <button class="btn" id="crp10-shuffle" type="button">Break it: shuffle sizes across the two venues</button>
+          <span class="sql-note" id="crp10-shuffle-state">structure intact</span>
+        </div>
+        <div id="crp10-out"></div>
+        <p class="sql-note" id="crp10-verdict">...</p>
+      </div>
+      <div class="wk-foot" id="crp10-self">...</div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The five runs worth doing first<span class="mini">6 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><strong>Leave everything alone.</strong> Pair A, 30 percent, round bot, k=2. Venue A reads a first-digit deviation of 0.0065, a round share of 29.0 percent and a cluster share of 11.5 percent, all inside the band; nothing fires. Venue B reads 0.0507, 67.0 and 53.2; all three fire and the venue is flagged. Under the table: 3 of 200 honest venues are flagged at this sensitivity, 1.5 percent, and the first-digit test alone fires on 13 of them.</li>
+          <li><strong>Drag the share down to 2 percent.</strong> Round share and cluster share still fire, 32.9 and 14.9 against bands that end at 31.6 and 13.5, and the venue is flagged. The first-digit test is silent at 0.0064 and stays silent until 5 percent, because round lots keep first digits 1, 2 and 5, which Benford already favours. At 1 percent nothing fires. That is the floor on a naive bot.</li>
+          <li><strong>Switch to the flat bot at 30 percent.</strong> Round share falls to 12.4 percent and cluster share to 5.0, both BELOW the band, and both fire anyway because the tests are two-sided. This is the direction the published study found on unregulated venues: too little roundness, not too much. A one-sided test would have called this venue honest.</li>
+          <li><strong>Switch to the copy bot and drag the share to 70 percent.</strong> Round share 30.7, cluster 12.6, first-digit 0.0074. Nothing fires at any share. The washer is now invisible to every size-based test by construction, and the only thing left on the tape is the pairing, which these three detectors do not read.</li>
+          <li><strong>Raise k to 4 with the round bot at 30 percent.</strong> The honest false-positive rate drops to 0 of 200 and the verdict on venue B does not change. Then try k=4 on the flat bot at 5 percent: two detectors go quiet. Sensitivity buys fewer false alarms with a higher floor, and the trade is printed, not assumed.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Why the copy bot is the honest limit, not a failure<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Every detector on this bench is a statement about the distribution of trade sizes. A washer that draws its sizes from the honest distribution produces a tape whose size distribution is, by construction, the honest one, and no amount of sensitivity recovers a signal that is not there. The copy bot is on the bench so that the page can say this out loud rather than letting a reader infer from four flagged rungs that the detector catches washers in general. It catches naive washers. The published study caught naive washers too, and its authors say so in their caveats.</p>
+        <p>What the copy bot leaves on the tape is time structure: a buy and a sell of the same size one to four seconds apart, over and over. A detector that reads timestamps and sides as well as sizes would see it, and session 7's homework builds one. It would also see honest traders who happen to reverse a position quickly, which is why it needs the same calibration against honest venues before anybody trusts it. The pattern is general: every detector has a thing it reads, a thing it cannot read, and a false-positive rate that has to be measured rather than hoped.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The direction the published study found<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>The study that introduced these three tests examined 29 venues over four months of 2019 and found that the regulated ones clustered at round sizes, with round trades around 30 percent of the total, while the unregulated ones mostly did not: "30% and 50% of exchanges displaying no trade-size clustering" among the two unregulated tiers. Its quantification rests on exactly that direction: a benchmark ratio of unrounded to round volume from the regulated venues, and any unrounded volume above what that ratio predicts is counted as wash. The authors' estimate was an average of 77.5 percent of reported volume on unregulated venues, with a median of 79.1, and they describe the Benford-based version as a lower bound and the roundness-based version as possibly an upper bound if authentic algorithmic trading inflates unrounded volume.</p>
+        <p>The bench's round bot is therefore a different animal from the one in the study: the naive script that pumps volume in whole lots, which is the first thing anybody would write. The flat bot is closer to what the study found. The two-sided rule exists so that both are caught, and the self test's fifth property exists because a one-sided implementation passed every other check and would have shipped.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · the lever and the button</span>
+      <h2>A lever that only makes it worse, and a button that dissolves the structure</h2>
+      <span class="tag build">14 min hands on</span>
+    </div>
+    <p class="lede">A bench that can only report a better number is a demonstration, not a measurement. Two controls make this one honest. The anti-lever does the obvious thing every league table does, weight venues by the volume they report, and the washed venue's weight climbs with its wash share. The break button pools every trade size on both venues and deals them back out at random, so the planted structure is spread evenly and the detectors should stop telling the venues apart.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two hand-drawn panels. Left, the anti-lever: two stacked bars for venue A and venue B at 70 percent wash, each with a hatched honest part and venue B with a large warm wash part on top; venue B's honest weight is 52.7 percent of the pair and its weight by reported volume is 78.8 percent, and a note says the rank by reported volume moves the washer to first place on every seed pair. Right, the break button: the sizes of both venues pooled into one hatched pile and dealt back out, after which the round-share gap between the venues falls from 51.2 points to minus 0.1 and both venues read three of three, with a note that the venue label carries no information once sizes are mixed.">
+        <defs>
+          <filter id="crp10bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="107" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="crp10bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#5B2A86" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="crp10bAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .crp10bH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .crp10bL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .crp10bS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .crp10bB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .crp10bV { font: 800 18px Inter, sans-serif; fill: #3A1A58; }
+          .crp10bA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .crp10bN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+        </style>
+
+        <text class="crp10bH" x="30" y="26">THE ANTI-LEVER: WEIGHT BY WHAT VENUES REPORT</text>
+        <text class="crp10bH" x="470" y="26">THE BREAK BUTTON: SHUFFLE SIZES ACROSS VENUES</text>
+
+        <g filter="url(#crp10bSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- left: two bars; honest heights proportional 94.6 and 105.4; wash on B 245.9 -> scale 0.5 px per unit-thousand -->
+          <path d="M60 300 L420 300" stroke="#9C7FBF"/>
+          <rect x="90" y="253" width="100" height="47" rx="3" transform="rotate(-0.4 140 276)" fill="url(#crp10bHc)"/>
+          <rect x="260" y="247" width="100" height="53" rx="3" transform="rotate(0.4 310 273)" fill="url(#crp10bHc)"/>
+          <rect x="260" y="124" width="100" height="123" rx="3" transform="rotate(-0.3 310 185)" fill="#FBF3E2" stroke="#B7791F" stroke-width="2.4"/>
+          <!-- rank arrow -->
+          <path d="M376 170 C396 150 396 110 376 92" stroke="#B7791F" marker-end="url(#crp10bAr)"/>
+
+          <!-- right: two small piles, a pooled pile, two dealt piles -->
+          <rect x="470" y="60" width="110" height="46" rx="5" transform="rotate(-0.5 525 83)" fill="url(#crp10bHc)"/>
+          <rect x="470" y="118" width="110" height="60" rx="5" transform="rotate(0.5 525 148)" fill="url(#crp10bHc)"/>
+          <rect x="492" y="136" width="66" height="14" rx="3" fill="#FBF3E2" stroke="#B7791F"/>
+          <rect x="492" y="156" width="66" height="14" rx="3" fill="#FBF3E2" stroke="#B7791F"/>
+          <path d="M584 84 C610 84 620 118 640 118 M584 148 C610 148 620 128 640 128" marker-end="url(#crp10bAr)"/>
+          <rect x="648" y="88" width="90" height="70" rx="8" transform="rotate(0.4 693 123)" fill="url(#crp10bHc)"/>
+          <path d="M742 112 C766 100 772 84 790 84 M742 134 C766 146 772 162 790 162" marker-end="url(#crp10bAr)"/>
+          <rect x="796" y="60" width="64" height="46" rx="5" transform="rotate(-0.5 828 83)" fill="url(#crp10bHc)"/>
+          <rect x="796" y="140" width="64" height="46" rx="5" transform="rotate(0.5 828 163)" fill="url(#crp10bHc)"/>
+          <!-- result band right -->
+          <rect x="470" y="208" width="390" height="92" rx="8" transform="rotate(-0.2 665 254)" fill="#F4EFF9"/>
+        </g>
+
+        <text class="crp10bA" x="90" y="60">Venue B at 70 percent wash, seeds 11 and 12</text>
+        <text class="crp10bS" x="110" y="320">venue A</text>
+        <text class="crp10bS" x="280" y="320">venue B</text>
+        <text class="crp10bS" x="98" y="280">94.6k honest</text>
+        <text class="crp10bS" x="266" y="280">105.4k honest</text>
+        <text class="crp10bB" x="270" y="150">245.9k wash</text>
+        <text class="crp10bS" x="270" y="168">declared on the</text>
+        <text class="crp10bS" x="270" y="184">widget, invisible</text>
+        <text class="crp10bS" x="270" y="200">in the venue's</text>
+        <text class="crp10bS" x="270" y="216">own volume table</text>
+        <text class="crp10bL" x="60" y="100">B's honest weight</text>
+        <text class="crp10bV" x="60" y="124">52.7%</text>
+        <text class="crp10bL" x="60" y="156">B's weight by reported volume</text>
+        <text class="crp10bV" x="60" y="180">78.8%</text>
+        <text class="crp10bB" x="60" y="206">rank 1 on every seed pair</text>
+        <text class="crp10bS" x="30" y="350">The lever never raises anything: 76.3, 75.3, 73.1 and 73.5 percent on the other four pairs.</text>
+        <text class="crp10bS" x="30" y="366">Weighting by volume is correct when the volume is real; the rulebooks screen venues first.</text>
+
+        <text class="crp10bS" x="474" y="54">A honest</text>
+        <text class="crp10bS" x="474" y="196">B washed</text>
+        <text class="crp10bS" x="652" y="178">one pool, dealt out</text>
+        <text class="crp10bS" x="796" y="54">A again</text>
+        <text class="crp10bS" x="796" y="200">B again</text>
+        <text class="crp10bA" x="484" y="230">AT 50 PERCENT WASH, BEFORE AND AFTER THE SHUFFLE</text>
+        <text class="crp10bS" x="484" y="250">round-share gap between venues: 51.2 points, then -0.1</text>
+        <text class="crp10bS" x="484" y="266">cluster gap 56.2 points, then +0.7; first-digit gap 0.0634, then -0.0001</text>
+        <text class="crp10bB" x="484" y="286">after: both read 3 of 3; the label carries nothing</text>
+        <text class="crp10bS" x="470" y="350">The gap is what the bench measures; shuffled, it falls to noise.</text>
+        <text class="crp10bS" x="470" y="366">What it does NOT do is make the detectors read honest; the wash is still there.</text>
+
+        <text class="crp10bN" x="30" y="392">Two honest controls. One shows the number getting worse under the obvious policy; the other shows the detectors measuring the structure and not the label.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the anti-lever is the policy every league table uses by default, and the break button is the test that the venue column carries no information of its own</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>Rank the venues by their reported volume<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Switch the anti-lever on with Pair A at 70 percent. The table re-sorts and venue B sits at rank 1 with 78.8 percent of the pair's reported volume. Its honest weight is 52.7 percent, the same at every share, because adding a washer does not change a single honest print. The extra 26 points of weight are the washer's volume being counted as if it were a measurement of anything.</p>
+        <p>Drag the share back to 0 and the weight returns to 52.7. Try the other pairs: on Pairs B and C the washed venue moves from rank 2 to rank 1 at 10 percent wash, on Pairs D and E at 30 percent. The lever never improves the table, on any pair, at any share above zero. That is what makes it a lever worth having on a bench: it demonstrates that the obvious policy is the trap, with a number rather than a warning.</p>
+        <p>The nuance the page owes you: weighting by volume is standard practice and it is correct when the volume is real. Public index rulebooks weight by volume inside their partitions. They can afford to because they screen which venues may contribute at all, quarterly, on published criteria, and they drop a venue for fraud or market manipulation. The lesson is not "never weight by volume"; it is "never weight by a volume whose reporter has not been screened".</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Shuffle the sizes and watch the gap go<span class="mini">5 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Set Pair A to 50 percent with the round bot, read the two venues' round shares, 29.0 and 80.2 percent, then press the break button. Every trade size on both venues goes into one pool and is dealt back out at random. Now both venues read about 55 percent, the gap between them is -0.1 points, and the cluster and first-digit gaps are +0.7 points and -0.0001. Both venues are flagged, 3 of 3, because the pooled tape is half wash and the detectors say so.</p>
+        <p>Read what that proves carefully, because it is easy to over-read. The shuffle proves that the detectors measure the distribution of sizes and that the venue label carries no information of its own: once the sizes are mixed, the venues are indistinguishable. It does not make the detectors read honest, and it should not, because the wash is still on the tape. A break button that made everything read clean would be proving that the detectors measure nothing. Press it at 0 percent and both venues stay honest; the button only ever moves the gap, never the level.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>Two published estimates that disagree, and why both are kept<span class="mini">4 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>An industry presentation to a regulator in 2019, reported rather than read at source because the hosted document is image-only, estimated that roughly 95 percent of the volume one widely used aggregator reported for one asset was fake or non-economic, across 81 venues over four days, with 10 venues found to carry real volume. The academic study the detectors come from estimated 77.5 percent of reported volume on unregulated venues, across 26 unregulated venues over four months, with the regulated venues at roughly zero.</p>
+        <p>The two numbers have different denominators, samples, windows and methods, and the academic authors describe their own figure as bounded on both sides. A data team that picks one and quotes it as "the wash rate" has made the same mistake as a team that quotes a venue's own volume: it has promoted a claim to a measurement. The honest sentence keeps both, with their samples, and says they disagree. Leader session 2 is built on that sentence.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · the brief</span>
+      <h2>What you write down</h2>
+      <span class="tag demo">11 min live</span>
+    </div>
+    <p class="lede">Every control on the bench points at the same discipline: a self-reported number has to arrive with the thing that bounds it. Ten minutes, on a number you actually publish.</p>
+
+    <div class="steps">
+      <div class="step"><div>
+        <h4>State who reported the number and what they gain if it is high</h4>
+        <p>Not "volume" but "volume as reported by the venue itself, which is ranked by it". One sentence. If nobody gains from the number being high, say so; if somebody does, the number is a target and will behave like one.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>State the detector, its band, and its false-positive rate</h4>
+        <p>"Three size-distribution tests, two-sided on roundness and clustering, flagged on two of three, band from 40 honest venues at k=2, 1.5 percent of 200 honest venues flagged." If you cannot fill the last clause, you do not have a detector, you have an opinion with a threshold.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>State what the detector cannot see</h4>
+        <p>"A washer that copies the honest size distribution is invisible to these tests; the matched-pair structure is not read." Write the blind spot before anybody asks, because the first person to find it will otherwise be the one you least want to.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Say what would change your mind</h4>
+        <p>A screened venue list from a published rulebook. A second detector that reads timestamps and sides, calibrated the same way. A newer peer-reviewed estimate than the 2019 sample. Write the trigger down now, while nothing is on fire.</p>
+      </div></div>
+    </div>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>The three numbers, on one card<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p><strong>The floor.</strong> A round-lot washer is flagged from 2 percent of reported volume at k=2, and the floor does not move at k=2.5 or 3; a flat bot is flagged from 4 percent at k=2, 5 at 2.5 and 6 at 3. A copy bot is never flagged at any share up to 70 percent.</p>
+        <p><strong>The false alarm.</strong> 3 of 200 honest venues are flagged at k=2, 1.5 percent; 0 of 200 at k=2.5 and above, which is a ceiling statement about 200 trials and not a zero. The first-digit test alone fires on 6.5 percent of honest venues at k=2, which is why the rule needs two of three.</p>
+        <p><strong>The trap.</strong> Weight by reported volume and the washed venue's weight is 78.8 percent at 70 percent wash against an honest 52.7, and it takes rank 1 on every seed pair. The lever never improves anything, and the rulebooks avoid the trap by screening the reporter, not by abandoning the weight.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ HOMEWORK ============ -->
+  <section class="section" id="homework">
+    <div class="section-kicker">
+      <span class="klabel">After the course</span>
+      <h2>Homework</h2>
+    </div>
+    <p class="lede">About an hour, on something real.</p>
+    <div class="steps">
+      <div class="step"><div>
+        <h4>Find one self-reported number in your own estate</h4>
+        <p>Anything a source publishes about itself and your team quotes: a vendor's row count, a partner's active users, a venue's volume. Write down who gains if it is high. If the answer is "the reporter", you have found a tape.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Calibrate one detector you already run</h4>
+        <p>Pick any threshold alert in a pipeline you own and measure how often it fires on data you know to be clean. If you have never measured it, that number is the finding, and it is the first line of the brief above.</p>
+      </div></div>
+      <div class="step"><div>
+        <h4>Write the blind spot down</h4>
+        <p>For the same detector, describe the input that would pass it while being exactly what it exists to catch. Every detector has one. The copy bot is the one on this bench; yours is somewhere in the thing your detector does not read.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">At k=2 the bench flags 3 of 200 honest venues. A colleague proposes k=4, where 0 of 200 are flagged, and calls the detector "now false-positive free". What is wrong?</p>
+      <div class="qopt">A · Nothing; a higher k is strictly better because it removes false alarms</div>
+      <div class="qopt">B · The honest band should be measured on washed tapes instead</div>
+      <div class="qopt">C · 0 of 200 is a ceiling statement about 200 trials, not a zero rate, and the same k raises the floor on a flat bot, which the bench prints</div>
+      <q class="qwhy">A measured rate of zero on 200 trials bounds the true rate; it does not make it zero. Sensitivity is a trade, and the bench prints both sides of it: fewer false alarms and a higher wash share before a flat bot is seen. Calibrating on washed tapes would make the band a property of the thing being looked for, which is the fault calibration exists to avoid.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">After the break button, both venues read 3 of 3 at 50 percent wash. What does that show?</p>
+      <div class="qopt">A · The detectors measure the size distribution and the venue label carries no information once sizes are mixed; the wash is still on the tape, so both read contaminated</div>
+      <div class="qopt">B · The detectors are broken, because a shuffle should make everything read honest</div>
+      <div class="qopt">C · The shuffle moved the wash trades to venue A</div>
+      <q class="qwhy">A shuffle conserves every size; the self test checks that the total is unchanged. What vanishes is the gap between the venues, not the contamination of the pool. A break button that made the pool read honest would be evidence that the detectors measured nothing.</q>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <p class="qtext">The copy bot at 70 percent wash fires nothing. Which sentence belongs in a report that uses these detectors?</p>
+      <div class="qopt">A · The venue's volume has been verified as genuine</div>
+      <div class="qopt">B · A washer that samples the honest size distribution is invisible to these size-based tests; the matched-pair structure is not read by them</div>
+      <div class="qopt">C · The detector needs a higher k to catch it</div>
+      <q class="qwhy">No k recovers a signal that is not in the thing the detector reads. The copy bot's tape has the honest size distribution by construction. The honest sentence names the blind spot and the structure a different detector would have to read, which is exactly what the published authors do in their own caveats.</q>
+    </div>
+
+    <div class="quiz-score"></div>
+  </section>
+
+  <!-- ============ OFFICIAL ============ -->
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Covered tonight</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The bench driven by the reader</span><span class="note">Seed pair, wash share, bot style, sensitivity, the anti-lever and the break button, all exposed as controls.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Calibration before judgement</span><span class="note">A band from 40 honest venues that never sees a washed tape, and a false-positive rate measured on 200 more: 1.5 percent at k=2.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The ladder</span><span class="note">0, 10, 30, 50, 70 percent on seeds 11 and 12: nothing fires at 0; 3 of 3 from 10 percent; the floor at 2 percent for a round bot and 4 for a flat one.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Two-sided roundness</span><span class="note">The flat bot fires below the band, which is the direction the published study found; the self test's fifth property fails on a one-sided implementation.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The anti-lever</span><span class="note">Weight by reported volume: 78.8 percent at 70 percent wash against 52.7 honest, rank 1 on every pair, never an improvement.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The break button, read correctly</span><span class="note">Gaps collapse to noise, levels do not: the label carries nothing, the wash is still there.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The honest limit</span><span class="note">The copy bot is never flagged at any share; the pairing it leaves is the thing a different detector would read.</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">A written brief with four required lines</span><span class="note">Who reports and what they gain, the detector with its band and false-positive rate, the blind spot, and what would change your mind.</span></div>
+      <div class="covered-row"><span class="status pill inkpill">◐</span><span class="name">A time-and-side detector</span><span class="note">Named as the thing that would see the copy bot. Built as homework in session 7, not here.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">On-chain data and chain mechanics</span><span class="note">Live in learn-web3-with-phoebe and learn-blockchain-with-phoebe; session 9 hands across at the join.</span></div>
+      <div class="covered-row"><span class="status pill light">○</span><span class="name">Anything about price, trading or holding</span><span class="note">No real venue, asset or price appears. Nothing here is investment advice.</span></div>
+    </div>
+    <p class="mono">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <!-- ============ CHEAT SHEET ============ -->
+  <section class="section cheat" id="cheatsheet">
+    <h3>The tape bench <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><strong>The band.</strong> Mean and spread of each detector on 40 honest venues, times k. It never sees a washed tape, so the verdict is calibrated against honesty rather than against the target.</div>
+      <div class="cheat-item"><strong>The false alarm.</strong> 3 of 200 honest venues flagged at k=2, 1.5 percent. The first-digit test alone fires on 6.5 percent, which is why the rule is two of three.</div>
+      <div class="cheat-item"><strong>The floor.</strong> Round bot flagged from 2 percent of reported volume; flat bot from 4 at k=2, 5 at 2.5, 6 at 3.</div>
+      <div class="cheat-item"><strong>The direction.</strong> Roundness and clustering are two-sided. The published anomaly was too little roundness; the naive bot shows too much. Both fire.</div>
+      <div class="cheat-item"><strong>The trap.</strong> Weight by reported volume and the washer is at 78.8 percent against an honest 52.7. Screen the reporter; do not abandon the weight.</div>
+      <div class="cheat-item"><strong>The break.</strong> Shuffle sizes across venues and the gap goes to noise while both venues stay flagged. The label carries nothing; the wash is still there.</div>
+      <div class="cheat-item"><strong>The blind spot.</strong> A washer that copies honest sizes is invisible to every size test at every share. Say so before anybody asks.</div>
+      <div class="cheat-item"><strong>The two estimates.</strong> 95 percent reported by industry on one aggregator's figure; 77.5 percent on unregulated venues in the 2019 academic sample, bounded both ways. Keep both, with their samples.</div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Course home</span>
+    <p>Both tracks end here. The leader track's session 6 holds the transfer map and the 90-day ladder; the landing page has the knowledge map and the three ways through.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <div class="wrap">
+      <p>Practitioner session 10 of 10 · learn-crypto-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></p>
+      <nav class="pagenav">
+        <a href="p9-joining-exchange-flows-to-chain-data.html">← Prev: Practitioner session 9 · Joining exchange flows to chain data</a>
+        <a href="../index.html">Course home →</a>
+      </nav>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../assets/cm-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+<script>
+(function () {
+  if (typeof CM === "undefined") return;
+
+  var pairSel = document.getElementById("crp10-pair");
+  var share = document.getElementById("crp10-share");
+  var shareVal = document.getElementById("crp10-share-val");
+  var styleSel = document.getElementById("crp10-style");
+  var kSel = document.getElementById("crp10-k");
+  var rankSel = document.getElementById("crp10-rank");
+  var shuffleBtn = document.getElementById("crp10-shuffle");
+  var shuffleState = document.getElementById("crp10-shuffle-state");
+  var out = document.getElementById("crp10-out");
+  var verdict = document.getElementById("crp10-verdict");
+  var self = document.getElementById("crp10-self");
+  var shuffled = false;
+
+  function comma(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+  function pct(x, d) { return (x * 100).toFixed(d == null ? 1 : d) + "%"; }
+  function units(micro) { return comma(Math.round(micro / CM.MICRO)); }
+
+  /* calibration and the honest sweep, once, before any washed tape exists */
+  var cal = CM.calibrate();
+  var honest = CM.honestRows();
+
+  function row(name, a, b, band, firedB, firedA) {
+    return "<tr><td>" + name + "</td><td" + (firedA ? ' class="crp10-fire"' : "") + ">" + a + "</td><td" + (firedB ? ' class="crp10-fire"' : "") + "><b>" + b + "</b></td><td>" + band + "</td></tr>";
+  }
+
+  function render() {
+    var seedA = Number(pairSel.value), seedB = seedA + 1;
+    var w = Number(share.value) / 100;
+    var style = styleSel.value;
+    var k = Number(kSel.value);
+    shareVal.textContent = String(Number(share.value));
+
+    var A = CM.makeTape({ seed: seedA });
+    var B = CM.makeTape({ seed: seedB, washShare: w, washStyle: style });
+    var sizesA = CM.sizesOf(A), sizesB = CM.sizesOf(B);
+    if (shuffled) { var sh = CM.shuffleSizes(A, B, 99); sizesA = sh.sizesA; sizesB = sh.sizesB; }
+    var rA = CM.readings(sizesA), rB = CM.readings(sizesB);
+    var vA = CM.verdict(rA, cal, k), vB = CM.verdict(rB, cal, k);
+    var fp = CM.falsePositives(cal, k, { rows: honest });
+
+    var madHi = cal.mean.mad + k * cal.sd.mad;
+    var rLo = cal.mean.round - k * cal.sd.round, rHi = cal.mean.round + k * cal.sd.round;
+    var cLo = cal.mean.cluster - k * cal.sd.cluster, cHi = cal.mean.cluster + k * cal.sd.cluster;
+
+    var html = '<table class="sql-table"><thead><tr><th>Detector</th><th>Venue A, honest</th><th>Venue B, with the washer</th><th>Honest band at k = ' + k + "</th></tr></thead><tbody>";
+    html += row("First-digit deviation (MAD)", rA.mad.toFixed(4), rB.mad.toFixed(4), "fires above " + madHi.toFixed(4), vB.fired.mad, vA.fired.mad);
+    html += row("Round share", pct(rA.round), pct(rB.round), pct(rLo) + " to " + pct(rHi), vB.fired.round, vA.fired.round);
+    html += row("Cluster share, top five sizes", pct(rA.cluster), pct(rB.cluster), pct(cLo) + " to " + pct(cHi), vB.fired.cluster, vA.fired.cluster);
+    html += "<tr><td>Verdict, two of three</td><td>" + (vA.flagged ? '<b class="crp10-fire">flagged</b>' : "honest") + ", " + vA.count + " of 3</td><td>" + (vB.flagged ? '<b class="crp10-fire">flagged</b>' : "<b>honest</b>") + ", " + vB.count + " of 3</td><td>" + fp.counts.flagged + " of " + fp.seeds + " honest venues flagged, " + pct(fp.rates.flagged) + "</td></tr>";
+    html += "</tbody></table>";
+
+    var totalRep = A.reportedVol + B.reportedVol, totalHon = A.honestVol + B.honestVol;
+    var rankOn = rankSel.value === "1";
+    var venues = [
+      { name: "Venue A", rep: A.reportedVol, hon: A.honestVol, wash: A.washVol, trades: A.trades.length, pairs: A.pairs },
+      { name: "Venue B", rep: B.reportedVol, hon: B.honestVol, wash: B.washVol, trades: B.trades.length, pairs: B.pairs }
+    ];
+    if (rankOn) venues.sort(function (x, y) { return y.rep - x.rep; });
+    html += '<table class="sql-table"><thead><tr>' + (rankOn ? "<th>Rank by reported</th>" : "<th>Venue</th>") + "<th>Prints (wash pairs)</th><th>Honest volume</th><th>Wash volume</th><th>Reported volume</th><th>Weight by reported</th><th>Honest weight</th></tr></thead><tbody>";
+    venues.forEach(function (v, i) {
+      html += "<tr><td>" + (rankOn ? (i + 1) + " · " + v.name : v.name) + "</td><td>" + comma(v.trades) + " (" + comma(v.pairs) + ")</td><td>" + units(v.hon) + "</td><td>" + (v.wash ? '<b class="crp10-fire">' + units(v.wash) + "</b>" : "0") + "</td><td>" + units(v.rep) + "</td><td>" + (rankOn ? "<b>" : "") + pct(v.rep / totalRep) + (rankOn ? "</b>" : "") + "</td><td>" + pct(v.hon / totalHon) + "</td></tr>";
+    });
+    html += "</tbody></table>";
+    out.innerHTML = html;
+
+    var msg;
+    var actual = B.reportedVol ? B.washVol / B.reportedVol : 0;
+    if (shuffled) {
+      msg = "Shuffled: every size on both venues went into one pool and was dealt back out. The round-share gap between the venues is now "
+        + ((rB.round - rA.round) * 100).toFixed(1) + " points, the cluster gap " + ((rB.cluster - rA.cluster) * 100).toFixed(1)
+        + " points, the first-digit gap " + (rB.mad - rA.mad).toFixed(4) + ". The venue label carries no information once sizes are mixed; "
+        + (vA.flagged || vB.flagged ? "both venues read the pooled contamination, which is still there." : "and with no wash in the pool both stay honest.");
+    } else if (w === 0) {
+      msg = "No washer on this pair. Venue B fires " + vB.count + " of 3 and venue A " + vA.count + " of 3; at k = " + k + ", "
+        + fp.counts.flagged + " of " + fp.seeds + " honest venues are flagged by the same rule, " + pct(fp.rates.flagged) + ". That printed rate is what any flag on an honest venue here means.";
+    } else if (vB.flagged) {
+      msg = "At " + pct(actual) + " of reported volume the " + style + " bot fires " + vB.count + " of 3 and venue B is flagged. Venue A fires " + vA.count
+        + " of 3. Honest venues flagged at this k: " + fp.counts.flagged + " of " + fp.seeds + ", " + pct(fp.rates.flagged) + "."
+        + (rankOn ? " Ranked by reported volume, venue B carries " + pct(B.reportedVol / totalRep) + " of the pair against an honest " + pct(B.honestVol / totalHon) + "; the lever only ever raises the washer." : "");
+    } else {
+      msg = "At " + pct(actual) + " of reported volume the " + style + " bot fires " + vB.count + " of 3 and venue B is NOT flagged. "
+        + (style === "copy" ? "A bot that samples the honest size distribution leaves the size column honest by construction; no k recovers a signal that is not there. The pairs are still on the tape, unread."
+                            : "Below the floor for this bot at this sensitivity. Raise the share or lower k and watch which detector fires first.")
+        + (rankOn ? " Ranked by reported volume, venue B carries " + pct(B.reportedVol / totalRep) + " against an honest " + pct(B.honestVol / totalHon) + "." : "");
+    }
+    verdict.textContent = msg;
+  }
+
+  var t = CM.selfTest();
+  self.textContent = t.ok
+    ? "The engine's six properties pass in this browser, including the one that fails on a one-sided roundness test. The band was measured on 40 honest venues and the false-positive rate on 200 more before any washed tape existed. Nothing here is a real market."
+    : "The engine's self test did not pass in this browser, so nothing above should be believed.";
+
+  pairSel.addEventListener("change", render);
+  share.addEventListener("input", render);
+  styleSel.addEventListener("change", render);
+  kSel.addEventListener("change", render);
+  rankSel.addEventListener("change", render);
+  shuffleBtn.addEventListener("click", function () {
+    shuffled = !shuffled;
+    shuffleBtn.textContent = shuffled ? "Restore: put the sizes back where they printed" : "Break it: shuffle sizes across the two venues";
+    shuffleState.textContent = shuffled ? "sizes shuffled across venues" : "structure intact";
+    render();
+  });
+  render();
+})();
+</script>
+<style>
+  #crp10-bench .sql-code { border: 1px solid var(--hairline); border-radius: 8px; max-width: 24rem; }
+  #crp10-bench input[type="range"] { max-width: 20rem; padding: 0; }
+  #crp10-bench table.sql-table { margin: .6rem 0 .2rem; font-size: .85rem; }
+  #crp10-bench .crp10-fire { color: var(--amber-ink-text); }
+  #crp10-bench .crp10-row { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; margin-top: .6rem; }
+  #crp10-bench .crp10-row .btn { background: var(--indigo); color: #fff; border: 1px solid var(--indigo); border-radius: 999px; padding: .4rem .9rem; font-weight: 700; font-size: .82rem; cursor: pointer; }
+</style>
+</body>
+</html>
