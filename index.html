@@ -19,7 +19,7 @@
 <meta name="twitter:image" content="https://phoebefu6.github.io/learn-crypto-with-phoebe/assets/og-cover.png">
 <!-- social:end -->
 <title>Learn Crypto with Phoebe</title>
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=2">
 <style>
 
   .stats-row { display: flex; gap: 2.4rem; margin-top: 1.5rem; flex-wrap: wrap; }
@@ -110,6 +110,106 @@
 </header>
 
 <main class="wrap">
+
+  <section class="section chx-hero" aria-label="A hand-drawn pair of venues, one with a wash bot, and the detectors that catch it">
+    <figure class="zoomable" style="margin:0 0 1rem">
+      <svg viewBox="0 0 880 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two venues drawn as market stalls. Venue A trades honestly. Venue B has a wash bot that buys from itself and sells back within four seconds, so its reported volume grows while its honest volume does not. Three detector tiles read venue B: first-digit deviation 0.0507 against a 0.0105 line, round sizes 67.0 percent against 29.0 on venue A, and the verdict flagged 3 of 3; a toggle switches the bot off and the tiles read honest.">
+        <defs>
+          <filter id="chxSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="chxHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#B7791F" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="chxAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1C1324" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .chxH { font: 800 12px Inter, sans-serif; fill: #1C1324; }
+          .chxL { font: 600 12px Inter, sans-serif; fill: #1C1324; }
+          .chxS { font: 400 11px Inter, sans-serif; fill: #5F5569; }
+          .chxB { font: 800 11px Inter, sans-serif; fill: #7A4F0C; }
+          .chxV { font: 800 20px Inter, sans-serif; fill: #3A1A58; }
+          .chxA { font: 700 11px Inter, sans-serif; fill: #5B2A86; }
+          .chxN { font: 400 12px Inter, sans-serif; fill: #5F5569; }
+          .chx-bot, .chx-wash { transition: opacity .3s ease; }
+          .chx-off .chx-bot, .chx-off .chx-wash { opacity: 0; }
+          @media (prefers-reduced-motion: reduce) { .chx-bot, .chx-wash { transition: none; } }
+        </style>
+        <g filter="url(#chxSk)" fill="none" stroke="#1C1324" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- venue A -->
+          <rect x="30" y="30" width="250" height="250" rx="12" fill="#FFFFFF" transform="rotate(-0.4 155 155)"/>
+          <text class="chxH" x="48" y="56" stroke="none">VENUE A, HONEST</text>
+          <text class="chxS" x="48" y="74" stroke="none">3,000 prints a day, heavy-tailed sizes</text>
+          <path d="M60 120 L250 120 L236 96 L74 96 Z" fill="#F4EFF9"/>
+          <rect x="70" y="120" width="170" height="90" rx="4" fill="#FFFFFF" transform="rotate(0.6 155 165)"/>
+          <line x1="86" y1="146" x2="222" y2="146" stroke="#9C7FBF"/><line x1="86" y1="166" x2="200" y2="166" stroke="#9C7FBF"/><line x1="86" y1="186" x2="212" y2="186" stroke="#9C7FBF"/>
+          <text class="chxS" x="86" y="140" stroke="none">223,000 · 300,000 ...</text>
+          <rect x="70" y="226" width="86" height="34" rx="6" fill="#F4EFF9" transform="rotate(-1 113 243)"/>
+          <text class="chxA" x="78" y="240" stroke="none">reported</text>
+          <text class="chxL" x="78" y="254" stroke="none">= honest</text>
+          <text class="chxN" x="166" y="248" stroke="none">one trader, one print</text>
+          <!-- venue B -->
+          <rect x="310" y="30" width="250" height="250" rx="12" fill="#FFFFFF" transform="rotate(0.3 435 155)"/>
+          <text class="chxH" x="328" y="56" stroke="none">VENUE B, WITH A WASH BOT</text>
+          <text class="chxS" x="328" y="74" stroke="none">the same honest tape, plus a bot at 30 percent</text>
+          <path d="M340 120 L530 120 L516 96 L354 96 Z" fill="#F4EFF9"/>
+          <rect x="350" y="120" width="170" height="90" rx="4" fill="#FFFFFF" transform="rotate(-0.5 435 165)"/>
+          <line x1="366" y1="146" x2="500" y2="146" stroke="#9C7FBF"/><line x1="366" y1="166" x2="480" y2="166" stroke="#9C7FBF"/>
+          <g class="chx-wash">
+            <line x1="366" y1="186" x2="500" y2="186" stroke="#B7791F" stroke-width="3"/>
+            <rect x="366" y="196" width="134" height="10" fill="url(#chxHc)" stroke="none"/>
+            <text class="chxB" x="366" y="182" stroke="none">1,000,000 twins, 4 s apart</text>
+          </g>
+          <g class="chx-bot">
+            <rect x="440" y="222" width="100" height="40" rx="8" fill="#FBF3E2" transform="rotate(2 490 242)"/>
+            <text class="chxB" x="452" y="238" stroke="none">the bot</text>
+            <text class="chxS" x="452" y="253" stroke="none">round lots, twins</text>
+            <path d="M462 222 C456 206 470 196 486 200" marker-end="url(#chxAr)"/>
+          </g>
+          <rect x="350" y="226" width="86" height="34" rx="6" fill="#F4EFF9" transform="rotate(1 393 243)"/>
+          <text class="chxA" x="358" y="240" stroke="none">reported</text>
+          <text class="chxL" x="358" y="254" stroke="none" id="chx-rep">&gt; honest</text>
+          <!-- share bar -->
+          <rect x="590" y="30" width="260" height="250" rx="12" fill="#FFFFFF" transform="rotate(-0.3 720 155)"/>
+          <text class="chxH" x="608" y="56" stroke="none">SHARE OF THE PAIR</text>
+          <text class="chxS" x="608" y="74" stroke="none">venue B, honest against reported</text>
+          <text class="chxL" x="608" y="112" stroke="none">honest</text>
+          <rect x="608" y="120" width="224" height="22" rx="4" fill="#F4EFF9" stroke="#CFC5DA"/>
+          <rect x="608" y="120" width="118" height="22" rx="4" fill="#9C7FBF" stroke="none"/>
+          <text class="chxA" x="732" y="136" stroke="none">52.7%</text>
+          <text class="chxL" x="608" y="176" stroke="none">reported</text>
+          <rect x="608" y="184" width="224" height="22" rx="4" fill="#F4EFF9" stroke="#CFC5DA"/>
+          <rect x="608" y="184" width="138" height="22" rx="4" fill="#B7791F" stroke="none" id="chx-repbar"/>
+          <text class="chxA" x="752" y="200" stroke="none" id="chx-repv">61.4%</text>
+          <text class="chxN" x="608" y="240" stroke="none">Rank venues by what they report and</text>
+          <text class="chxN" x="608" y="256" stroke="none" id="chx-rank">the washer rises. It only ever rises.</text>
+          <!-- detector tiles -->
+          <rect x="30" y="300" width="250" height="78" rx="10" fill="#F4EFF9" transform="rotate(0.4 155 339)"/>
+          <text class="chxS" x="48" y="324" stroke="none">first-digit deviation, fires above 0.0105</text>
+          <text class="chxV" x="48" y="356" stroke="none" id="chx-mad">0.0507</text>
+          <text class="chxA" x="138" y="356" stroke="none" id="chx-mad-n">A reads 0.0065</text>
+          <rect x="300" y="300" width="250" height="78" rx="10" fill="#F4EFF9" transform="rotate(-0.4 425 339)"/>
+          <text class="chxS" x="318" y="324" stroke="none">round sizes, honest band 28.3 to 31.6%</text>
+          <text class="chxV" x="318" y="356" stroke="none" id="chx-round">67.0%</text>
+          <text class="chxA" x="398" y="356" stroke="none" id="chx-round-n">A reads 29.0%</text>
+          <rect x="570" y="300" width="280" height="78" rx="10" fill="#FFFFFF" transform="rotate(0.3 710 339)"/>
+          <text class="chxL" x="588" y="326" stroke="none" id="chx-verdict">Venue B: flagged, 3 of 3 detectors</text>
+          <text class="chxN" x="588" y="346" stroke="none">honest venues flagged at this line:</text>
+          <text class="chxN" x="588" y="362" stroke="none">3 of 200, a printed 1.5 percent</text>
+        </g>
+      </svg>
+      <figcaption>🔍 Click to zoom - the venue reports its own volume and nobody audits it; three forensic tests read the shape of the sizes instead</figcaption>
+    </figure>
+    <div class="chx-row">
+      <button type="button" class="btn primary" id="chx-toggle">Switch the bot off</button>
+      <span class="chx-hint">Canon numbers from the tape bench, seed pair 11 and 12, wash share 30 percent. Abstract units, no asset, no venue named.</span>
+    </div>
+    <div class="chx-guess" id="chx-guess">
+      <p class="chx-q"><b>Guess first.</b> Venue B carries 52.7 percent of the pair's honest volume. With the bot running at 30 percent, what share of the pair's reported volume does it carry?</p>
+      <div class="chx-slider">
+        <input type="range" id="chx-g" min="50" max="100" step="0.1" value="55" aria-label="your guess, percent">
+        <output for="chx-g" id="chx-gv">55.0%</output>
+        <button type="button" class="btn" id="chx-reveal">Lock my guess</button>
+      </div>
+      <p class="chx-answer" id="chx-ans" hidden></p>
+    </div>
+  </section>
 
   <section class="section">
     <div class="paths" style="margin-top:0">
@@ -432,7 +532,37 @@ window.MINDMAP_DATA = {
   ]
 };
 </script>
-<script src="assets/mindmap.js?v=1"></script>
-<script src="assets/app.js?v=1"></script>
+<script src="assets/mindmap.js?v=2"></script>
+<script>
+(function(){
+  var fig=document.querySelector('.chx-hero svg'); if(!fig) return;
+  var off=false, tgl=document.getElementById('chx-toggle');
+  var ids=['chx-mad','chx-mad-n','chx-round','chx-round-n','chx-verdict','chx-repv','chx-rep','chx-rank'];
+  var el={}; ids.forEach(function(i){ el[i]=document.getElementById(i); });
+  var bar=document.getElementById('chx-repbar');
+  tgl.addEventListener('click', function(){
+    off=!off; fig.classList.toggle('chx-off', off);
+    el['chx-mad'].textContent = off ? '0.0062' : '0.0507';
+    el['chx-round'].textContent = off ? '29.3%' : '67.0%';
+    el['chx-verdict'].textContent = off ? 'Venue B: honest, 0 of 3 detectors' : 'Venue B: flagged, 3 of 3 detectors';
+    el['chx-repv'].textContent = off ? '52.7%' : '61.4%';
+    el['chx-rep'].textContent = off ? '= honest' : '> honest';
+    el['chx-rank'].textContent = off ? 'nothing moves. Reported equals honest.' : 'the washer rises. It only ever rises.';
+    bar.setAttribute('width', off ? '118' : '138');
+    tgl.textContent = off ? 'Switch the bot back on' : 'Switch the bot off';
+  });
+  var g=document.getElementById('chx-g'), gv=document.getElementById('chx-gv'), rv=document.getElementById('chx-reveal'), ans=document.getElementById('chx-ans');
+  g.addEventListener('input', function(){ gv.textContent = (+g.value).toFixed(1) + '%'; });
+  rv.addEventListener('click', function(){
+    var v=+g.value, line;
+    if (Math.abs(v-61.4) <= 2) line = 'Right on it.';
+    else if (v < 61.4) line = 'Low. Wash volume is added on top of honest volume, so a 30 percent bot moves the share more than it looks.';
+    else line = 'High. The bot adds 30 percent of reported volume, not 30 points of share: the honest venue still prints too.';
+    ans.textContent = 'You said ' + v.toFixed(1) + '%. The bench says 61.4%. ' + line + ' At 70 percent it reaches 78.8. Session 10 lets you move the share and the bot style yourself.';
+    ans.hidden=false; rv.disabled=true; g.disabled=true;
+  });
+})();
+</script>
+<script src="assets/app.js?v=2"></script>
 </body>
 </html>
