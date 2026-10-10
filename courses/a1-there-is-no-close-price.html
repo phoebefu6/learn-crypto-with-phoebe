@@ -394,26 +394,26 @@
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">Two Harrowgate analysts compute yesterday's return from the same prints and get +0.052 percent and -0.061 percent. Which statement is right?</p>
-      <div class="qopt">A · One of them has the wrong data, because the same prints must give the same return</div>
-      <div class="qopt">B · Both are right under their own boundary, and neither number is finished until the boundary is written beside it</div>
-      <div class="qopt">C · The two should be averaged to remove the disagreement</div>
-      <q class="qwhy">On a continuous tape the close is the last print before a boundary somebody chose. Two boundaries give two closes and two returns, both correct. Averaging them produces a third number with no convention at all, which is worse than either.</q>
+      <button class="qopt" type="button">A · One of them has the wrong data, because the same prints must give the same return</button>
+      <button class="qopt" type="button">B · Both are right under their own boundary, and neither number is finished until the boundary is written beside it</button>
+      <button class="qopt" type="button">C · The two should be averaged to remove the disagreement</button>
+      <p class="qwhy">On a continuous tape the close is the last print before a boundary somebody chose. Two boundaries give two closes and two returns, both correct. Averaging them produces a third number with no convention at all, which is worse than either.</p>
     </div>
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">Why does a conventional equity feed have a close price when a crypto venue does not?</p>
-      <div class="qopt">A · Because the conventional market stops and runs a settlement procedure, so the last print becomes one official number under a shared timestamp</div>
-      <div class="qopt">B · Because regulators publish the close for conventional markets and not for crypto venues</div>
-      <div class="qopt">C · Because conventional feeds have more trades, which makes the last one more reliable</div>
-      <q class="qwhy">The close is a product of stopping. A market that never stops has no last print of the session because there is no session, and no amount of trade volume creates one. The data team has to draw the line itself.</q>
+      <button class="qopt" type="button">A · Because the conventional market stops and runs a settlement procedure, so the last print becomes one official number under a shared timestamp</button>
+      <button class="qopt" type="button">B · Because regulators publish the close for conventional markets and not for crypto venues</button>
+      <button class="qopt" type="button">C · Because conventional feeds have more trades, which makes the last one more reliable</button>
+      <p class="qwhy">The close is a product of stopping. A market that never stops has no last print of the session because there is no session, and no amount of trade volume creates one. The data team has to draw the line itself.</p>
     </div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">On the same five-day tape the midnight convention prints four daily returns and the 08:00 convention prints five. Why?</p>
-      <div class="qopt">A · The 08:00 tape contains more prints, so it has more days</div>
-      <div class="qopt">B · The widget has an off-by-one error that session 2 fixes</div>
-      <div class="qopt">C · The first midnight boundary sits at the very start of the tape with no print before it, so it has no close and the first return is lost</div>
-      <q class="qwhy">A close needs a print before the boundary. A tape that begins at midnight has nothing before its first midnight boundary, so that convention has one fewer close than a boundary that falls eight hours in. The count of days is itself a property of the convention.</q>
+      <button class="qopt" type="button">A · The 08:00 tape contains more prints, so it has more days</button>
+      <button class="qopt" type="button">B · The widget has an off-by-one error that session 2 fixes</button>
+      <button class="qopt" type="button">C · The first midnight boundary sits at the very start of the tape with no print before it, so it has no close and the first return is lost</button>
+      <p class="qwhy">A close needs a print before the boundary. A tape that begins at midnight has nothing before its first midnight boundary, so that convention has one fewer close than a boundary that falls eight hours in. The count of days is itself a property of the convention.</p>
     </div>
 
     <div class="quiz-score"></div>

@@ -509,26 +509,26 @@ print("quoted unchanged, restatement reproducible from what is stored")</div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">On the constructed 6 percent depeg, the quoted tape's worst hour is -0.046 percent while the restated tape's is -3.96 percent. Why does the quoted tape look calm?</p>
-      <div class="qopt">A · The venue stops printing during a depeg, so the quoted tape has fewer moves to show</div>
-      <div class="qopt">B · Hourly last prints smooth out the move, and minute bars would have shown it</div>
-      <div class="qopt">C · The prices are quoted in the unit that moved, so the asset barely moved against it; the move only appears once each print is multiplied by the unit's level</div>
-      <q class="qwhy">All 3,000 prints are still there and nothing is smoothed; the quoted and restated columns are the same prints. The quoted tape's -0.046 percent at hour 4 is ordinary noise from before the depeg and is identical at every depth. The move lives in the unit, which is a second series that is not on the tape.</q>
+      <button class="qopt" type="button">A · The venue stops printing during a depeg, so the quoted tape has fewer moves to show</button>
+      <button class="qopt" type="button">B · Hourly last prints smooth out the move, and minute bars would have shown it</button>
+      <button class="qopt" type="button">C · The prices are quoted in the unit that moved, so the asset barely moved against it; the move only appears once each print is multiplied by the unit's level</button>
+      <p class="qwhy">All 3,000 prints are still there and nothing is smoothed; the quoted and restated columns are the same prints. The quoted tape's -0.046 percent at hour 4 is ordinary noise from before the depeg and is identical at every depth. The move lives in the unit, which is a second series that is not on the tape.</p>
     </div>
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">Why does the restatement join prints to unit levels as-of and backward, rather than on exactly equal timestamps?</p>
-      <div class="qopt">A · The two series run on different clocks, so almost no print shares a timestamp with a unit stamp; backward uses only the level known at the print, and a tolerance refuses levels that are too old</div>
-      <div class="qopt">B · An exact join is slower, and as-of is an optimisation that gives the same rows</div>
-      <div class="qopt">C · Backward and nearest give the same answer, so the direction is a matter of style</div>
-      <q class="qwhy">The 12:00:39 print has no unit level stamped 12:00:39; an exact join would leave almost every print unmatched. A nearest join would send it to the 12:01 level, a value that did not exist when it traded, which on a falling unit restates the morning with the afternoon's ruler. Backward as-of with a tolerance uses what was known, and says so when nothing recent enough was.</q>
+      <button class="qopt" type="button">A · The two series run on different clocks, so almost no print shares a timestamp with a unit stamp; backward uses only the level known at the print, and a tolerance refuses levels that are too old</button>
+      <button class="qopt" type="button">B · An exact join is slower, and as-of is an optimisation that gives the same rows</button>
+      <button class="qopt" type="button">C · Backward and nearest give the same answer, so the direction is a matter of style</button>
+      <p class="qwhy">The 12:00:39 print has no unit level stamped 12:00:39; an exact join would leave almost every print unmatched. A nearest join would send it to the 12:01 level, a value that did not exist when it traded, which on a falling unit restates the morning with the afternoon's ruler. Backward as-of with a tolerance uses what was known, and says so when nothing recent enough was.</p>
     </div>
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">An auditor asks Harrowgate to redo last year's depeg-day restatement with a corrected unit feed. What must have been stored for that to be possible?</p>
-      <div class="qopt">A · The restated prices only, since those are what the report used</div>
-      <div class="qopt">B · The quoted prints as published, the unit levels as observed with their source and stamps, and per restated row the unit stamp used, the level, the rule version and the flags</div>
-      <div class="qopt">C · The day's average unit level, so the whole tape can be multiplied by it again</div>
-      <q class="qwhy">Restated prices alone cannot be rechecked or rebuilt. A daily average puts a 10:00 print and a 16:00 print on the same ruler when the ruler moved between them. Keeping both observations, plus the as-of key and the rule version per row, lets a rerun with the corrected levels be diffed row by row against what was published.</q>
+      <button class="qopt" type="button">A · The restated prices only, since those are what the report used</button>
+      <button class="qopt" type="button">B · The quoted prints as published, the unit levels as observed with their source and stamps, and per restated row the unit stamp used, the level, the rule version and the flags</button>
+      <button class="qopt" type="button">C · The day's average unit level, so the whole tape can be multiplied by it again</button>
+      <p class="qwhy">Restated prices alone cannot be rechecked or rebuilt. A daily average puts a 10:00 print and a 16:00 print on the same ruler when the ruler moved between them. Keeping both observations, plus the as-of key and the rule version per row, lets a rerun with the corrected levels be diffed row by row against what was published.</p>
     </div>
 
     <div class="quiz-score"></div>

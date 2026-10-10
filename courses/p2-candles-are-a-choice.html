@@ -521,26 +521,26 @@ bars.to_parquet(f"bars_{BAR}s_carry.parquet")   # rebuilt from prints whenever t
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">On Tape A the one-minute bars show 401 up and 375 down, and the five-minute bars show 129 up and 136 down. Why did the headline flip?</p>
-      <div class="qopt">A · Five-minute bars smooth out noise, so they show the true direction of the day</div>
-      <div class="qopt">B · A bar's colour compares its first and last print, and changing the boundary changes which prints are first and last; the tape did not change</div>
-      <div class="qopt">C · The five-minute build dropped the 169 empty minutes, which were mostly up bars</div>
-      <q class="qwhy">The prints are identical in both builds and the last close is 99.957 in both. Open and close are order statistics inside a window, so moving the window moves them. Neither count is the true direction; each is a fact about a rule. The empty minutes have no prints, so they were never up or down bars in the first place.</q>
+      <button class="qopt" type="button">A · Five-minute bars smooth out noise, so they show the true direction of the day</button>
+      <button class="qopt" type="button">B · A bar's colour compares its first and last print, and changing the boundary changes which prints are first and last; the tape did not change</button>
+      <button class="qopt" type="button">C · The five-minute build dropped the 169 empty minutes, which were mostly up bars</button>
+      <p class="qwhy">The prints are identical in both builds and the last close is 99.957 in both. Open and close are order statistics inside a window, so moving the window moves them. Neither count is the true direction; each is a fact about a rule. The empty minutes have no prints, so they were never up or down bars in the first place.</p>
     </div>
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">Your one-minute job finds 169 minutes with no print. Which output is honest?</p>
-      <div class="qopt">A · Interpolate a close between the neighbouring bars so the chart has no gaps</div>
-      <div class="qopt">B · Either a carried row with the previous close, zero volume, zero prints and observed set to false, or no row at all, with the policy stored beside the bars</div>
-      <div class="qopt">C · Carry the previous close forward so the series has 1,440 rows that all look alike</div>
-      <q class="qwhy">Both honest policies keep the reader able to tell an observation from a decision, and storing the policy lets the next team reproduce it. Interpolation invents prices that never printed, and a silent carry makes 169 decisions look like 169 trades.</q>
+      <button class="qopt" type="button">A · Interpolate a close between the neighbouring bars so the chart has no gaps</button>
+      <button class="qopt" type="button">B · Either a carried row with the previous close, zero volume, zero prints and observed set to false, or no row at all, with the policy stored beside the bars</button>
+      <button class="qopt" type="button">C · Carry the previous close forward so the series has 1,440 rows that all look alike</button>
+      <p class="qwhy">Both honest policies keep the reader able to tell an observation from a decision, and storing the policy lets the next team reproduce it. Interpolation invents prices that never printed, and a silent carry makes 169 decisions look like 169 trades.</p>
     </div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">Which statement about regenerating one object from another is right?</p>
-      <div class="qopt">A · Prints can be rebuilt from one-minute bars, because the bars keep open, high, low, close and volume</div>
-      <div class="qopt">B · One-minute bars can be rebuilt from five-minute bars by splitting each into five equal parts</div>
-      <div class="qopt">C · Every bar size can be rebuilt from the prints; a five-minute bar can also be rebuilt from aligned one-minute bars, but never the reverse</div>
-      <q class="qwhy">Prints are the observation and every bar is derived from them. Larger bars can be built from smaller ones only when the boundaries nest and n and v were kept: first open, largest high, smallest low, last close, summed volume and count. A bar has already thrown away the order and the individual sizes, so nothing smaller can come back out of it.</q>
+      <button class="qopt" type="button">A · Prints can be rebuilt from one-minute bars, because the bars keep open, high, low, close and volume</button>
+      <button class="qopt" type="button">B · One-minute bars can be rebuilt from five-minute bars by splitting each into five equal parts</button>
+      <button class="qopt" type="button">C · Every bar size can be rebuilt from the prints; a five-minute bar can also be rebuilt from aligned one-minute bars, but never the reverse</button>
+      <p class="qwhy">Prints are the observation and every bar is derived from them. Larger bars can be built from smaller ones only when the boundaries nest and n and v were kept: first open, largest high, smallest low, last close, summed volume and count. A bar has already thrown away the order and the individual sizes, so nothing smaller can come back out of it.</p>
     </div>
 
     <div class="quiz-score"></div>

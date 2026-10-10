@@ -562,26 +562,26 @@ assert "wash" not in pd.read_csv("venue_b_tape.csv").columns</div>
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">A colleague plants a bot "at 70 percent" on venue B and is surprised the tape has 21,312 trades, of which only 3,000 are honest. What does the 70 percent mean?</p>
-      <div class="qopt">A · 70 percent of the trades on the tape are wash</div>
-      <div class="qopt">B · Wash volume is 70 percent of reported volume, so the bot adds wash worth w / (1 - w) of honest volume, here more than twice the honest volume</div>
-      <div class="qopt">C · Wash volume is 70 percent of honest volume</div>
-      <q class="qwhy">w is a share of reported volume. Wash reaching 70 percent of the total means wash is 0.7 / 0.3 times honest volume. The share of trades is a different and larger number here, because the round-lot bot's sizes are not the honest traders' sizes; quoting one as the other misdescribes the tape.</q>
+      <button class="qopt" type="button">A · 70 percent of the trades on the tape are wash</button>
+      <button class="qopt" type="button">B · Wash volume is 70 percent of reported volume, so the bot adds wash worth w / (1 - w) of honest volume, here more than twice the honest volume</button>
+      <button class="qopt" type="button">C · Wash volume is 70 percent of honest volume</button>
+      <p class="qwhy">w is a share of reported volume. Wash reaching 70 percent of the total means wash is 0.7 / 0.3 times honest volume. The share of trades is a different and larger number here, because the round-lot bot's sizes are not the honest traders' sizes; quoting one as the other misdescribes the tape.</p>
     </div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">The washer sells 50 units at 00:01:36 and buys 50 units at 00:01:37. What did that pair do?</p>
-      <div class="qopt">A · Added 50 units to reported volume, because the two legs cancel</div>
-      <div class="qopt">B · Moved the washer's position by 50 units in the direction of the second leg</div>
-      <div class="qopt">C · Added 100 units to reported volume and left the washer's position exactly where it started</div>
-      <q class="qwhy">Volume sums the size of every print, so both legs count. Position is buys minus sells, and the pair is one of each at the same size, so it nets to zero. Double in volume, zero in position: that is what makes it wash, and why the twin, not the single print, is the planted structure.</q>
+      <button class="qopt" type="button">A · Added 50 units to reported volume, because the two legs cancel</button>
+      <button class="qopt" type="button">B · Moved the washer's position by 50 units in the direction of the second leg</button>
+      <button class="qopt" type="button">C · Added 100 units to reported volume and left the washer's position exactly where it started</button>
+      <p class="qwhy">Volume sums the size of every print, so both legs count. Position is buys minus sells, and the pair is one of each at the same size, so it nets to zero. Double in volume, zero in position: that is what makes it wash, and why the twin, not the single print, is the planted structure.</p>
     </div>
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">Why measure a wash detector on a synthetic tape with a declared structure rather than on real venues?</p>
-      <div class="qopt">A · Because no labelled public ground truth for wash trades exists, and published estimates are models with their authors' own bounds; only a planted, declared structure gives a known answer to count hits and false alarms against</div>
-      <div class="qopt">B · Because synthetic tapes are larger, so the detector's statistics are more stable</div>
-      <div class="qopt">C · Because real venues forbid running detectors on their published trades</div>
-      <q class="qwhy">A detection rate and a false-positive rate both need a known label in the denominator. On a real tape nobody outside the washer has one. A planted bench supplies it, at the price of testing only the bots you planted, which is why the copy bot is planted too.</q>
+      <button class="qopt" type="button">A · Because no labelled public ground truth for wash trades exists, and published estimates are models with their authors' own bounds; only a planted, declared structure gives a known answer to count hits and false alarms against</button>
+      <button class="qopt" type="button">B · Because synthetic tapes are larger, so the detector's statistics are more stable</button>
+      <button class="qopt" type="button">C · Because real venues forbid running detectors on their published trades</button>
+      <p class="qwhy">A detection rate and a false-positive rate both need a known label in the denominator. On a real tape nobody outside the washer has one. A planted bench supplies it, at the price of testing only the bots you planted, which is why the copy bot is planted too.</p>
     </div>
 
     <div class="quiz-score"></div>

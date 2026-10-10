@@ -555,26 +555,26 @@ with open("fixing_1300.json", "w") as f:
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">Venue D is frozen at 99.969 and the simple mean reads 99.7455. Why does the volume-weighted median stay at 99.670 without any exclusion rule?</p>
-      <div class="qopt">A · D printed no trades in the window, so its block has zero width: it adds a price to the sort but nothing to the running volume, and the halfway mark is reached inside A's block first</div>
-      <div class="qopt">B · The volume-weighted median drops any quote older than 600 seconds before it sorts</div>
-      <div class="qopt">C · The volume-weighted median averages the middle two quotes, and D is never in the middle</div>
-      <q class="qwhy">A weighted median only listens to weight. D has a price and no volume in the window, so it cannot move the point where the running total passes half. No age test is built into the estimator, and the averaging of the middle two is what the plain median does, giving 99.688.</q>
+      <button class="qopt" type="button">A · D printed no trades in the window, so its block has zero width: it adds a price to the sort but nothing to the running volume, and the halfway mark is reached inside A's block first</button>
+      <button class="qopt" type="button">B · The volume-weighted median drops any quote older than 600 seconds before it sorts</button>
+      <button class="qopt" type="button">C · The volume-weighted median averages the middle two quotes, and D is never in the middle</button>
+      <p class="qwhy">A weighted median only listens to weight. D has a price and no volume in the window, so it cannot move the point where the running total passes half. No age test is built into the estimator, and the averaging of the middle two is what the plain median does, giving 99.688.</p>
     </div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">In the partitioned fixing, the 12:18 partition has no trades. What happens to it?</p>
-      <div class="qopt">A · It takes the value of the 12:12 partition, carried forward, so all ten weights still apply</div>
-      <div class="qopt">B · It counts as a value of zero with its 4/10 weight, pulling the level down</div>
-      <div class="qopt">C · It is excluded, and the remaining nine weights are renormalised over what is left</div>
-      <q class="qwhy">The rulebook excludes an empty partition and adjusts the weights accordingly. Carrying a value forward would publish a number nobody traded, and a zero is not a price. Only when every partition is empty does the rule change: then the price is not published at all.</q>
+      <button class="qopt" type="button">A · It takes the value of the 12:12 partition, carried forward, so all ten weights still apply</button>
+      <button class="qopt" type="button">B · It counts as a value of zero with its 4/10 weight, pulling the level down</button>
+      <button class="qopt" type="button">C · It is excluded, and the remaining nine weights are renormalised over what is left</button>
+      <p class="qwhy">The rulebook excludes an empty partition and adjusts the weights accordingly. Carrying a value forward would publish a number nobody traded, and a zero is not a price. Only when every partition is empty does the rule change: then the price is not published at all.</p>
     </div>
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">Why does the venue screen come before any volume weighting?</p>
-      <div class="qopt">A · Because weighting is slow, and screening reduces the number of venues to compute</div>
-      <div class="qopt">B · Because a volume weight trusts the volume a venue reports, so a venue whose volume is not real has to be kept out before its weight exists</div>
-      <div class="qopt">C · Because a volume-weighted median cannot run with more than four venues</div>
-      <q class="qwhy">Volume weighting is correct when the volume is real. On Tape A with B washed, the VWAP moved toward B; on Tape B the volume-weighted median jumped to B's quote. No estimator can tell real volume from reported volume, so the rulebooks decide who contributes, on stated criteria, before anybody is weighted.</q>
+      <button class="qopt" type="button">A · Because weighting is slow, and screening reduces the number of venues to compute</button>
+      <button class="qopt" type="button">B · Because a volume weight trusts the volume a venue reports, so a venue whose volume is not real has to be kept out before its weight exists</button>
+      <button class="qopt" type="button">C · Because a volume-weighted median cannot run with more than four venues</button>
+      <p class="qwhy">Volume weighting is correct when the volume is real. On Tape A with B washed, the VWAP moved toward B; on Tape B the volume-weighted median jumped to B's quote. No estimator can tell real volume from reported volume, so the rulebooks decide who contributes, on stated criteria, before anybody is weighted.</p>
     </div>
 
     <div class="quiz-score"></div>

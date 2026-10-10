@@ -536,26 +536,26 @@ for k in (2, 2.5, 3):
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">Why is the band calibrated on 40 honest venues only, instead of on every venue in Harrowgate's table?</p>
-      <div class="qopt">A · Honest venues have more trades, so their mean is more precise</div>
-      <div class="qopt">B · A band fitted on a table that contains washers moves its mean towards them and widens to cover them, so the detector learns to call the washer normal</div>
-      <div class="qopt">C · Including washed venues would make the false-positive rate look higher than it is</div>
-      <q class="qwhy">The band is a description of honest. Fit it on the target and the target shapes its own judge: a venue reading 67.0 percent round pulls the mean up and the spread out, and the more washers in the table, the more completely they hide. The honest venues are chosen by declaration, before any reading, and the washed tape is judged by a band it never touched.</q>
+      <button class="qopt" type="button">A · Honest venues have more trades, so their mean is more precise</button>
+      <button class="qopt" type="button">B · A band fitted on a table that contains washers moves its mean towards them and widens to cover them, so the detector learns to call the washer normal</button>
+      <button class="qopt" type="button">C · Including washed venues would make the false-positive rate look higher than it is</button>
+      <p class="qwhy">The band is a description of honest. Fit it on the target and the target shapes its own judge: a venue reading 67.0 percent round pulls the mean up and the spread out, and the more washers in the table, the more completely they hide. The honest venues are chosen by declaration, before any reading, and the washed tape is judged by a band it never touched.</p>
     </div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">At k=2.5 the majority rule flags 0 of 200 fresh honest venues. What does that tell you?</p>
-      <div class="qopt">A · The detector has no false positives at k=2.5</div>
-      <div class="qopt">B · The detector can no longer catch any washer at k=2.5</div>
-      <div class="qopt">C · None were seen in 200 trials, so the rate is probably small; 200 trials cannot rule out a small non-zero rate, and the report should say "0 of 200"</div>
-      <q class="qwhy">"0 of 200" is a ceiling statement about 200 trials, never "zero false positives". An exact binomial interval on 0 of 200 has an upper end above zero, which the build-along computes on your own run. And the detector still catches washers at k=2.5: the round floor stays at 2 percent and the flat floor moves to 5.</q>
+      <button class="qopt" type="button">A · The detector has no false positives at k=2.5</button>
+      <button class="qopt" type="button">B · The detector can no longer catch any washer at k=2.5</button>
+      <button class="qopt" type="button">C · None were seen in 200 trials, so the rate is probably small; 200 trials cannot rule out a small non-zero rate, and the report should say "0 of 200"</button>
+      <p class="qwhy">"0 of 200" is a ceiling statement about 200 trials, never "zero false positives". An exact binomial interval on 0 of 200 has an upper end above zero, which the build-along computes on your own run. And the detector still catches washers at k=2.5: the round floor stays at 2 percent and the flat floor moves to 5.</p>
     </div>
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">The copy bot is never flagged at any share up to 70 percent. Why?</p>
-      <div class="qopt">A · It samples the honest size distribution, so roundness, clustering and first digits all read honest; its matched pairs are on the tape, but no size test reads time or side</div>
-      <div class="qopt">B · Its share of reported volume is too small for any detector to notice</div>
-      <div class="qopt">C · The calibration was done on the wrong venues, so the band is too wide</div>
-      <q class="qwhy">At 70 percent the copy bot's venue reads 30.7 / 12.6 / 0.0074, inside every band, so 0 detectors fire. The share is enormous and the calibration is fine; the detectors read sizes and nothing else. This is the honest limit of size-based detection, stated as part of the detector, not a failure of it.</q>
+      <button class="qopt" type="button">A · It samples the honest size distribution, so roundness, clustering and first digits all read honest; its matched pairs are on the tape, but no size test reads time or side</button>
+      <button class="qopt" type="button">B · Its share of reported volume is too small for any detector to notice</button>
+      <button class="qopt" type="button">C · The calibration was done on the wrong venues, so the band is too wide</button>
+      <p class="qwhy">At 70 percent the copy bot's venue reads 30.7 / 12.6 / 0.0074, inside every band, so 0 detectors fire. The share is enormous and the calibration is fine; the detectors read sizes and nothing else. This is the honest limit of size-based detection, stated as part of the detector, not a failure of it.</p>
     </div>
 
     <div class="quiz-score"></div>

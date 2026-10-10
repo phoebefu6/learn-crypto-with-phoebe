@@ -556,26 +556,26 @@ print(caveat)</div>
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">Why can Harrowgate not join a venue's tape to chain records on a shared key?</p>
-      <div class="qopt">A · It can, on the timestamp: a print and a transfer at the same second are the same event</div>
-      <div class="qopt">B · Neither side carries the other's identifier: accounts stay in the venue's private ledger, the tape has no account column, and the chain has addresses with no names, so the only bridge is a published label</div>
-      <div class="qopt">C · It can, on the size: a trade of 50 units and a transfer of 50 units belong together</div>
-      <q class="qwhy">A trade on a venue moves nothing on the chain by itself, so neither time nor size links a print to a transfer. The venue knows which addresses are its own and does not publish that. Every joined row passes through a third party's label, and inherits its errors.</q>
+      <button class="qopt" type="button">A · It can, on the timestamp: a print and a transfer at the same second are the same event</button>
+      <button class="qopt" type="button">B · Neither side carries the other's identifier: accounts stay in the venue's private ledger, the tape has no account column, and the chain has addresses with no names, so the only bridge is a published label</button>
+      <button class="qopt" type="button">C · It can, on the size: a trade of 50 units and a transfer of 50 units belong together</button>
+      <p class="qwhy">A trade on a venue moves nothing on the chain by itself, so neither time nor size links a print to a transfer. The venue knows which addresses are its own and does not publish that. Every joined row passes through a third party's label, and inherits its errors.</p>
     </div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">Requiring both label lists to agree lowers coverage from 75.1 to 56.7 percent, and the share of joined flow on the wrong venue rises from 5.5 to 7.3 percent. Why does the stricter policy get worse?</p>
-      <div class="qopt">A · The stricter policy has fewer rows, so its percentages are noisier</div>
-      <div class="qopt">B · List 2 is newer, so requiring list 1 as well adds stale labels</div>
-      <div class="qopt">C · The wrong label for a10 is on both lists because list 2 copied it, so agreement keeps it, while correct labels that only one list observed are dropped</div>
-      <q class="qwhy">Agreement between sources counts as corroboration only when the sources are independent. Four of list 2's seven labels are copies of list 1, including the inferred and wrong a10. Requiring agreement keeps the copied error and discards a03, a04, a08 and a09, all correct.</q>
+      <button class="qopt" type="button">A · The stricter policy has fewer rows, so its percentages are noisier</button>
+      <button class="qopt" type="button">B · List 2 is newer, so requiring list 1 as well adds stale labels</button>
+      <button class="qopt" type="button">C · The wrong label for a10 is on both lists because list 2 copied it, so agreement keeps it, while correct labels that only one list observed are dropped</button>
+      <p class="qwhy">Agreement between sources counts as corroboration only when the sources are independent. Four of list 2's seven labels are copies of list 1, including the inferred and wrong a10. Requiring agreement keeps the copied error and discards a03, a04, a08 and a09, all correct.</p>
     </div>
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">With either-list labels and no washer on venue B, B reads 3.04 flow per 100 units of reported volume against A's 5.23. What should the reviewer conclude?</p>
-      <div class="qopt">A · Something is wrong, either the volume or the labels, and coverage and mismatch must be checked before anyone names the venue; here the whole gap is the label table</div>
-      <div class="qopt">B · Venue B's reported volume is inflated by roughly 40 percent</div>
-      <div class="qopt">C · Nothing, because a ratio below A's is normal for a smaller venue</div>
-      <q class="qwhy">A disagreement rules out the world where the volume is real, the labels are complete and the venues turn over alike, but it does not say which of the three failed. On the constructed tables B has no washer; a12 is unlabelled, a07 is set aside and a10 is wrongly counted for A. With the declared-truth labels both venues read 5.00.</q>
+      <button class="qopt" type="button">A · Something is wrong, either the volume or the labels, and coverage and mismatch must be checked before anyone names the venue; here the whole gap is the label table</button>
+      <button class="qopt" type="button">B · Venue B's reported volume is inflated by roughly 40 percent</button>
+      <button class="qopt" type="button">C · Nothing, because a ratio below A's is normal for a smaller venue</button>
+      <p class="qwhy">A disagreement rules out the world where the volume is real, the labels are complete and the venues turn over alike, but it does not say which of the three failed. On the constructed tables B has no washer; a12 is unlabelled, a07 is set aside and a10 is wrongly counted for A. With the declared-truth labels both venues read 5.00.</p>
     </div>
 
     <div class="quiz-score"></div>

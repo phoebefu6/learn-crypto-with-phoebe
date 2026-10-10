@@ -461,26 +461,26 @@
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">On constructed Tape A at 13:00 the same four venue quotes give 99.7455, 99.688, 99.6828 and 99.670. Why four levels?</p>
-      <div class="qopt">A · Three of the methods have a rounding error, and the right level is whichever sits closest to the busiest venue</div>
-      <div class="qopt">B · Each method weighs the same quotes differently: equally, by position, by volume, or by where half the volume sits, and all four are defensible</div>
-      <div class="qopt">C · The venues are reporting at different times, so a consolidated tape would make the four methods agree</div>
-      <q class="qwhy">The quotes never change between methods. What changes is what each quote is allowed to weigh. That is a decision, which is why the method has to be published beside the level; there is no consolidated tape to settle it.</q>
+      <button class="qopt" type="button">A · Three of the methods have a rounding error, and the right level is whichever sits closest to the busiest venue</button>
+      <button class="qopt" type="button">B · Each method weighs the same quotes differently: equally, by position, by volume, or by where half the volume sits, and all four are defensible</button>
+      <button class="qopt" type="button">C · The venues are reporting at different times, so a consolidated tape would make the four methods agree</button>
+      <p class="qwhy">The quotes never change between methods. What changes is what each quote is allowed to weigh. That is a decision, which is why the method has to be published beside the level; there is no consolidated tape to settle it.</p>
     </div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">Venue D's price has been stuck since 10:00 and its last print is 392 seconds old. What does it do to a simple mean of the four venues?</p>
-      <div class="qopt">A · Nothing, because D had no volume in the window</div>
-      <div class="qopt">B · Nothing, because a 600-second age rule removes it</div>
-      <div class="qopt">C · It pulls the mean up to 99.7455, against 99.671 without it, because a simple mean gives a stuck quote the same vote as the busiest venue</div>
-      <q class="qwhy">A simple mean ignores volume, so D's lack of trading does not protect it. And D is still printing, so its last print is younger than 600 seconds and the age rule lets it through. The distance rule, 0.28 percent from the median against 0.2, is what drops it.</q>
+      <button class="qopt" type="button">A · Nothing, because D had no volume in the window</button>
+      <button class="qopt" type="button">B · Nothing, because a 600-second age rule removes it</button>
+      <button class="qopt" type="button">C · It pulls the mean up to 99.7455, against 99.671 without it, because a simple mean gives a stuck quote the same vote as the busiest venue</button>
+      <p class="qwhy">A simple mean ignores volume, so D's lack of trading does not protect it. And D is still printing, so its last print is younger than 600 seconds and the age rule lets it through. The distance rule, 0.28 percent from the median against 0.2, is what drops it.</p>
     </div>
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">Why does a volume-weighted method need a venue screen?</p>
-      <div class="qopt">A · Because the weight is the volume the venue reports about itself, so a washing venue buys a bigger say: on the washed market B carries 45.9 percent of window volume against 24.8 percent of the honest volume</div>
-      <div class="qopt">B · Because volume-weighted methods cannot handle stale prices without one</div>
-      <div class="qopt">C · Because a screen makes the volume-weighted mean and median always agree</div>
-      <q class="qwhy">Volume weighting is right when the volume is real. The rulebooks keep the weights and decide first which venues may contribute at all. Without that, the venue that reports the most decides the most.</q>
+      <button class="qopt" type="button">A · Because the weight is the volume the venue reports about itself, so a washing venue buys a bigger say: on the washed market B carries 45.9 percent of window volume against 24.8 percent of the honest volume</button>
+      <button class="qopt" type="button">B · Because volume-weighted methods cannot handle stale prices without one</button>
+      <button class="qopt" type="button">C · Because a screen makes the volume-weighted mean and median always agree</button>
+      <p class="qwhy">Volume weighting is right when the volume is real. The rulebooks keep the weights and decide first which venues may contribute at all. Without that, the venue that reports the most decides the most.</p>
     </div>
 
     <div class="quiz-score"></div>

@@ -512,26 +512,26 @@ print(dict(zip(range(1, 10), (moved * 100).round(1))))   # a round-lot bot moves
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">Why does a tape of many independent traders tend to conform to the first-digit law?</p>
-      <div class="qopt">A · Because every trader's sizes are individually log-normal and spread across many decades</div>
-      <div class="qopt">B · Because the tape is a combined sample drawn from many different distributions, and Hill showed the significant digits of such a mixture converge to the logarithmic law</div>
-      <div class="qopt">C · Because venues round published sizes to one significant digit before reporting them</div>
-      <q class="qwhy">Hill's result does not need any single trader to follow the law; it needs many distributions, picked without bias, sampled and combined. A tape of many habits is that combination. A single bot is one distribution, which is why a large wash share breaks the mixture.</q>
+      <button class="qopt" type="button">A · Because every trader's sizes are individually log-normal and spread across many decades</button>
+      <button class="qopt" type="button">B · Because the tape is a combined sample drawn from many different distributions, and Hill showed the significant digits of such a mixture converge to the logarithmic law</button>
+      <button class="qopt" type="button">C · Because venues round published sizes to one significant digit before reporting them</button>
+      <p class="qwhy">Hill's result does not need any single trader to follow the law; it needs many distributions, picked without bias, sampled and combined. A tape of many habits is that combination. A single bot is one distribution, which is why a large wash share breaks the mixture.</p>
     </div>
 
     <div class="quiz-q" data-answer="2">
       <p class="qtext">On the bench, roundness and clustering flag a round-lot washer at 2 percent of reported volume, but the MAD only crosses its line at 5 percent. Why is the first-digit test the last to fire?</p>
-      <div class="qopt">A · Because wash trades come in matched buy and sell pairs, and the pairs cancel out in the first-digit counts</div>
-      <div class="qopt">B · Because chi-square, not MAD, is the right measure for small wash shares</div>
-      <div class="qopt">C · Because the round lots start only with 1, 2 and 5, digits the law already gives large shares, so early wash adds to columns the law expects to be big, and on Tape A digit 1 even starts below the curve</div>
-      <q class="qwhy">Every round lot is 1, 2, 5, 10, 20, 50 or 100 units. Six of the nine digit columns never move, and the three that do are where the law already peaks, so the shape drifts slowly. Pairs do not cancel; both legs add to the same digit. A flat bot moves every column, so its MAD climbs faster, but even there the roundness test fires first.</q>
+      <button class="qopt" type="button">A · Because wash trades come in matched buy and sell pairs, and the pairs cancel out in the first-digit counts</button>
+      <button class="qopt" type="button">B · Because chi-square, not MAD, is the right measure for small wash shares</button>
+      <button class="qopt" type="button">C · Because the round lots start only with 1, 2 and 5, digits the law already gives large shares, so early wash adds to columns the law expects to be big, and on Tape A digit 1 even starts below the curve</button>
+      <p class="qwhy">Every round lot is 1, 2, 5, 10, 20, 50 or 100 units. Six of the nine digit columns never move, and the three that do are where the law already peaks, so the shape drifts slowly. Pairs do not cancel; both legs add to the same digit. A flat bot moves every column, so its MAD climbs faster, but even there the roundness test fires first.</p>
     </div>
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">A venue's tape reads a MAD inside the reported acceptable band and under the calibrated line. What does that establish?</p>
-      <div class="qopt">A · That its size column looks like a mixture of many habits, and nothing more: a copy bot that samples the honest distribution stays inside the band even at 70 percent wash</div>
-      <div class="qopt">B · That at most 1.5 percent of its reported volume is wash</div>
-      <div class="qopt">C · That the venue's reported volume can be used to weight an index without screening</div>
-      <q class="qwhy">A silent first-digit test is a statement about the shape of the size column. It is not a wash estimate, it says nothing about a bot that copies honest sizes, and it does not replace the venue screening that index rulebooks apply before any weight is computed.</q>
+      <button class="qopt" type="button">A · That its size column looks like a mixture of many habits, and nothing more: a copy bot that samples the honest distribution stays inside the band even at 70 percent wash</button>
+      <button class="qopt" type="button">B · That at most 1.5 percent of its reported volume is wash</button>
+      <button class="qopt" type="button">C · That the venue's reported volume can be used to weight an index without screening</button>
+      <p class="qwhy">A silent first-digit test is a statement about the shape of the size column. It is not a wash estimate, it says nothing about a bot that copies honest sizes, and it does not replace the venue screening that index rulebooks apply before any weight is computed.</p>
     </div>
 
     <div class="quiz-score"></div>

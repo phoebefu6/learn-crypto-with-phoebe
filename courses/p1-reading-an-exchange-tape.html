@@ -443,26 +443,26 @@ book_1s.to_parquet("book_snapshot_1s.parquet") # a moment, sampled every second,
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">Which of these is an observation rather than a derived object?</p>
-      <div class="qopt">A · The close of the 09:15 five-minute candle</div>
-      <div class="qopt">B · A print on the tape: second 45, a sell of 3 units at 99.996</div>
-      <div class="qopt">C · The day's volume-weighted average price</div>
-      <q class="qwhy">A print is one executed trade as the venue published it. A candle close is the last print inside an interval somebody chose, and a VWAP is a weighted sum over prints under a rule. Both can be regenerated from the tape; the print cannot be regenerated from anything.</q>
+      <button class="qopt" type="button">A · The close of the 09:15 five-minute candle</button>
+      <button class="qopt" type="button">B · A print on the tape: second 45, a sell of 3 units at 99.996</button>
+      <button class="qopt" type="button">C · The day's volume-weighted average price</button>
+      <p class="qwhy">A print is one executed trade as the venue published it. A candle close is the last print inside an interval somebody chose, and a VWAP is a weighted sum over prints under a rule. Both can be regenerated from the tape; the print cannot be regenerated from anything.</p>
     </div>
 
     <div class="quiz-q" data-answer="1">
       <p class="qtext">The noon book snapshot shows 33.3 units bid at 100.002. What does that tell you happened?</p>
-      <div class="qopt">A · 33.3 units traded at 100.002 around noon</div>
-      <div class="qopt">B · Nothing yet: it is resting intent at a price level, and every unit of it can be cancelled without touching the tape</div>
-      <div class="qopt">C · The price at noon was 100.002</div>
-      <q class="qwhy">A book snapshot is a list of orders that had not executed at that moment. The tape records executions. The last print at noon was 100.007, and the best bid sat five ticks below it; neither is "the price", and the bid is not a trade.</q>
+      <button class="qopt" type="button">A · 33.3 units traded at 100.002 around noon</button>
+      <button class="qopt" type="button">B · Nothing yet: it is resting intent at a price level, and every unit of it can be cancelled without touching the tape</button>
+      <button class="qopt" type="button">C · The price at noon was 100.002</button>
+      <p class="qwhy">A book snapshot is a list of orders that had not executed at that moment. The tape records executions. The last print at noon was 100.007, and the best bid sat five ticks below it; neither is "the price", and the bid is not a trade.</p>
     </div>
 
     <div class="quiz-q" data-answer="0">
       <p class="qtext">169 of 1,440 minutes contain no print. What is the right handling in a one-minute candle series?</p>
-      <div class="qopt">A · Carry the previous close forward and flag the bar as not observed, so a reader can tell it from a bar with a trade in it</div>
-      <div class="qopt">B · Interpolate between the neighbouring closes so the series has no gaps</div>
-      <div class="qopt">C · Drop the minute and renumber the series so every row has a trade</div>
-      <q class="qwhy">An empty minute is a decision. Carrying forward with a flag keeps the series aligned to the clock and keeps the reader informed. Interpolation invents prices that never printed, and renumbering breaks the alignment that every join and every comparison depends on.</q>
+      <button class="qopt" type="button">A · Carry the previous close forward and flag the bar as not observed, so a reader can tell it from a bar with a trade in it</button>
+      <button class="qopt" type="button">B · Interpolate between the neighbouring closes so the series has no gaps</button>
+      <button class="qopt" type="button">C · Drop the minute and renumber the series so every row has a trade</button>
+      <p class="qwhy">An empty minute is a decision. Carrying forward with a flag keeps the series aligned to the clock and keeps the reader informed. Interpolation invents prices that never printed, and renumbering breaks the alignment that every join and every comparison depends on.</p>
     </div>
 
     <div class="quiz-score"></div>
