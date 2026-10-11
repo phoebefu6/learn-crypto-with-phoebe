@@ -160,6 +160,24 @@
     }
   }
 
+
+  /* a hand-drawn stamp for the moment every quiz answer lands (once per page) */
+  function fxStamp(afterEl) {
+    if (!afterEl || document.querySelector(".fx-stamp")) return;
+    var w = document.createElement("span");
+    w.className = "fx-stamp";
+    w.setAttribute("role", "img");
+    w.setAttribute("aria-label", "stamped: three of three");
+    w.innerHTML = '<svg viewBox="0 0 120 120" width="96" height="96" aria-hidden="true">' +
+      '<defs><filter id="fxSk" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs>' +
+      '<g filter="url(#fxSk)" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">' +
+      '<circle cx="60" cy="60" r="52"/><circle cx="60" cy="60" r="44" stroke-width="1.6" stroke-dasharray="4 3"/>' +
+      '<text x="60" y="56" text-anchor="middle" font-family="Inter, sans-serif" font-weight="800" font-size="26" fill="currentColor" stroke="none">3 / 3</text>' +
+      '<text x="60" y="78" text-anchor="middle" font-family="Inter, sans-serif" font-weight="800" font-size="12" letter-spacing="2" fill="currentColor" stroke="none">STAMPED</text>' +
+      '</g></svg>';
+    afterEl.insertAdjacentElement("afterend", w);
+  }
+
   /* Check-yourself quiz */
   var quizQs = document.querySelectorAll(".quiz-q");
   var quizCorrect = 0;
@@ -177,6 +195,7 @@
           var score = document.querySelector(".quiz-score");
           if (score && quizCorrect === quizQs.length) {
             score.textContent = "🎉 " + quizQs.length + "/" + quizQs.length + " - you're ready for the next session.";
+            fxStamp(score);
           }
         } else {
           opt.classList.remove("wrong");

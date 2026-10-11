@@ -42,7 +42,10 @@
   var GAP = 22;          // vertical gap between session blocks
   var PAD = 28;          // canvas padding
   var ROOT_W = 190, ROOT_H = 78;
-  var SESS_W = 168, SESS_H = 52;
+  var SESS_H = 52;
+  // size the session box to its longest label (13px, weight 800 is about 7.4px per character)
+  var longest = Math.max.apply(null, data.sessions.map(function (s, i) { return String((i + 1) + " \u00b7 " + s.label).length; }));
+  var SESS_W = Math.max(168, Math.ceil(longest * 7.4) + 34);
   var CONC_W = 190, CONC_H = 36;
   var X_ROOT = PAD + ROOT_W / 2;                        // root column (center x)
   var X_SESS = PAD + ROOT_W + 120 + SESS_W / 2;         // session column
