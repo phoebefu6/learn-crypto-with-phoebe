@@ -1452,6 +1452,10 @@ span.mono {
   select, input[type=range], label { max-width: 100%; }
   canvas, svg, img { max-width: 100%; height: auto; }
   .tree-kids, .tree-node-wrap, .tree-node, .rb-night, .al-row, .gd-field, .tl-row, .sl-row { max-width: 100%; overflow-x: auto; }
+  .tl-cols, .sl-cols, .bb-cols, .ev-cols, [class$="-cols"] { grid-template-columns: 1fr !important; display: grid; }
+  .tl-cols > *, .sl-cols > *, [class$="-cols"] > * { min-width: 0; max-width: 100%; }
+  .mono { white-space: normal; }
+  .er-w, .bb-lab, .tl-lev, .sl-lev { max-width: 100%; white-space: normal; }
 }
 /* contrast-patch-2b */
 .cheat a { color: var(--indigo-deep, var(--ink)); }
@@ -1459,3 +1463,4 @@ span.mono {
 .masthead a, .masthead .sub a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
 .prompt-box b, .prompt-box strong { color: var(--indigo-deep, var(--ink)); }
 .prompt-box span, .prompt-box em, .prompt-box i { color: inherit; }
+.pp-stamp i { color: var(--ink); }
